@@ -1,17 +1,18 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    node: true,
   },
-  'extends': [
-    'plugin:vue/vue3-essential',
-    'eslint:recommended'
+  extends: [
+    "plugin:vue/vue3-essential",
+    "eslint:recommended",
   ],
   parserOptions: {
-    parser: '@babel/eslint-parser'
+    parser: "@babel/eslint-parser",
+    requireConfigFile: false,
   },
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
-  }
+    "no-console": "warn",//console.log 사용 시 경고
+    "no-unused-vars": "warn",//할당되지 않은 변수 있을 시 경고
+  },
 }

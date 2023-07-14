@@ -1,26 +1,33 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <the-header></the-header>
+  <search-section></search-section>
+  <main-card-list></main-card-list>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import TheHeader from "./components/layouts/TheHeader.vue";
+import MainCardList from "./components/list-resources/MainCardList.vue";
+import SearchSection from "./components/mainpage/SearchSection.vue";
+
 
 export default {
-  name: 'App',
   components: {
-    HelloWorld
-  }
-}
+    TheHeader,
+    MainCardList,
+    SearchSection
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
+@import url("https://fonts.googleapis.com/css2?family=Gasoek+One&display=swap");
+
+* {
+  font-family: "Spoqa Han Sans Neo", "sans-serif";
+  color:#4E4E4E;
+}
+body {
+  margin: 0;
 }
 </style>
