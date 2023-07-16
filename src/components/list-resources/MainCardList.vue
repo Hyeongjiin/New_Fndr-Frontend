@@ -8,6 +8,7 @@
         <li>회사이름 : {{ item.company_name }}</li>
         <li>remote : {{ item.is_remoted }}</li>
         <li>visa : {{ item.is_visa_sponsored }}</li>
+        <li>게시일자 : {{ item.posted_date }}</li>
       </ul>
     </base-card>
   </li>
@@ -21,15 +22,15 @@ export default {
     }
   },
 
-  created() {
+  beforeCreate() {
 
-    fetch('http://localhost:8080', {
+    fetch('http://localhost:8080/rest/main', {
       headers: {
         'Content-Type': 'application/json',
-        Accept: 'application/json',
+        'Accept': 'application/json',
       },
     }).then(response => response.json())
-    .then(data => console.log(this.articles = data.Response));
+    .then(data => console.log(this.articles = data[0].Response));
   },
 }
 </script>
