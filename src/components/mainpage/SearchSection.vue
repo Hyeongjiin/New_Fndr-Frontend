@@ -36,20 +36,22 @@ export default ({
 <style scoped>
 
 *    {  
-      letter-spacing: -1.5px;
       line-height: 180%; 
       }
 
       h1{
-        line-height : 1.9;
         text-align : center;
         height: 126px;
         top: 150px;
         left: 327px;
+        letter-spacing: -3px;
+        font-size: 37px;
+        color:#4E4E4E;
          }
 
     #top{
-        margin-top: 232px;
+        margin-top: 100px;
+        margin-bottom: 50px;
        }
 
       .container {
@@ -62,6 +64,7 @@ export default ({
       .input-wrapper {
          margin-right: 0px;
          display:flex;
+         font-size: 10px;
        }
 
        .input-wrapper > button {
@@ -72,7 +75,7 @@ export default ({
        }
 
        .input-wrapper > button > svg {
-        color:#fff;
+        color:#fff !important;
        }
        
        .input-wrapper > input:first-child {
@@ -133,6 +136,7 @@ export default ({
         width: 268px;   
         margin:0 auto;
         margin-top: 26px;
+        margin-bottom: 40px;
       }
 
 

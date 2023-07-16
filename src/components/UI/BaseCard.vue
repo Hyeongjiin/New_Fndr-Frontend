@@ -10,6 +10,7 @@ div {
   box-shadow: 0px 3px 8px 1px rgba(233, 233, 233, 0.75);
   padding: 2rem;
   margin: 0 auto;
+  margin-bottom: 20px;
   max-width: 40rem;
 }
 </style>

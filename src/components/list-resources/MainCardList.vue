@@ -1,13 +1,13 @@
 <template>
-  <li>
-    <base-card>
+  <li class="main-recruit">
+    <base-card v-for="(item, index) in articles" :key="index">
       <header>
-        <h3>"Marketing Manager (m/f/d)"</h3>
+        <h3>{{ item.description_title }}</h3>
       </header>
       <ul class="info">
-        <li><div>fraud0 GmbH</div></li>
-        <li><div>Munich</div></li>
-        <li><div>visa support</div></li>
+        <li>회사이름 : {{ item.company_name }}</li>
+        <li>remote : {{ item.is_remoted }}</li>
+        <li>visa : {{ item.is_visa_sponsored }}</li>
       </ul>
     </base-card>
   </li>
@@ -15,49 +15,46 @@
 
 <script>
 export default {
-  // props: ['id','title', 'description', 'link'],
-  // inject: ['removeResource']
-  methods: {
-    // getData(){
-    //   fetch(
-    //     'http://localhost:3000',{
-    //   headers : { 
-    //     'Content-Type': 'application/json',
-    //     'Accept': 'application/json'
-    //    }
-    //   }
-    //   ).then(function(response){
-    //       if(response.ok) {
-    //         return response.json();
-    //       }
-    //     }
-    //   ).then(function(data){
-    //     console.log(data);
-    //   });
-    // }
-  }
-};
+  data() {
+    return {
+      articles: null
+    }
+  },
+
+  created() {
+
+    fetch('http://localhost:3000', {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    }).then(response => response.json())
+    .then(data => console.log(this.articles = data.Response));
+  },
+}
 </script>
 
 <style scoped>
 .info {
   padding-left: 0rem;
 }
-.info > li {
+
+.info>li {
   float: left;
   margin-left: 10px;
 }
 
-.info > li:first-child {
+.info>li:first-child {
   float: left;
   margin-left: 0px;
 }
 
 li {
+  color:#4E4E4E;
   margin: auto;
   max-width: 40rem;
   list-style: none;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 }
 
 header {

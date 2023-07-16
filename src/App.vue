@@ -25,8 +25,8 @@ export default {
 
 * {
   font-family: "Spoqa Han Sans Neo", "sans-serif";
-  color:#4E4E4E;
 }
+
 body {
   margin: 0;
 }
