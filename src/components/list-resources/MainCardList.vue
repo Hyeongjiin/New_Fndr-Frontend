@@ -23,7 +23,7 @@ export default {
 
   created() {
 
-    fetch('http://localhost:3000', {
+    fetch('http://localhost:8080', {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
