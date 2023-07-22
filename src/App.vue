@@ -2,6 +2,7 @@
   <the-header></the-header>
   <search-section></search-section>
   <main-card-list></main-card-list>
+  
 </template>
 
 <script>
@@ -14,7 +15,7 @@ export default {
   components: {
     TheHeader,
     MainCardList,
-    SearchSection
+    SearchSection,
   },
 };
 </script>

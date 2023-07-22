@@ -1,14 +1,12 @@
 <template>
   <li class="main-recruit">
     <base-card v-for="(item, index) in articles" :key="index">
-      <header>
-        <h3>{{ item.description_title }}</h3>
-      </header>
+      <h3>{{ item.description_title }}</h3>
       <ul class="info">
-        <li>회사이름 : {{ item.company_name }}</li>
-        <li>remote : {{ item.is_remoted }}</li>
+        <li><i class="bi bi-building-fill"></i> {{ item.company_name }}</li>
+        <!-- <li>remote : {{ item.is_remoted }}</li>
         <li>visa : {{ item.is_visa_sponsored }}</li>
-        <li>게시일자 : {{ item.posted_date }}</li>
+        <li>게시일자 : {{ item.posted_date }}</li> -->
       </ul>
     </base-card>
   </li>
@@ -30,7 +28,7 @@ export default {
         'Accept': 'application/json',
       },
     }).then(response => response.json())
-    .then(data => console.log(this.articles = data[0].Response));
+      .then(data => console.log(this.articles = data[0].Response));
   },
 }
 </script>
@@ -38,6 +36,7 @@ export default {
 <style scoped>
 .info {
   padding-left: 0rem;
+  padding-top: 10px;
 }
 
 .info>li {
@@ -51,7 +50,7 @@ export default {
 }
 
 li {
-  color:#4E4E4E;
+  color: #4E4E4E;
   margin: auto;
   max-width: 40rem;
   list-style: none;
@@ -66,17 +65,20 @@ header {
 
 h3 {
   font-size: 1.25rem;
-  margin: 0.5rem 0;
+  margin: 0rem 0;
 }
 
 p {
-  margin: 0.5rem 0;
+  margin: 0rem 0;
 }
 
 a {
   text-decoration: none;
   color: #ce5c00;
 }
+ .bi {
+  color:#F73859;
+ }
 
 a:hover,
 a:active {
