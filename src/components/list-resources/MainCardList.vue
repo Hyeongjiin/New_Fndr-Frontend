@@ -4,6 +4,7 @@
       <h3>{{ item.description_title }}</h3>
       <ul class="info">
         <li><i class="bi bi-building-fill"></i> {{ item.company_name }}</li>
+        <li><i class="bi bi-geo-alt-fill"></i> {{ item.location }}</li>
         <!-- <li>remote : {{ item.is_remoted }}</li>
         <li>visa : {{ item.is_visa_sponsored }}</li>
         <li>게시일자 : {{ item.posted_date }}</li> -->
