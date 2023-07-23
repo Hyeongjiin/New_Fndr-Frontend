@@ -11,13 +11,14 @@
       </ul>
     </base-card>
   </li>
+  <div class="view-more">view more</div>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      articles: null
+      articles: null,
     }
   },
 
@@ -50,6 +51,7 @@ export default {
   margin-left: 0px;
 }
 
+
 li {
   color: #4E4E4E;
   margin: auto;
@@ -77,12 +79,28 @@ a {
   text-decoration: none;
   color: #ce5c00;
 }
- .bi {
-  color:#F73859;
- }
+
+.bi {
+  color: #F73859;
+}
 
 a:hover,
 a:active {
   color: #c89300;
+}
+
+.view-more {
+  display: flex;
+  background-color: #F73859;
+  color: #fff;
+  margin: 0 auto;
+  font-weight: bold;
+  max-width: 20rem;
+  height: 4rem;
+  justify-content: center;
+  align-items: center;
+  margin-top:50px;
+  margin-bottom:100px;
+  border-radius: 0.5rem;
 }
 </style>
