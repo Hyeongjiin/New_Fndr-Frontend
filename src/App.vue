@@ -1,21 +1,15 @@
 <template>
   <the-header></the-header>
-  <search-section></search-section>
-  <main-card-list></main-card-list>
-  
+  <router-view></router-view>
 </template>
 
 <script>
 import TheHeader from "./components/layouts/TheHeader.vue";
-import MainCardList from "./components/list-resources/MainCardList.vue";
-import SearchSection from "./components/mainpage/SearchSection.vue";
 
 
 export default {
   components: {
     TheHeader,
-    MainCardList,
-    SearchSection,
   },
 };
 </script>
