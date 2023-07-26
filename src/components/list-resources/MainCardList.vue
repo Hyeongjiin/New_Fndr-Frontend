@@ -22,7 +22,7 @@ export default {
     }
   },
 
-  beforeCreate() {
+  mounted() {
 
     fetch('http://localhost:8080/rest/main', {
       headers: {
