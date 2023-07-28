@@ -5,8 +5,8 @@
       <ul class="info">
         <li><i class="bi bi-building-fill"></i> {{ item.company_name }}</li>
         <li><i class="bi bi-geo-alt-fill"></i> {{ item.location }}</li>
-        <li v-if="item.is_remoted === true">remote : {{ item.is_remoted }}</li>
-        <li>visa : {{ item.is_visa_sponsored }}</li>
+        <li v-if="item.is_remoted === true"><i class="bi bi-house-check"></i> Remote OK</li>
+        <li v-if="item.is_visa_sponsored === true"><i class="bi bi-card-checklist"></i> Visa provided</li>
       </ul>
     </base-card>
   </li>
@@ -69,6 +69,7 @@ header {
 h3 {
   font-size: 1.25rem;
   margin: 0rem 0;
+  font-weight: bold;
 }
 
 p {
