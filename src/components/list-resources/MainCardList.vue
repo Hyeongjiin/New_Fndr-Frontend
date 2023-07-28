@@ -5,13 +5,13 @@
       <ul class="info">
         <li><i class="bi bi-building-fill"></i> {{ item.company_name }}</li>
         <li><i class="bi bi-geo-alt-fill"></i> {{ item.location }}</li>
-        <!-- <li>remote : {{ item.is_remoted }}</li>
+        <li v-if="item.is_remoted === true">remote : {{ item.is_remoted }}</li>
         <li>visa : {{ item.is_visa_sponsored }}</li>
-        <li>게시일자 : {{ item.posted_date }}</li> -->
       </ul>
     </base-card>
   </li>
   <div class="view-more">view more</div>
+  <!-- view more 누르면 Search page로 이동해야함 (router이용) -->
 </template>
 
 <script>
@@ -30,7 +30,7 @@ export default {
         'Accept': 'application/json',
       },
     }).then(response => response.json())
-      .then(data => console.log(this.articles = data[0].Response));
+      .then(data => console.log(this.articles = data[0].Remote));
   },
 }
 </script>
