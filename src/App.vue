@@ -15,11 +15,17 @@ export default {
 </script>
 
 <style>
-@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
-@import url("https://fonts.googleapis.com/css2?family=Gasoek+One&display=swap");
+/* @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css); */
+@font-face {
+    font-family: 'Pretendard';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
 
 * {
-  font-family: "Spoqa Han Sans Neo", "sans-serif";
+  font-size: 18px;
+  font-family: "Pretendard", "sans-serif";
 }
 
 body {
