@@ -13,8 +13,8 @@
   </div>
 
   <div class="button-box">
-    <button id="button"> REMOTE </button>
-    <button id="button"> VISA </button>
+    <button id="button"> remote </button>
+    <button id="button"> visa </button>
   </div>
 </template>
 
@@ -25,7 +25,7 @@ export default ({
     return {
 
       title1: "재택근무 해외이직/취업서치의 편리함",
-      title2: "SolveWhatever"
+      title2: "Fndr.io"
     }
 
   },
@@ -43,8 +43,9 @@ h1 {
   height: 126px;
   top: 150px;
   left: 327px;
-  letter-spacing: -3px;
+  letter-spacing: -2px;
   font-size: 37px;
+  font-weight: bold;
   color: #4E4E4E;
 }
 
@@ -63,8 +64,15 @@ h1 {
 .input-wrapper {
   margin-right: 0px;
   display: flex;
-  font-size: 10px;
+  font-size: 16px;
+  text-align: center;
 }
+
+input:focus {
+  outline: none;
+}
+
+/* outline 테두리 없앰*/
 
 .input-wrapper>button {
   width: 80px;
@@ -107,8 +115,7 @@ h1 {
 
 input::placeholder {
   color: rgba(173, 173, 173, 1);
-  font-size: 1.6em;
-  font-style: italic;
+  font-size: 16px;
 }
 
 .container {
@@ -128,8 +135,8 @@ input::placeholder {
   margin-top: 26px;
   width: 268px;
   margin: 0 auto;
-  margin-top: 26px;
-  margin-bottom: 40px;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 
@@ -161,7 +168,6 @@ input::placeholder {
   text-align: center;
   cursor: pointer;
   width: 100%;
-  font-size: 18px;
   border-radius: 50px;
   margin-right: 10px;
 }
@@ -176,13 +182,19 @@ input::placeholder {
   text-align: center;
   cursor: pointer;
   width: 100%;
-  font-size: 18px;
   border-radius: 50px;
   margin-left: 10px;
+}
+
+button {
+  transition: all ease 0.4s 0s;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 15px;
 }
 
 button:hover,
 a:hover {
   opacity: 0.7;
-}
-</style>
+  transition: all ease 0.4s 0s;
+}</style>
