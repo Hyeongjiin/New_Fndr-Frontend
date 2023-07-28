@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container">
-      <a class="navbar-brand" href="#">Fndr.io</a>
+      <a class="navbar-brand"><router-link to="/">Fndr.io</router-link></a>
       <button
         class="navbar-toggler"
         type="button"
@@ -19,7 +19,7 @@
             <a class="nav-link active" aria-current="page" href="#">Search jobs</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Review</a>
+            <a class="nav-link"><router-link to="/review">Review</router-link></a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Community</a>
