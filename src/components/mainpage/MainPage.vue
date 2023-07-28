@@ -5,7 +5,7 @@
 
 
 <script>
-import MainCardList from "../list-resources/MainCardList.vue";
+import MainCardList from "../mainpage/MainCardList.vue";
 import SearchSection from "../mainpage/SearchSection.vue";
 
 export default {
