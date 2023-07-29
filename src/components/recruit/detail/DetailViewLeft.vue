@@ -1,63 +1,45 @@
 <template>
   <div class="card">
     <h1 class="title"> 채용공고 제목(직무명) </h1> <br>
-    <span class="box"> java </span>
-    <span class="box"> C++ </span>
-    <span class="box"> C# </span>
-    <span class="box"> python</span>
+    
     <hr style="margin-top: 0; ">
-    <section class="companybox">
+
+    <section>
       <span>about company</span>
-      <br>
-      <br>
-      <div class="companyinformantion">
-        We provide a simple and clear payment API, which enables webshop and app builders to implement more than ten
-        different payment methods in one go.In the first
-        few years of existence, Mollie was a developer-only adventure and about 15 years later devs and techs still
-        comprise roughly 30% of all staff.
-        As a natural consequence, Mollie still is—and aims to remain—highly tech-minded. We take a developers-first
-        approach to our products and internal
-        development strategy, something that both our customers and our developers appreciate.
-      </div>
-      <br>
-      <br>
+        <br>
+        <br>
+          <div class="companyinformantion">
+            We provide a simple and clear payment API, which enables webshop and app builders to implement more than ten
+            different payment methods in one go.In the first
+            few years of existence, Mollie was a developer-only adventure and about 15 years later devs and techs still
+            comprise roughly 30% of all staff.
+            As a natural consequence, Mollie still is—and aims to remain—highly tech-minded. We take a developers-first
+            approach to our products and internal
+            development strategy, something that both our customers and our developers appreciate.
+          </div>
+        <br>
+        <br>
     </section>
 
 
-    <section class="companybox">
+
+    <section>
       <span>about company</span>
-      <br>
-      <br>
-      <div class="companyinformantion">
-        We provide a simple and clear payment API, which enables webshop and app builders to implement more than ten
-        different payment methods in one go.In the first
-        few years of existence, Mollie was a developer-only adventure and about 15 years later devs and techs still
-        comprise roughly 30% of all staff.
-        As a natural consequence, Mollie still is—and aims to remain—highly tech-minded. We take a developers-first
-        approach to our products and internal
-        development strategy, something that both our customers and our developers appreciate.
-      </div>
-      <br>
-      <br>
+        <br>
+        <br>
+          <div class="companyinformantion">
+            We provide a simple and clear payment API, which enables webshop and app builders to implement more than ten
+            different payment methods in one go.In the first
+            few years of existence, Mollie was a developer-only adventure and about 15 years later devs and techs still
+            comprise roughly 30% of all staff.
+            As a natural consequence, Mollie still is—and aims to remain—highly tech-minded. We take a developers-first
+            approach to our products and internal
+            development strategy, something that both our customers and our developers appreciate.
+          </div>
+        <br>
+        <br>
     </section>
 
-
-    <section class="companybox">
-      <span>about company</span>
-      <br>
-      <br>
-      <div class="companyinformantion">
-        We provide a simple and clear payment API, which enables webshop and app builders to implement more than ten
-        different payment methods in one go.In the first
-        few years of existence, Mollie was a developer-only adventure and about 15 years later devs and techs still
-        comprise roughly 30% of all staff.
-        As a natural consequence, Mollie still is—and aims to remain—highly tech-minded. We take a developers-first
-        approach to our products and internal
-        development strategy, something that both our customers and our developers appreciate.
-      </div>
-      <br>
-      <br>
-    </section>
   </div>
 </template>
 
@@ -67,13 +49,15 @@
   padding: 10px;
   background-color: rgba(242, 246, 248, 1);
   border-radius: 30px;
-  ;
+  
 }
 
 .card {
-  width: 1000px;
+  width: 500px;
   height: 604px;
   margin-bottom: 0;
+  margin-left:20%;
+  margin-top:10%;
 }
 
 .box {
@@ -87,10 +71,7 @@
   line-height: 200px;
 }
 
-
 .title {
   color: rgba(56, 66, 89, 1);
-  font-size: 90px;
-  margin-bottom: 0;
-  height: 0;
+  font-size: 50px;
 }</style>
