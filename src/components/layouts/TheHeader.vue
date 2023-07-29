@@ -12,7 +12,7 @@
             <a class="nav-link active" aria-current="page" href="#">Search jobs</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link"><router-link to="/review">Review</router-link></a>
+            <a class="nav-link"><router-link to="/detail">Review</router-link></a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Community</a>
