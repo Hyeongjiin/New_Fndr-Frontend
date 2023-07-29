@@ -25,7 +25,9 @@
 
 <style scoped>
 .container {
-    width: 276px;
+    margin-left: 10%;
+    margin-right: 0px;
+    width: 250px;
     /* height: 570px; */
     background-color: #ffffff;
     border-radius: 10px;
@@ -74,4 +76,5 @@
 .sec2>input {
     margin-left: 10%;
 }
+
 </style>
