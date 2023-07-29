@@ -58,6 +58,7 @@
   margin-bottom: 0;
   margin-left:20%;
   margin-top:10%;
+  padding: 10px;
 }
 
 .box {
@@ -66,7 +67,7 @@
   margin-right: 3ch;
   margin-left: 1ch;
   background-color: rgba(242, 246, 248, 1);
-  color: rgba(247, 56, 89, 1);
+  border-color: rgba(56, 66, 89, 1);
   border-radius: 30px;
   line-height: 200px;
 }

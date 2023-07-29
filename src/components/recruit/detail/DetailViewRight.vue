@@ -32,7 +32,6 @@
 <style scoped>
 
     .rightbox{
-
       margin-top: 10%;
       margin-left: 10px;
       border: 1px solid;
@@ -40,7 +39,7 @@
       width: auto;
       text-align: center;
       padding: 15px;
-
+      border-radius: 5px;
     }
 
     .button-box{
