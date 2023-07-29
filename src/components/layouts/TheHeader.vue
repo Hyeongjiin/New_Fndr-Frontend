@@ -9,7 +9,7 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Search jobs</a>
+            <a class="nav-link active" aria-current="page"><router-link to="/search-jobs">Search Jobs</router-link></a>
           </li>
           <li class="nav-item">
             <a class="nav-link"><router-link to="/detail">Review</router-link></a>
