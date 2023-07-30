@@ -4,33 +4,36 @@
       <h3>{{ item.description_title }}</h3>
       <ul class="info">
         <li><i class="bi bi-building-fill"></i> {{ item.company_name }}</li>
-        <li><i class="bi bi-geo-alt-fill"></i> {{ item.location }}</li>
+        <li v-if="item.location !== 'Remote'"><i class="bi bi-geo-alt-fill"></i> {{ item.location }}</li>
+        <!-- location이 Remote이면 location을 보여주지 않기로 함 -->
         <li v-if="item.is_remoted === true"><i class="bi bi-house-check"></i> Remote OK</li>
         <li v-if="item.is_visa_sponsored === true"><i class="bi bi-card-checklist"></i> Visa provided</li>
       </ul>
     </base-card>
   </li>
-  <div class="view-more">view more</div>
+  <div class="view-more" @click="goToSearchPage">view more</div>
   <!-- view more 누르면 Search page로 이동해야함 (router이용) -->
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      articles: null,
-    }
+  // data() {
+  //   return {
+  //     articles: null,
+  //   }
+  // },
+  props: {
+    articles: {
+      type: Array,
+      default: () => [],
+    },
   },
 
-  mounted() {
-
-    fetch('http://localhost:8080/rest/main', {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-    }).then(response => response.json())
-      .then(data => console.log(this.articles = data[0].Remote));
+  methods: {
+    goToSearchPage() {
+      // Use Vue Router to navigate to the Search page
+      this.$router.push('/search-jobs');
+    },
   },
 }
 </script>
