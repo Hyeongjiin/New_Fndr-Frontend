@@ -69,15 +69,16 @@
     .title {
         color: rgba(56, 66, 89, 1);
         font-size: 32px;
-      }
-
+      }  
+      
       button {
         border: none;
         outline: 0;
         display: inline-block;
         padding: 12px;
         color: white;
-        background-color: rgba(247, 56, 89, 1);
+        background-color: #F73859;
+        border: none;
         text-align: center;
         cursor: pointer;
         width: 150px;
