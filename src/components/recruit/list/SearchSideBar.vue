@@ -1,80 +1,96 @@
 <template>
-    <div class="container">
-        <div class="button">
-            <button class="searchbutton">search</button>
-        </div>
-        <hr />
-        <div class="sec1">
-            <span> Search keyword </span>
-            <input type="text" placeholder="keyworld" />
-        </div>
-        <div class="sec2">
+        <div class="container">
+
+            <div class="button">
+                <button class="searchbutton">search</button>
+            </div>
+
             <hr />
-            <span style="margin-left: 100px"> Location </span> <br />
-            <input type="checkbox" /> <span>North America </span> <br />
-            <input type="checkbox" /> <span>Europe </span> <br />
-            <input type="checkbox" /> <span>Asia </span> <br />
-            <input type="checkbox" /> <span>Oceania </span> <br />
-            <hr />
-            <input type="checkbox" /> <span> Visa suppot </span> <br />
-            <input type="checkbox" /> <span> Fully remote </span> <br />
+            <div class="sec1">
+                <div> Search keyword </div>
+                <input type="text" placeholder="keyworld" />
+            </div>
+
+            <div class="sec2">
+                <hr />
+                <span style="margin-left: 100px"> Location </span> <br />
+                <input type="checkbox" /> <span>North America </span> <br />
+                <input type="checkbox" /> <span>Europe </span> <br />
+                <input type="checkbox" /> <span>Asia </span> <br />
+                <input type="checkbox" /> <span>Oceania </span> <br />
+                <hr />
+                <input type="checkbox" /> <span> Visa suppot </span> <br />
+                <input type="checkbox" /> <span> Fully remote </span> <br />
+            </div>
+
         </div>
-    </div>
-</template>
 
+    </template>
+    
+    
+    <style scoped>
+    .container {  
 
-<style scoped>
-.container {
-    margin-left: 10%;
-    margin-right: 0px;
-    width: 250px;
-    /* height: 570px; */
-    background-color: #ffffff;
-    border-radius: 10px;
-    border: 1px solid rgba(217, 217, 217, 1);
-    line-height: 29px;
-    font: Noto Sans KR;
-    /*  padding-top: 2rem;
-          padding-bottom: 2rem; */
-}
+        display:inline-block;
+        margin-left: 0;
+        margin-right: 0;
 
-.button {
-    margin-top: 3%;
-    margin-bottom: 3%;
-    display: flex;
-    justify-content: center;
-    padding: 12px, 0px, 12px, 0px;
-    color: rgba(247, 56, 89, 1);
-}
+        width: 260px;
+        height: 500px;
+        
 
-.searchbutton {
-    width: 234px;
-    height: 47px;
-    border-radius: 50px;
-    padding: 12px, 0px, 12px, 0px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+        background-color: #ffffff;
+        border-radius: 10px;
+        border: 1px solid rgba(217, 217, 217, 1);
+        line-height: 29px;
+        font: Noto Sans KR;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem; 
 
-.sec1 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+    }
+    
+    .button {
+        margin-top: 3%;
+        margin-bottom: 3%;
+        display: inline-block;
+        justify-content: center;
+        padding: 12px, 0px, 12px, 0px;
+        
+    }
+    
+    .searchbutton {
+        width: 234px;
+        height: 47px;
+        border-radius: 50px;
+        padding: 12px, 0px, 12px, 0px;
+        display: inline-block;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        background-color: #F73859;
+        
+    }
+    
+    .sec1 {
+        display: block;
+        flex-direction: column; 
+    }
+    
+    .sec1>input {
 
-.sec1>input {
-    margin-top: 1%;
-    margin-bottom: 1%;
-    text-align: center;
-    border-radius: 10px;
-    border: 1px solid;
-    width: 235px;
-    height: 49px;
-}
+        margin-top: 1%;
+        margin-bottom: 1%;
+        text-align: center;
+        border-radius: 10px;
+        border: 1px solid;
+        width: 235px;
+        height: 49px;
 
-.sec2>input {
-    margin-left: 10%;
-}
+    }
+    
+    .sec2>input {
+        margin-left: 10%;
+    }
 
-</style>
+    </style>
+    
