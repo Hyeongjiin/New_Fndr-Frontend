@@ -8,8 +8,9 @@
 <style scoped>
 .box{
     display: flex;
+    margin-top: 3%;
+    justify-content: center;   
 }
-
 </style>
 
 <script>
