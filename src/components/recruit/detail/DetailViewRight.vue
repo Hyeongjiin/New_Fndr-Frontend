@@ -32,14 +32,18 @@
 <style scoped>
 
     .rightbox{
-      margin-top: 10%;
-      margin-left: 10px;
-      border: 1px solid;
+      padding:15px;
+      margin-left:1%;
+      border-color: rgba(217, 217, 217, 1);
       height: 300px;
       width: auto;
       text-align: center;
       padding: 15px;
-      border-radius: 5px;
+      border-radius: 15px;
+      background-color: rgba(248, 248, 248, 1);
+    }
+    .textbox{
+      margin-bottom: 20px;
     }
 
     .button-box{
