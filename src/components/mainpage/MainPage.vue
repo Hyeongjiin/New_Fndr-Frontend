@@ -1,6 +1,6 @@
 <template>
-    <search-section></search-section>
-    <Main-card-list></Main-card-list>
+    <search-section @articles-loaded="updateArticles"></search-section>
+    <Main-card-list :articles="articles"></Main-card-list>
 </template>
 
 
@@ -12,7 +12,32 @@ export default {
     components: {
         MainCardList,
         SearchSection,
-    }
+    },
+
+    mounted() {
+
+        fetch('http://localhost:8080/rest/main', {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        }).then(response => response.json())
+            .then(data => console.log(this.articles = [...data[0].Remote, ...data[0].Visa]))
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    },
+
+    data() {
+        return {
+            articles: [],
+        };
+    },
+    methods: {
+        updateArticles(articles) {
+            this.articles = articles
+        },
+    },
 }
 
 </script>
