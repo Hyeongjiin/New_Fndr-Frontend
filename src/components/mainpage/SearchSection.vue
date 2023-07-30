@@ -2,10 +2,10 @@
   <h1 id="top">{{ title1 }} <br> {{ title2 }} </h1>
   <div class="container">
     <div class="input-wrapper">
-      <input type="text" placeholder="Keyworld or Job title">
-      <input type="text" placeholder="Country">
-      <button><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-search"
-          viewBox="0 0 16 16">
+      <input v-model="keyword" type="text" placeholder="Keyworld or Job title">
+      <input v-model="country" type="text" placeholder="Country">
+      <button @click="search"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+          class="bi bi-search" viewBox="0 0 16 16">
           <path
             d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
         </svg></button>
@@ -13,21 +13,58 @@
   </div>
 
   <div class="button-box">
-    <button id="button"> remote </button>
-    <button id="button"> visa </button>
+    <!-- 버튼누르면 fetch 시작 -->
+    <button id="button" @click="fetchDataRemote()"> remote </button>
+    <button id="button" @click="fetchDataVisa()"> visa </button>
   </div>
 </template>
 
 <script>
-
 export default ({
   data() {
     return {
 
       title1: "재택근무 해외이직/취업서치의 편리함",
-      title2: "Fndr.io"
+      title2: "Fndr.io",
+      keyword: "",
+      country: "",
     }
+  },
+  methods: {
+    fetchDataRemote() {
+      const apiUrl = `http://localhost:8080/rest/main`;
 
+      fetch(apiUrl, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+          this.$emit('articles-loaded', data[0].Remote);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+    },
+    fetchDataVisa() {
+      const apiUrl = `http://localhost:8080/rest/main`;
+
+      fetch(apiUrl, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+          this.$emit('articles-loaded', data[0].Visa);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+    },
   },
 })
 
@@ -197,4 +234,5 @@ button:hover,
 a:hover {
   opacity: 0.7;
   transition: all ease 0.4s 0s;
-}</style>
+}
+</style>
