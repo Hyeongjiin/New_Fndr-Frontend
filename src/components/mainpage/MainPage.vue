@@ -22,7 +22,7 @@ export default {
                 'Accept': 'application/json',
             },
         }).then(response => response.json())
-            .then(data => console.log(this.articles = [...data[0].Remote, ...data[0].Visa]))
+            .then(data => console.log(this.articles = [...data.Remote, ...data.Visa]))
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
