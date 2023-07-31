@@ -42,7 +42,7 @@ export default ({
       })
         .then(response => response.json())
         .then(data => {
-          this.$emit('articles-loaded', data[0].Remote);
+          this.$emit('articles-loaded', data.Remote);
         })
         .catch(error => {
           console.error('Error fetching data:', error);
@@ -59,7 +59,7 @@ export default ({
       })
         .then(response => response.json())
         .then(data => {
-          this.$emit('articles-loaded', data[0].Visa);
+          this.$emit('articles-loaded', data.Visa);
         })
         .catch(error => {
           console.error('Error fetching data:', error);
