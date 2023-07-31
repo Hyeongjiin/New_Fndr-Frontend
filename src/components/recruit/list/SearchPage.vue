@@ -1,13 +1,8 @@
 <template>
     <div class="box">
     <search-side-bar></search-side-bar>
-    <div class="box2">
-    <search-list></search-list>
-    <search-list></search-list>
-    <search-list></search-list>
     <search-list></search-list>
     </div>
-</div>
 </template>
 
 <style scoped>
