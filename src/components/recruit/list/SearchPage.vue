@@ -1,18 +1,21 @@
 <template>
     <div class="box">
-    <search-side-bar></search-side-bar>
-    <search-list></search-list>
+        <search-side-bar></search-side-bar>
+        <search-list></search-list>
     </div>
 </template>
 
 <style scoped>
-.box{
+.box {
     display: flex;
-    margin-top: 3%;
+    width: 70rem;
+    padding-top: 5rem;
+    max-width: 70rem;
+    margin: 0 auto;
+    align-items: flex-start;
     justify-content: center;
-    
-}
 
+}
 </style>
 
 
@@ -25,8 +28,7 @@ export default {
     components: {
         SearchSideBar,
         SearchList,
-    }
+    },
 }
 
 </script>
-

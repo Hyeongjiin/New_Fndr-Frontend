@@ -28,6 +28,8 @@ export default {
   font-family: "Pretendard", "sans-serif";
 }
 
+p {margin: 0;}
+
 body {
   margin: 0;
 }

@@ -4,10 +4,10 @@
       <h3>{{ item.description_title }}</h3>
       <ul class="info">
         <li><i class="bi bi-building-fill"></i> {{ item.company_name }}</li>
-        <li v-if="item.location !== 'Remote'"><i class="bi bi-geo-alt-fill"></i> {{ item.location }}</li>
-        <!-- location이 Remote이면 location을 보여주지 않기로 함 -->
-        <li v-if="item.is_remoted === true"><i class="bi bi-house-check"></i> Remote OK</li>
-        <li v-if="item.is_visa_sponsored === true"><i class="bi bi-card-checklist"></i> Visa provided</li>
+        <li v-if="item.location !== 'Remote' && item.location !== ''"><i class="bi bi-geo-alt-fill"></i> {{ item.location }}</li>
+        <!-- location이 Remote이면서 빈 칸("")이면 location을 보여주지 않기로 함 -->
+        <li v-if="item.is_remoted === true"><i class="bi bi-house-check"></i> Remote</li>
+        <li v-if="item.is_visa_sponsored === true"><i class="bi bi-card-checklist"></i> Visa sponsored</li>
       </ul>
     </base-card>
   </li>
@@ -41,12 +41,13 @@ export default {
 <style scoped>
 .info {
   padding-left: 0rem;
-  padding-top: 10px;
+  padding-top: 1rem;
 }
 
 .info>li {
   float: left;
-  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 16px;
 }
 
 .info>li:first-child {
@@ -58,7 +59,7 @@ export default {
 li {
   color: #4E4E4E;
   margin: auto;
-  max-width: 40rem;
+  max-width: 45rem;
   list-style: none;
   margin-bottom: 0px;
 }
