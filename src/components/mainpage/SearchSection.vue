@@ -2,10 +2,10 @@
   <h1 id="top">{{ title1 }} <br> {{ title2 }} </h1>
   <div class="container">
     <div class="input-wrapper">
-      <input type="text" placeholder="Keyworld or Job title">
-      <input type="text" placeholder="Country">
-      <button><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-search"
-          viewBox="0 0 16 16">
+      <input v-model="keyword" type="text" placeholder="Keyworld or Job title">
+      <input v-model="country" type="text" placeholder="Country">
+      <button @click="search"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+          class="bi bi-search" viewBox="0 0 16 16">
           <path
             d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
         </svg></button>
@@ -13,21 +13,58 @@
   </div>
 
   <div class="button-box">
-    <button id="button"> REMOTE </button>
-    <button id="button"> VISA </button>
+    <!-- 버튼누르면 fetch 시작 -->
+    <button id="button" @click="fetchDataRemote()"> remote </button>
+    <button id="button" @click="fetchDataVisa()"> visa </button>
   </div>
 </template>
 
 <script>
-
 export default ({
   data() {
     return {
 
       title1: "재택근무 해외이직/취업서치의 편리함",
-      title2: "SolveWhatever"
+      title2: "Fndr.io",
+      keyword: "",
+      country: "",
     }
+  },
+  methods: {
+    fetchDataRemote() {
+      const apiUrl = `http://localhost:8080/rest/main`;
 
+      fetch(apiUrl, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+          this.$emit('articles-loaded', data.Remote);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+    },
+    fetchDataVisa() {
+      const apiUrl = `http://localhost:8080/rest/main`;
+
+      fetch(apiUrl, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+          this.$emit('articles-loaded', data.Visa);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+    },
   },
 })
 
@@ -43,8 +80,9 @@ h1 {
   height: 126px;
   top: 150px;
   left: 327px;
-  letter-spacing: -3px;
+  letter-spacing: -2px;
   font-size: 37px;
+  font-weight: bold;
   color: #4E4E4E;
 }
 
@@ -63,8 +101,15 @@ h1 {
 .input-wrapper {
   margin-right: 0px;
   display: flex;
-  font-size: 10px;
+  font-size: 16px;
+  text-align: center;
 }
+
+input:focus {
+  outline: none;
+}
+
+/* outline 테두리 없앰*/
 
 .input-wrapper>button {
   width: 80px;
@@ -107,8 +152,7 @@ h1 {
 
 input::placeholder {
   color: rgba(173, 173, 173, 1);
-  font-size: 1.6em;
-  font-style: italic;
+  font-size: 16px;
 }
 
 .container {
@@ -121,12 +165,6 @@ input::placeholder {
   width: 50%;
 }
 
-html {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
-
 .button-box {
   display: flex;
   justify-content: center;
@@ -134,8 +172,8 @@ html {
   margin-top: 26px;
   width: 268px;
   margin: 0 auto;
-  margin-top: 26px;
-  margin-bottom: 40px;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 
@@ -167,7 +205,6 @@ html {
   text-align: center;
   cursor: pointer;
   width: 100%;
-  font-size: 18px;
   border-radius: 50px;
   margin-right: 10px;
 }
@@ -182,13 +219,20 @@ html {
   text-align: center;
   cursor: pointer;
   width: 100%;
-  font-size: 18px;
   border-radius: 50px;
   margin-left: 10px;
+}
+
+button {
+  transition: all ease 0.4s 0s;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 15px;
 }
 
 button:hover,
 a:hover {
   opacity: 0.7;
+  transition: all ease 0.4s 0s;
 }
 </style>

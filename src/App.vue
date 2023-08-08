@@ -1,31 +1,31 @@
 <template>
   <the-header></the-header>
-  <search-section></search-section>
-  <main-card-list></main-card-list>
-  
+  <router-view></router-view>
 </template>
 
 <script>
 import TheHeader from "./components/layouts/TheHeader.vue";
-import MainCardList from "./components/list-resources/MainCardList.vue";
-import SearchSection from "./components/mainpage/SearchSection.vue";
 
 
 export default {
   components: {
     TheHeader,
-    MainCardList,
-    SearchSection,
   },
 };
 </script>
 
 <style>
-@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
-@import url("https://fonts.googleapis.com/css2?family=Gasoek+One&display=swap");
+/* @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css); */
+@font-face {
+    font-family: 'Pretendard';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
 
 * {
-  font-family: "Spoqa Han Sans Neo", "sans-serif";
+  font-size: 18px;
+  font-family: "Pretendard", "sans-serif";
 }
 
 body {
