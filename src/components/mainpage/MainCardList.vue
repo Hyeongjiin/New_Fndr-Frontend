@@ -7,7 +7,7 @@
   <li class="main-recruit">
     <!-- Remote Datas -->
     <base-card v-for="remote in articles.Remote.slice(0, remoteToShow)" :key="remote.id">
-      <h3>{{ remote.description_title }}</h3>
+      <router-link :to="'/detail/' + remote.id"><h3>{{ remote.description_title }}</h3></router-link>
       <ul class="info">
         <li><i class="bi bi-building-fill"></i> {{ remote.company_name }}</li>
         <li v-if="remote.location !== ''"><i class="bi bi-geo-alt-fill"></i> {{ remote.location }}</li>
@@ -18,7 +18,7 @@
 
     <!-- Visa Datas -->
     <base-card v-for="visa in articles.Visa.slice(0, visaToShow)" :key="visa.id">
-      <h3>{{ visa.description_title }}</h3>
+      <router-link :to="'/detail/' + visa.id"><h3>{{ visa.description_title }}</h3></router-link>
       <ul class="info">
         <li><i class="bi bi-building-fill"></i> {{ visa.company_name }}</li>
         <li v-if="visa.location !== ''"><i class="bi bi-geo-alt-fill"></i> {{ visa.location }}</li>
@@ -122,7 +122,7 @@ p {
 
 a {
   text-decoration: none;
-  color: #ce5c00;
+  color: black;
 }
 
 .bi {

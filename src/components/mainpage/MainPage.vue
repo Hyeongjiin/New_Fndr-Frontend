@@ -14,8 +14,7 @@ export default {
         SearchSection,
     },
 
-    mounted() {
-
+    created() {
         fetch('http://localhost:8080/rest/main', {
             headers: {
                 'Content-Type': 'application/json',

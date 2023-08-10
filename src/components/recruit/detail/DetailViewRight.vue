@@ -2,7 +2,7 @@
  
       <div class ="rightbox">
 
-        <img src="img.jpg" alt="company picture" style="width:173px">
+        <img src="#" alt="company picture" style="width:173px">
         
         <p class="title">company name</p>
 

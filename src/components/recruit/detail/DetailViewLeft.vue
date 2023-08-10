@@ -1,7 +1,7 @@
 <template>
   <div class="card">
 
-    <h1 class="title"> 채용공고 제목(직무명) </h1> 
+    <h1 class="title"> {{ jobDetail.description_title }} </h1> 
 
     <div class="stackbox">
       <div class="stack">Java</div>
@@ -68,7 +68,13 @@
 
   </div>
 </template>
-      
+
+<script>
+export default {
+  props: ['jobDetail'],
+}
+</script>
+
 <style scoped>
 .companyinformantion {
   padding: 10px;
