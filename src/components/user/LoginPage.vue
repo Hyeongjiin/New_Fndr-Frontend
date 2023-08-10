@@ -33,6 +33,8 @@ export default {
             const response = await axios.post("http://localhost:8080/rest/auth/login", {
                 email: this.email,
                 password: this.password
+            }, {
+                withCredentials: true,
             });
 
             if (response.data.ResultCode === "Login_Success") {
