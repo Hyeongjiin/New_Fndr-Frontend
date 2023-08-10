@@ -22,7 +22,11 @@ export default {
                 'Accept': 'application/json',
             },
         }).then(response => response.json())
-            .then(data => console.log(this.articles = [...data.Remote, ...data.Visa]))
+            .then(data => {
+                this.articles.Remote = data.Remote;
+                this.articles.Visa = data.Visa;
+                console.log(this.articles)
+            })
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
@@ -30,7 +34,10 @@ export default {
 
     data() {
         return {
-            articles: [],
+            articles: {
+                Remote: [],
+                Visa: [],
+            },
         };
     },
     methods: {
