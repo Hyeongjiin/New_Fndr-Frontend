@@ -17,6 +17,9 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/">Community</router-link>
           </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/login">Login/SignUp</router-link>
+          </li>
           <!-- <li class="nav-item">
             <a class="nav-link disabled">Disabled</a>
           </li> -->
