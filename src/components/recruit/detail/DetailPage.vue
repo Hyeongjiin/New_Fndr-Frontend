@@ -1,15 +1,19 @@
 <template>
     <div class="box">
     <detail-view-left :jobDetail="jobDetail"></detail-view-left>
-    <detail-view-right></detail-view-right>
+    <detail-view-right :jobDetail="jobDetail"></detail-view-right>
     </div>
 </template>
 
 <style scoped>
 .box{
     display: flex;
-    margin-top: 3%;
-    justify-content: center;   
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    max-width: 70rem;
+    margin: 0 auto;
+    align-items: flex-start;
+    justify-content: center;
 }
 </style>
 
