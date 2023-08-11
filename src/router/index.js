@@ -8,8 +8,8 @@ import DetailPage from "../components/recruit/detail/DetailPage.vue";
 // 라우터 설계
 const routes = [
   { path: "/", component: MainPage },
-  { path: "/detail", component: DetailPage },
   { path: "/search-jobs", component: SearchPage },
+  { path: "/detail/:postId", component: DetailPage },
 
 ];
 

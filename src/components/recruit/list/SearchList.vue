@@ -3,7 +3,7 @@
         <base-card v-for="(item, index) in articles" :key="index">
             <div class="Search-section1">
                 <div class="info">
-                    <h3>{{ item.description_title }}</h3>
+                    <router-link :to="'/detail/' + item.id"><h3>{{ item.description_title }}</h3></router-link>
                     <ul>
                         <li><i class="bi bi-building-fill"></i> {{ item.company_name }}</li>
                         <li><i class="bi bi-geo-alt-fill"></i> {{ item.location }}</li>
@@ -92,7 +92,12 @@ export default {
     margin-left: 0px;
 }
 
-.info>h3 {
+.info>a {
+    text-decoration: none;
+    color: black;
+}
+
+.info>a>h3 {
     font-size: 25px;
     font-weight: 700;
 }

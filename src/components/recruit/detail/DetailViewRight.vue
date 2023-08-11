@@ -1,97 +1,103 @@
-    <template>
- 
-      <div class ="rightbox">
-
-        <img src="img.jpg" alt="company picture" style="width:173px">
-        
-        <p class="title">company name</p>
-
-        <section class="textbox">
-
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-            </svg> <span>location</span><br>
-
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-            </svg> <span>visa support</span><br>
-
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-            </svg> <span>website</span><br>
-
-          </section>
-
-         <button>Contact</button>
-
-      </div>
-    
+<template>
+  <div class="rightbox">
+    <div class="imgbox">
+      <img v-if="jobDetail.company_logo === null" :src="require('@/components/img/image.png')" alt="company picture">
+      <img v-else :src="jobDetail.company_logo" alt="company picture">
+    </div>
+    <h1 class="title">{{ jobDetail.company_name }}</h1>
+    <ul class="info">
+      <li v-if="jobDetail.location !== ''"><i class="bi bi-geo-alt-fill"></i> {{ jobDetail.location }}</li>
+      <li v-if="jobDetail.is_visa_sponsored === true"><i class="bi bi-card-checklist"></i> Visa sponsored</li>
+      <li v-if="jobDetail.is_remoted === true"><i class="bi bi-house-check"></i> Remote</li>
+      <li v-if="jobDetail.company_page_link !== null"><i class="bi bi-link-45deg"></i> <a :href="jobDetail.company_page_link">website</a></li>
+    </ul>
+    <div class="btn-box">
+      <button v-if="jobDetail.company_apply_link !== null" class="contact-btn" @click="redirectToOtherSite">Apply</button>
+    </div>
+  </div>
 </template>
+
+<script>
+export default {
+  props: ['jobDetail'],
+  methods: {
+    redirectToOtherSite() {
+      if(this.jobDetail.company_apply_link !== null) {
+        window.open(this.jobDetail.company_apply_link, '_blank');
+      }
+    }
+}
+}
+</script>
 
 
 <style scoped>
+.rightbox {
+  display: flex;
+  border-color: rgba(217, 217, 217, 1);
+  height: auto;
+  width: 20rem;
+  text-align: center;
+  padding: 30px;
+  border-radius: 15px;
+  background-color: rgba(248, 248, 248, 1);
+  flex-direction: column;
+  align-items: center;
+}
 
-    .rightbox{
-      padding:15px;
-      margin-left:1%;
-      border-color: rgba(217, 217, 217, 1);
-      height: 300px;
-      width: auto;
-      text-align: center;
-      padding: 15px;
-      border-radius: 15px;
-      background-color: rgba(248, 248, 248, 1);
-    }
-    .textbox{
-      margin-bottom: 20px;
-    }
+.imgbox {
+  width: 100px;
+}
 
-    .button-box{
-        display : flex;
-        justify-content : center;
-        align-items : center;
-        margin-top : 26px;
-        width: 268px;   
-        margin: 0 auto;
-        margin-top: 26px;
-      }
+.imgbox>img {
+  width: 100%;
+  filter: invert(44%) sepia(61%) saturate(7445%) hue-rotate(333deg) brightness(120%) contrast(71%);
+}
 
-      .card {
-        width: 378px; 
-        height: 604px; 
-        margin-bottom: 20px;   
-        margin-right: 32px;
-      }
+.btn-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 26px;
+  width: 268px;
+  margin: 0 auto;
+  margin-top: 26px;
+}
 
-      h1{
-        text-align : center;
-        height: 126px;
-        top: 150px;
-        left: 327px;
-    }
+.title {
+  color: rgba(56, 66, 89, 1);
+  font-size: 32px;
+  margin-top: 20px;
+}
 
-    .title {
-        color: rgba(56, 66, 89, 1);
-        font-size: 32px;
-      }  
-      
-      button {
-        border: none;
-        outline: 0;
-        display: inline-block;
-        padding: 12px;
-        color: white;
-        background-color: #F73859;
-        border: none;
-        text-align: center;
-        cursor: pointer;
-        width: 150px;
-        font-size: 18px;
-        border-radius: 50px ;
-      }
+.info {
+  list-style-type: none;
+  margin-top: 0;
+  padding-left: 0;
+  margin-bottom: 0rem;
+}
+.info > li {
+  margin-top: 10px;
+}
+.bi {
+  color: #F73859;
+}
+.contact-btn {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 12px;
+  color: white;
+  background-color: #F73859;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  width: 150px;
+  font-size: 18px;
+  border-radius: 50px;
+}
 
-      button:hover, a:hover {
-        opacity: 0.7;
-      }
-
-</style>
+button:hover,
+a:hover {
+  opacity: 0.7;
+}</style>

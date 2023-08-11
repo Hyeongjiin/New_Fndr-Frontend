@@ -11,62 +11,19 @@
         </svg></button>
     </div>
   </div>
-
-  <div class="button-box">
-    <!-- 버튼누르면 fetch 시작 -->
-    <button id="button" @click="fetchDataRemote()"> remote </button>
-    <button id="button" @click="fetchDataVisa()"> visa </button>
-  </div>
 </template>
 
 <script>
-export default ({
+export default {
   data() {
     return {
-
       title1: "재택근무 해외이직/취업서치의 편리함",
       title2: "Fndr.io",
       keyword: "",
       country: "",
     }
   },
-  methods: {
-    fetchDataRemote() {
-      const apiUrl = `http://localhost:8080/rest/main`;
-
-      fetch(apiUrl, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-      })
-        .then(response => response.json())
-        .then(data => {
-          this.$emit('articles-loaded', data.Remote);
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error);
-        });
-    },
-    fetchDataVisa() {
-      const apiUrl = `http://localhost:8080/rest/main`;
-
-      fetch(apiUrl, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-      })
-        .then(response => response.json())
-        .then(data => {
-          this.$emit('articles-loaded', data.Visa);
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error);
-        });
-    },
-  },
-})
+}
 
 </script>
 
@@ -165,17 +122,6 @@ input::placeholder {
   width: 50%;
 }
 
-.button-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 26px;
-  width: 268px;
-  margin: 0 auto;
-  margin-top: 50px;
-  margin-bottom: 50px;
-}
-
 
 .card-container {
   display: flex;
@@ -193,46 +139,5 @@ input::placeholder {
 .title {
   color: grey;
   font-size: 18px;
-}
-
-.button-box>button:first-child {
-  border: none;
-  outline: 0;
-  display: inline-block;
-  padding: 8px;
-  color: white;
-  background-color: #F73859;
-  text-align: center;
-  cursor: pointer;
-  width: 100%;
-  border-radius: 50px;
-  margin-right: 10px;
-}
-
-.button-box>button:last-child {
-  border: none;
-  outline: 0;
-  display: inline-block;
-  padding: 8px;
-  color: white;
-  background-color: #F73859;
-  text-align: center;
-  cursor: pointer;
-  width: 100%;
-  border-radius: 50px;
-  margin-left: 10px;
-}
-
-button {
-  transition: all ease 0.4s 0s;
-  text-transform: uppercase;
-  font-weight: bold;
-  font-size: 15px;
-}
-
-button:hover,
-a:hover {
-  opacity: 0.7;
-  transition: all ease 0.4s 0s;
 }
 </style>
