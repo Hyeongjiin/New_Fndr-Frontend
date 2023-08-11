@@ -1,16 +1,18 @@
 <template>
-  <the-header></the-header>
-  <router-view></router-view>
+    <the-header></the-header>
+    <router-view></router-view>
 </template>
 
 <script>
-import TheHeader from "./components/layouts/TheHeader.vue";
-
+import TheHeader from './components/layouts/TheHeader.vue';
 
 export default {
-  components: {
-    TheHeader,
-  },
+    components: {
+        TheHeader,
+    },
+    mounted() {
+        this.$store.dispatch('checkLoginStatus');
+    },
 };
 </script>
 
@@ -18,19 +20,22 @@ export default {
 /* @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css); */
 @font-face {
     font-family: 'Pretendard';
-    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+        format('woff');
     font-weight: 400;
     font-style: normal;
 }
 
 * {
-  font-size: 18px;
-  font-family: "Pretendard", "sans-serif";
+    font-size: 18px;
+    font-family: 'Pretendard', 'sans-serif';
 }
 
-p {margin: 0;}
+p {
+    margin: 0;
+}
 
 body {
-  margin: 0;
+    margin: 0;
 }
 </style>

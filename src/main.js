@@ -95,6 +95,25 @@ const store = createStore({
                 console.error("There was an error:", errorMessage);
             }
         },
+        async checkLoginStatus(context) {
+            try {
+                const response = await axios.get("http://localhost:8080/rest/auth/session", {
+                    withCredentials: true,
+                });
+                console.log(response);
+                if (response.data.ResultCode === "Session_Exist") {
+                    console.log("세션이 존재합니다.");
+                    context.commit('login');
+                } else if (response.data.ResultCode === "Session_Not_Exist") {
+                    console.log("세션이 존재하지 않습니다.");
+                    context.commit('logout');
+                }
+            } catch (error) {
+                console.log(error.response.data);
+                const errorMessage = error.response.data.Message || "Internal server error";
+                console.error("There was an error:", errorMessage);
+            }
+        }
     }
 });
 const app = createApp(App);

@@ -36,11 +36,15 @@
                         >
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link" to="/login"
+                        <router-link
+                            class="nav-link"
+                            v-if="!this.$store.state.isLoggedIn"
+                            to="/login"
                             >Login/SignUp</router-link
                         >
                         <router-link
                             class="nav-link"
+                            v-else
                             @click="this.$store.dispatch('logoutSubmit')"
                             to="/"
                             >Logout</router-link
