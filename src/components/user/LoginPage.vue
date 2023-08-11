@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>Login</h2>
-    <form @submit.prevent="loginSubmit">
+    <form @submit.prevent="login">
       <div>
         <label>Email:</label>
         <input type="email" v-model="email" required />
@@ -28,27 +28,12 @@ export default {
     };
   },
   methods: {
-    async loginSubmit() {
-        try {
-            const response = await axios.post("http://localhost:8080/rest/auth/login", {
-                email: this.email,
-                password: this.password
-            }, {
-                withCredentials: true,
-            });
-
-            if (response.data.ResultCode === "Login_Success") {
-                console.log("로그인에 성공했습니다.")
-                this.$router.push("/");
-            } else {
-                this.error = response.data.Message;
-                console.log("에러가 발생했습니다.")
-                console.log(this.error);
-            }
-        } catch (error) {
-            console.error("There was an error:", error.response);
-            this.error = error.response.data.Message || "Internal server error";
-        }
+    login() {
+      this.$store.dispatch({
+        type: 'loginSubmit',
+        email: this.email,
+        password: this.password,
+      })
     }
   }
 };
