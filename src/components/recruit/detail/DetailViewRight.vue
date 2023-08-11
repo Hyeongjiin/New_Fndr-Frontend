@@ -1,17 +1,18 @@
 <template>
   <div class="rightbox">
     <div class="imgbox">
-      <img :src="require('@/components/img/image.png')" alt="company picture">
+      <img v-if="jobDetail.company_logo === null" :src="require('@/components/img/image.png')" alt="company picture">
+      <img v-else :src="jobDetail.company_logo" alt="company picture">
     </div>
     <h1 class="title">{{ jobDetail.company_name }}</h1>
     <ul class="info">
-      <li><i class="bi bi-geo-alt-fill"></i> {{ jobDetail.location }}</li>
+      <li v-if="jobDetail.location !== ''"><i class="bi bi-geo-alt-fill"></i> {{ jobDetail.location }}</li>
       <li v-if="jobDetail.is_visa_sponsored === true"><i class="bi bi-card-checklist"></i> Visa sponsored</li>
       <li v-if="jobDetail.is_remoted === true"><i class="bi bi-house-check"></i> Remote</li>
       <li v-if="jobDetail.company_page_link !== null"><i class="bi bi-link-45deg"></i> <a :href="jobDetail.company_page_link">website</a></li>
     </ul>
     <div class="btn-box">
-      <button v-if="jobDetail.company_apply_link !== null" class="contact-btn" @click="redirectToOtherSite">Contact</button>
+      <button v-if="jobDetail.company_apply_link !== null" class="contact-btn" @click="redirectToOtherSite">Apply</button>
     </div>
   </div>
 </template>

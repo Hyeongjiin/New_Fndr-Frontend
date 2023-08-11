@@ -21,7 +21,11 @@ export default {
   computed: {
     tagsArray() {
       try {
-        return JSON.parse(this.jobDetail.tag);
+        const tagArray = JSON.parse(this.jobDetail.tag); // tag의 JSON 파싱
+        const techNameArray = this.jobDetail.description_teches.map(tech => tech.tech_name); // description_teches에서 tech_name만 추출
+        const totalTagArray = [...tagArray, ...techNameArray];
+        console.log(totalTagArray);
+        return totalTagArray; // 두 배열 합침
       } catch (error) {
         console.error("Failed to parse jobDetail.tag", error);
         return []; // 파싱에러 났을 때 빈 배열을 리턴함
