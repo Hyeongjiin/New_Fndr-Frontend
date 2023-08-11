@@ -76,6 +76,7 @@ export default {
   margin-right: 5px;
   margin-top:10px;
   padding:4px 10px;
+  text-transform: uppercase;
 }
 
 .title {
