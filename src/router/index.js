@@ -5,7 +5,7 @@ import MainPage from "../components/mainpage/MainPage.vue";
 import SearchPage from "../components/recruit/list/SearchPage.vue";
 import DetailPage from "../components/recruit/detail/DetailPage.vue";
 import LoginPage from "../components/user/LoginPage.vue";
-import SignPage from "../components/user/SignPage.vue";
+import JoinPage from "../components/user/JoinPage.vue";
 
 // 라우터 설계
 const routes = [
@@ -13,7 +13,7 @@ const routes = [
   { path: "/search-jobs", component: SearchPage },
   { path: "/detail/:postId", component: DetailPage },
   { path: "/login", component: LoginPage },
-  { path: "/signup", component: SignPage },
+  { path: "/signup", component: JoinPage },
   
 
 ];
