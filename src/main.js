@@ -14,13 +14,21 @@ import { router } from './router/index.js';
 const store = createStore({
     state() {
         return {
+            isLoggedIn: false,
         };
     },
     mutations: {
-
+        login(state) {
+            state.isLoggedIn = true;
+            console.log(state.isLoggedIn);
+        },
+        logout(state) {
+            state.isLoggedIn = false;
+            console.log(state.isLoggedIn);
+        }
     },
     actions: {
-        async joinSubmit(contest, payload) {
+        async joinSubmit(context, payload) {
             try {
                 const response = await axios.post("http://localhost:8080/rest/auth/join", {
                     email: payload.email,
@@ -52,7 +60,8 @@ const store = createStore({
                 });
                 console.log(response);
                 if (response.data.ResultCode === "Login_Success") {
-                    console.log("로그인에 성공했습니다.")
+                    console.log("로그인에 성공했습니다.");
+                    context.commit('login')
                     router.push('/');
                 } else {
                     const errorMessage = response.data.Message;
@@ -65,10 +74,26 @@ const store = createStore({
                 console.error("There was an error:", errorMessage);
             }
         },
-    },
-    getters: {
-        finalCounter(state, getters) {
-
+        async logoutSubmit(context) {
+            try {
+                const response = await axios.post("http://localhost:8080/rest/auth/logout", {}, {
+                    withCredentials: true,
+                });
+                console.log(response);
+                if (response.data.ResultCode === "Logout_Success") {
+                    console.log("로그아웃에 성공했습니다.");
+                    context.commit('logout')
+                    router.push('/');
+                } else {
+                    const errorMessage = response.data.Message;
+                    console.log("에러가 발생했습니다.")
+                    console.log(errorMessage);
+                }
+            } catch (error) {
+                console.log(error.request.response);
+                const errorMessage = error.response.data.Message || "Internal server error";
+                console.error("There was an error:", errorMessage);
+            }
         },
     }
 });
