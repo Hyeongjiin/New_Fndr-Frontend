@@ -1,15 +1,17 @@
 <template>
   <div class="rightbox">
     <div class="imgbox">
-      <img v-if="jobDetail.company_logo === null" :src="require('@/components/img/image.png')" alt="company picture">
-      <img v-else :src="jobDetail.company_logo" alt="company picture">
+      <img v-if="jobDetail.company_logo === null" :src="require('@/components/img/image.png')" alt="company picture"
+        class="default">
+      <img v-else :src="jobDetail.company_logo" alt="company picture" class="custom">
     </div>
     <h1 class="title">{{ jobDetail.company_name }}</h1>
     <ul class="info">
       <li v-if="jobDetail.location !== ''"><i class="bi bi-geo-alt-fill"></i> {{ jobDetail.location }}</li>
       <li v-if="jobDetail.is_visa_sponsored === true"><i class="bi bi-card-checklist"></i> Visa sponsored</li>
       <li v-if="jobDetail.is_remoted === true"><i class="bi bi-house-check"></i> Remote</li>
-      <li v-if="jobDetail.company_page_link !== null"><i class="bi bi-link-45deg"></i> <a :href="jobDetail.company_page_link">website</a></li>
+      <li v-if="jobDetail.company_page_link !== null"><i class="bi bi-link-45deg"></i> <a
+          :href="jobDetail.company_page_link">website</a></li>
     </ul>
     <div class="btn-box">
       <button v-if="jobDetail.company_apply_link !== null" class="contact-btn" @click="redirectToOtherSite">Apply</button>
@@ -22,11 +24,11 @@ export default {
   props: ['jobDetail'],
   methods: {
     redirectToOtherSite() {
-      if(this.jobDetail.company_apply_link !== null) {
+      if (this.jobDetail.company_apply_link !== null) {
         window.open(this.jobDetail.company_apply_link, '_blank');
       }
     }
-}
+  }
 }
 </script>
 
@@ -49,10 +51,16 @@ export default {
   width: 100px;
 }
 
-.imgbox>img {
+.imgbox>img.default {
   width: 100%;
   filter: invert(44%) sepia(61%) saturate(7445%) hue-rotate(333deg) brightness(120%) contrast(71%);
 }
+
+.imgbox>img.custom {
+  width: 100%;
+  border-radius: 2rem;
+}
+
 
 .btn-box {
   display: flex;
@@ -76,12 +84,15 @@ export default {
   padding-left: 0;
   margin-bottom: 0rem;
 }
-.info > li {
+
+.info>li {
   margin-top: 10px;
 }
+
 .bi {
   color: #F73859;
 }
+
 .contact-btn {
   border: none;
   outline: 0;
@@ -100,4 +111,5 @@ export default {
 button:hover,
 a:hover {
   opacity: 0.7;
-}</style>
+}
+</style>
