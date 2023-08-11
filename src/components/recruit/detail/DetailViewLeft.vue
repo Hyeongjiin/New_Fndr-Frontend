@@ -74,10 +74,8 @@ export default {
   font-weight: 700;
   color: rgba(247, 56, 89, 1);
   margin-right: 5px;
-  padding-top: 4px;
-  padding-right: 10px;
-  padding-left: 10px;
-  padding-bottom: 4px;
+  margin-top:10px;
+  padding:4px 10px;
 }
 
 .title {
