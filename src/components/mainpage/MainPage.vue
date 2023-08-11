@@ -1,8 +1,8 @@
 <template>
-    <search-section @articles-loaded="updateArticles"></search-section>
+    <!-- SearchSection.vue에서 emits 발생 알림 -->
+    <search-section @perform-search="fetchResults"></search-section>
     <Main-card-list :articles="articles"></Main-card-list>
 </template>
-
 
 <script>
 import MainCardList from "../mainpage/MainCardList.vue";
