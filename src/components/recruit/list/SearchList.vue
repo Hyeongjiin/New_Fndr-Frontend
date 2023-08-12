@@ -22,25 +22,26 @@
 </template>
 <script>
 export default {
-    data() {
-        return {
-            articles: []
-        }
-    },
-    mounted() {
+    props: ['articles'],
+    // data() {
+    //     return {
+    //         articles: []
+    //     }
+    // },
+    // mounted() {
 
-        fetch('http://localhost:8080/rest/search/1?visa=true', {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-        }).then(response => response.json())
-            .then(data => console.log(this.articles = data.Response.recruit_post_list
-            ))
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    },
+    //     fetch('http://localhost:8080/rest/search/1?visa=true', {
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'Accept': 'application/json',
+    //         },
+    //     }).then(response => response.json())
+    //         .then(data => console.log(this.articles = data.Response.recruit_post_list
+    //         ))
+    //         .catch(error => {
+    //             console.error('Error fetching data:', error);
+    //         });
+    // },
 }
 
 </script>

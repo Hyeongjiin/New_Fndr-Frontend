@@ -3,7 +3,7 @@
   <div class="container">
     <div class="input-wrapper">
       <input v-model="keyword" type="text" placeholder="Keyworld or Job title">
-      <input v-model="country" type="text" placeholder="Country">
+      <input v-model="nation" type="text" placeholder="nation">
       <button @click="search"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
           class="bi bi-search" viewBox="0 0 16 16">
           <path
@@ -20,9 +20,33 @@ export default {
       title1: "재택근무 해외이직/취업서치의 편리함",
       title2: "Fndr.io",
       keyword: "",
-      country: "",
+      nation: "",
     }
   },
+  methods: {
+    search() {
+      let query = {};
+
+      // 값이 있는 경우에만 쿼리에 키워드 추가
+      if (this.keyword && this.keyword.trim() !== "") {
+        query.keyword = this.keyword;
+      }
+
+      // 값이 있는 경우에만 쿼리에 국가를 추가
+      if (this.nation && this.nation.trim() !== "") {
+        query.nation = this.nation;
+      }
+
+    
+      this.$router.push({ name: 'search-jobs', query: query, params: { page: '1' } });
+
+      // 데이터를 fetchResults
+      this.$emit('perform-search', {
+        keyword: this.keyword,
+        nation: this.nation,
+      });
+    }
+  }
 }
 
 </script>

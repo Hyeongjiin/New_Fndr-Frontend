@@ -10,7 +10,7 @@ import SignupPage from "../components/user/SignupPage.vue";
 // 라우터 설계
 const routes = [
   { path: "/", component: MainPage },
-  { path: "/search-jobs", component: SearchPage },
+  { path: "/search-jobs/:page", component: SearchPage, name: 'search-jobs' },
   { path: "/detail/:postId", component: DetailPage },
   { path: "/login", component: LoginPage },
   { path: "/signup", component: SignupPage },

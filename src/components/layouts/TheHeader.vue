@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container">
             <span class="navbar-brand"
                 ><router-link to="/" @click="refreshIfSameRoute"
