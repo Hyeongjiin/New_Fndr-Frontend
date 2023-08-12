@@ -28,9 +28,9 @@ const store = createStore({
         }
     },
     actions: {
-        async joinSubmit(context, payload) {
+        async signupSubmit(context, payload) {
             try {
-                const response = await axios.post("http://localhost:8080/rest/auth/join", {
+                const response = await axios.post("http://localhost:8080/rest/auth/signup", {
                     email: payload.email,
                     name: payload.name,
                     password: payload.password,
