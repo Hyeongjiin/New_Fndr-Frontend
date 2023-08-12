@@ -15,7 +15,6 @@ const routes = [
   { path: "/login", component: LoginPage },
   { path: "/signup", component: SignupPage },
   
-
 ];
 
 // 라우터 생성

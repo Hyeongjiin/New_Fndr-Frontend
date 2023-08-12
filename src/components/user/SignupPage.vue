@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>Sign Up</h2>
-        <form @submit.prevent="signup">
+        <form @submit.prevent="signup" novalidate>
             <div>
                 <label>Email:</label>
                 <input
@@ -10,6 +10,7 @@
                     @input="validateEmail"
                     :class="{ 'is-invalid': emailError }"
                     class="form-control"
+                    required
                 />
                 <div class="invalid-feedback">{{ emailError }}</div>
             </div>
@@ -24,6 +25,7 @@
                         'is-valid': passwordValid,
                     }"
                     class="form-control"
+                    required
                 />
                 <div class="valid-feedback">{{ passwordValid }}</div>
                 <div class="invalid-feedback">{{ passwordError }}</div>
@@ -39,6 +41,7 @@
                         'is-valid': passwordCheckValid,
                     }"
                     class="form-control"
+                    required
                 />
                 <div class="valid-feedback">{{ passwordCheckValid }}</div>
                 <div class="invalid-feedback">{{ passwordCheckError }}</div>
@@ -51,12 +54,13 @@
                     @input="validateNickname"
                     :class="{ 'is-invalid': nicknameError }"
                     class="form-control"
+                    required
                 />
                 <div class="invalid-feedback">{{ nicknameError }}</div>
             </div>
             <div v-if="this.signupError !== ''">{{ this.signupError }}</div>
-            <button type="submit">Sign Up</button>
-            <router-link to="/login"><button>Login</button></router-link>
+            <button type="submit">회원가입</button>
+            <router-link to="/login"><button>로그인하기</button></router-link>
         </form>
     </div>
 </template>
@@ -106,6 +110,8 @@ export default {
             if (this.password !== this.passwordCheck) {
                 this.passwordCheckValid = '';
                 this.passwordCheckError = '비밀번호가 일치하지 않습니다.';
+            } else if (this.passwordCheck.length == 0) {
+                this.passwordCheckError = '비밀번호를 입력해주세요.';
             } else {
                 this.passwordCheckValid = '비밀번호가 일치합니다.';
                 this.passwordCheckError = '';
