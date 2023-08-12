@@ -2,7 +2,9 @@
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container">
             <span class="navbar-brand"
-                ><router-link to="/">Fndr.io</router-link></span
+                ><router-link to="/" @click="refreshIfSameRoute"
+                    >Fndr.io</router-link
+                ></span
             >
             <button
                 class="navbar-toggler"
@@ -22,16 +24,23 @@
                             class="nav-link active"
                             aria-current="page"
                             to="/search-jobs"
+                            @click="refreshIfSameRoute"
                             >Search Jobs</router-link
                         >
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link" to="/"
+                        <router-link
+                            class="nav-link"
+                            to="/"
+                            @click="refreshIfSameRoute"
                             >Review</router-link
                         >
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link" to="/"
+                        <router-link
+                            class="nav-link"
+                            to="/"
+                            @click="refreshIfSameRoute"
                             >Community</router-link
                         >
                     </li>
@@ -40,6 +49,7 @@
                             class="nav-link"
                             v-if="!this.$store.state.isLoggedIn"
                             to="/login"
+                            @click="refreshIfSameRoute"
                             >Login/SignUp</router-link
                         >
                         <router-link
@@ -58,6 +68,18 @@
         </div>
     </nav>
 </template>
+
+<script>
+export default {
+    methods: {
+        refreshIfSameRoute(event) {
+            if (this.$route.path === event.currentTarget.getAttribute('href')) {
+                location.reload();
+            }
+        },
+    },
+};
+</script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Gasoek+One&display=swap');
