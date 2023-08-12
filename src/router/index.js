@@ -4,14 +4,19 @@ import { createRouter, createWebHistory } from "vue-router";
 import MainPage from "../components/mainpage/MainPage.vue";
 import SearchPage from "../components/recruit/list/SearchPage.vue";
 import DetailPage from "../components/recruit/detail/DetailPage.vue";
+import LoginPage from "../components/user/LoginPage.vue";
+import SignupPage from "../components/user/SignupPage.vue";
 
 // 라우터 설계
 const routes = [
   { path: "/", component: MainPage },
   { path: "/search-jobs/:page", component: SearchPage, name: 'search-jobs' },
   { path: "/detail/:postId", component: DetailPage },
-
+  { path: "/login", component: LoginPage },
+  { path: "/signup", component: SignupPage },
+  
 ];
+
 
 // 라우터 생성
 const router = createRouter({
