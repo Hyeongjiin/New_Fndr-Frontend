@@ -1,5 +1,5 @@
 <template>
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container">
             <span class="navbar-brand"
                 ><router-link to="/" @click="refreshIfSameRoute"
@@ -19,6 +19,14 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <router-link
+                            class="nav-link"
+                            to="/job-post"
+                            @click="refreshIfSameRoute"
+                            >Post</router-link
+                        >
+                    </li>
                     <li class="nav-item">
                         <router-link
                             class="nav-link active"
