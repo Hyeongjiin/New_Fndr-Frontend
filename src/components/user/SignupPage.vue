@@ -6,59 +6,65 @@
                 <label>Email:</label>
                 <input
                     type="email"
-                    v-model="email"
+                    v-model="user.email"
                     @input="validateEmail"
-                    :class="{ 'is-invalid': emailError }"
+                    :class="{ 'is-invalid': message.emailError }"
                     class="form-control"
                     required
                 />
-                <div class="invalid-feedback">{{ emailError }}</div>
+                <div class="invalid-feedback">{{ message.emailError }}</div>
             </div>
             <div>
                 <label>Password:</label>
                 <input
                     type="password"
-                    v-model="password"
+                    v-model="user.password"
                     @input="validatePassword"
                     :class="{
-                        'is-invalid': passwordError,
-                        'is-valid': passwordValid,
+                        'is-invalid': message.passwordError,
+                        'is-valid': message.passwordValid,
                     }"
                     class="form-control"
                     required
                 />
-                <div class="valid-feedback">{{ passwordValid }}</div>
-                <div class="invalid-feedback">{{ passwordError }}</div>
+                <div class="valid-feedback">{{ message.passwordValid }}</div>
+                <div class="invalid-feedback">{{ message.passwordError }}</div>
             </div>
             <div>
                 <label>Password Check:</label>
                 <input
                     type="password"
-                    v-model="passwordCheck"
+                    v-model="user.passwordCheck"
                     @input="validatePasswordCheck"
                     :class="{
-                        'is-invalid': passwordCheckError,
-                        'is-valid': passwordCheckValid,
+                        'is-invalid': message.passwordCheckError,
+                        'is-valid': message.passwordCheckValid,
                     }"
                     class="form-control"
                     required
                 />
-                <div class="valid-feedback">{{ passwordCheckValid }}</div>
-                <div class="invalid-feedback">{{ passwordCheckError }}</div>
+                <div class="valid-feedback">
+                    {{ message.passwordCheckValid }}
+                </div>
+                <div class="invalid-feedback">
+                    {{ message.passwordCheckError }}
+                </div>
             </div>
             <div>
                 <label>Nickname:</label>
                 <input
                     type="nickname"
-                    v-model="nickname"
+                    v-model="user.nickname"
                     @input="validateNickname"
-                    :class="{ 'is-invalid': nicknameError }"
+                    :class="{ 'is-invalid': message.nicknameError }"
                     class="form-control"
                     required
                 />
-                <div class="invalid-feedback">{{ nicknameError }}</div>
+                <div class="invalid-feedback">{{ message.nicknameError }}</div>
             </div>
-            <div v-if="this.signupError !== ''">{{ this.signupError }}</div>
+            <div v-if="this.message.signupError !== ''">
+                {{ this.message.signupError }}
+            </div>
             <button type="submit">회원가입</button>
             <router-link to="/login"><button>로그인하기</button></router-link>
         </form>
@@ -71,59 +77,65 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            email: '',
-            password: '',
-            passwordCheck: '',
-            nickname: '',
-            emailError: '',
-            passwordValid: '',
-            passwordError: '',
-            passwordCheckValid: '',
-            passwordCheckError: '',
-            nicknameError: '',
-            signupError: '',
+            user: {
+                email: '',
+                password: '',
+                passwordCheck: '',
+                nickname: '',
+            },
+            message: {
+                emailError: '',
+                passwordValid: '',
+                passwordError: '',
+                passwordCheckValid: '',
+                passwordCheckError: '',
+                nicknameError: '',
+                signupError: '',
+            },
         };
     },
     methods: {
         validateEmail() {
             const emailRegex =
                 /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-            if (!emailRegex.test(this.email)) {
-                this.emailError = '유효하지 않은 이메일 형식입니다.';
+            if (!emailRegex.test(this.user.email)) {
+                this.message.emailError = '유효하지 않은 이메일 형식입니다.';
             } else {
-                this.emailError = '';
+                this.message.emailError = '';
             }
         },
         validatePassword() {
             const passwordRegex =
                 /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{9,15}$/;
-            if (!passwordRegex.test(this.password)) {
-                this.passwordError =
+            if (!passwordRegex.test(this.user.password)) {
+                this.message.passwordError =
                     '비밀번호는 특수문자와 영어 그리고 숫자를 포함해야 하고 9글자 이상 15글자 이하로 구성돼야 합니다.';
-                this.passwordValid = '';
+                this.message.passwordValid = '';
             } else {
-                this.passwordError = '';
-                this.passwordValid = '사용 가능한 비밀번호입니다.';
+                this.message.passwordError = '';
+                this.message.passwordValid = '사용 가능한 비밀번호입니다.';
             }
         },
         validatePasswordCheck() {
-            if (this.password !== this.passwordCheck) {
-                this.passwordCheckValid = '';
-                this.passwordCheckError = '비밀번호가 일치하지 않습니다.';
-            } else if (this.passwordCheck.length == 0) {
-                this.passwordCheckError = '비밀번호를 입력해주세요.';
+            if (this.user.password !== this.user.passwordCheck) {
+                this.message.passwordCheckValid = '';
+                this.message.passwordCheckError =
+                    '비밀번호가 일치하지 않습니다.';
+            } else if (this.user.passwordCheck.length == 0) {
+                this.message.passwordCheckError = '비밀번호를 입력해주세요.';
             } else {
-                this.passwordCheckValid = '비밀번호가 일치합니다.';
-                this.passwordCheckError = '';
+                this.message.passwordCheckValid = '비밀번호가 일치합니다.';
+                this.message.passwordCheckError = '';
             }
         },
         validateNickname() {
-            if (this.nickname.length < 2) {
-                this.nicknameError = '닉네임은 최소 2글자 이상이어야 합니다.';
-            } else if (this.nickname.length > 20) {
-                this.nicknameError = '닉네임이 너무 깁니다.';
+            if (this.user.nickname.length < 2) {
+                this.message.nicknameError =
+                    '닉네임은 최소 2글자 이상이어야 합니다.';
+            } else if (this.user.nickname.length > 20) {
+                this.message.nicknameError = '닉네임이 너무 깁니다.';
             } else {
-                this.nicknameError = '';
+                this.message.nicknameError = '';
             }
         },
         async signup() {
@@ -132,24 +144,25 @@ export default {
             this.validatePasswordCheck();
             this.validateNickname();
             if (
-                this.emailError ||
-                this.passwordError ||
-                this.passwordCheckError ||
-                this.nicknameError
+                this.message.emailError ||
+                this.message.passwordError ||
+                this.message.passwordCheckError ||
+                this.message.nicknameError
             ) {
-                this.signupError = '회원가입 양식 조건을 모두 만족시켜 주세요.';
+                this.message.signupError =
+                    '회원가입 양식 조건을 모두 만족시켜 주세요.';
                 return;
             }
             await this.$store.dispatch({
                 type: 'signupSubmit',
-                email: this.email,
-                name: this.nickname,
-                password: this.password,
+                email: this.user.email,
+                name: this.user.nickname,
+                password: this.user.password,
             });
             this.$store.dispatch({
                 type: 'loginSubmit',
-                email: this.email,
-                password: this.password,
+                email: this.user.email,
+                password: this.user.password,
             });
         },
     },

@@ -9,8 +9,21 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <router-link class="nav-link active" aria-current="page" to="/search-jobs/1"
-                            @click="refreshIfSameRoute">Search Jobs</router-link>
+                        <router-link
+                            class="nav-link"
+                            to="/job-post"
+                            @click="refreshIfSameRoute"
+                            >Post</router-link
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <router-link
+                            class="nav-link active"
+                            aria-current="page"
+                            to="/search-jobs/1"
+                            @click="refreshIfSameRoute"
+                            >Search Jobs</router-link
+                        >
                     </li>
                     <li class="nav-item">
                         <router-link class="nav-link" to="/" @click="refreshIfSameRoute">Review</router-link>
