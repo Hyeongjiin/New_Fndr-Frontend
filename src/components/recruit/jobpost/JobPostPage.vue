@@ -68,7 +68,7 @@
                     v-model="post.company_apply_link"
                     placeholder="채용공고 지원 링크"
                     :class="{
-                        'is-invalid': message.company_apply_link_error,
+                        'is-invalid': message.company_apply_link_error === null,
                     }"
                     class="form-control"
                     required
@@ -77,68 +77,76 @@
                     채용공고의 지원 링크을 입력해주세요.
                 </div>
             </div>
-            <div
-                :class="{
-                    'is-invalid': message.is_remoted_error,
-                }"
-            >
-                <label>원격근무 여부</label>
-                <div>
-                    <input
-                        type="radio"
-                        id="is_remoted_yes"
-                        value="true"
-                        v-model="post.is_remoted"
-                        required
-                    />
-                    <label for="is_remoted_yes">가능</label>
+            <div>
+                <div
+                    :class="{
+                        'is-invalid': message.is_remoted_error,
+                    }"
+                >
+                    <label>원격근무 여부</label>
+                    <div>
+                        <input
+                            type="radio"
+                            id="is_remoted_yes"
+                            value="true"
+                            v-model="post.is_remoted"
+                            required
+                        />
+                        <label for="is_remoted_yes">가능</label>
+                    </div>
+                    <div>
+                        <input
+                            type="radio"
+                            id="is_remoted_no"
+                            value="false"
+                            v-model="post.is_remoted"
+                            :class="{
+                                'is-invalid': message.is_remoted_error,
+                            }"
+                            required
+                        />
+                        <label for="is_remoted_no">불가능</label>
+                    </div>
                 </div>
-                <div>
-                    <input
-                        type="radio"
-                        id="is_remoted_no"
-                        value="false"
-                        v-model="post.is_remoted"
-                        :class="{
-                            'is-invalid': message.is_remoted_error,
-                        }"
-                        required
-                    />
-                    <label for="is_remoted_no">불가능</label>
-                </div>
-            </div>
-            <div class="invalid-feedback">원격 근무 여부를 확인해주세요.</div>
-            <div
-                :class="{
-                    'is-invalid': message.is_visa_sponsored_error,
-                }"
-            >
-                <label>비자 지원 여부</label>
-                <div>
-                    <input
-                        type="radio"
-                        id="is_visa_sponsored_yes"
-                        value="true"
-                        v-model="post.is_visa_sponsored"
-                        required
-                    />
-                    <label for="is_visa_sponsored_yes">가능</label>
-                </div>
-                <div>
-                    <input
-                        type="radio"
-                        id="is_visa_sponsored_no"
-                        value="false"
-                        v-model="post.is_visa_sponsored"
-                        :class="{
-                            'is-invalid': message.is_visa_sponsored_error,
-                        }"
-                        required
-                    />
-                    <label for="is_visa_sponsored_no">불가능</label>
+                <div class="invalid-feedback">
+                    원격 근무 여부를 확인해주세요.
                 </div>
             </div>
-            <div class="invalid-feedback">비자 지원 여부를 확인해주세요.</div>
+            <div>
+                <div
+                    :class="{
+                        'is-invalid': message.is_visa_sponsored_error,
+                    }"
+                >
+                    <label>비자 지원 여부</label>
+                    <div>
+                        <input
+                            type="radio"
+                            id="is_visa_sponsored_yes"
+                            value="true"
+                            v-model="post.is_visa_sponsored"
+                            required
+                        />
+                        <label for="is_visa_sponsored_yes">가능</label>
+                    </div>
+                    <div>
+                        <input
+                            type="radio"
+                            id="is_visa_sponsored_no"
+                            value="false"
+                            v-model="post.is_visa_sponsored"
+                            :class="{
+                                'is-invalid': message.is_visa_sponsored_error,
+                            }"
+                            required
+                        />
+                        <label for="is_visa_sponsored_no">불가능</label>
+                    </div>
+                </div>
+                <div class="invalid-feedback">
+                    비자 지원 여부를 확인해주세요.
+                </div>
+            </div>
             <div>
                 <label>급여 범위</label>
                 <input
@@ -147,70 +155,72 @@
                     placeholder="급여 범위"
                 />
             </div>
-            <div :class="{ 'is-invalid': message.contract_form_error }">
-                <label>계약 형태</label>
-                <div>
-                    <input
-                        type="radio"
-                        id="full_time"
-                        value='["Full-Time"]'
-                        v-model="post.contract_form"
-                        required
-                    />
-                    <label class="form-check-label" for="full_time"
-                        >Full Time</label
-                    >
+            <div>
+                <div :class="{ 'is-invalid': message.contract_form_error }">
+                    <label>계약 형태</label>
+                    <div>
+                        <input
+                            type="radio"
+                            id="full_time"
+                            value='["Full-Time"]'
+                            v-model="post.contract_form"
+                            required
+                        />
+                        <label class="form-check-label" for="full_time"
+                            >Full Time</label
+                        >
+                    </div>
+                    <div>
+                        <input
+                            type="radio"
+                            id="part_time"
+                            value='["Part-Time"]'
+                            v-model="post.contract_form"
+                            required
+                        />
+                        <label class="form-check-label" for="part_time"
+                            >Part Time</label
+                        >
+                    </div>
+                    <div>
+                        <input
+                            type="radio"
+                            id="contract"
+                            value='["Contract"]'
+                            v-model="post.contract_form"
+                            required
+                        />
+                        <label class="form-check-label" for="contract"
+                            >Contract</label
+                        >
+                    </div>
+                    <div>
+                        <input
+                            type="radio"
+                            id="internship"
+                            value='["Intership"]'
+                            v-model="post.contract_form"
+                            required
+                        />
+                        <label class="form-check-label" for="internship"
+                            >Internship</label
+                        >
+                    </div>
+                    <div>
+                        <input
+                            type="radio"
+                            id="temporary"
+                            value='["Temporary"]'
+                            v-model="post.contract_form"
+                            required
+                        />
+                        <label class="form-check-label" for="temporary"
+                            >Temporary</label
+                        >
+                    </div>
                 </div>
-                <div>
-                    <input
-                        type="radio"
-                        id="part_time"
-                        value='["Part-Time"]'
-                        v-model="post.contract_form"
-                        required
-                    />
-                    <label class="form-check-label" for="part_time"
-                        >Part Time</label
-                    >
-                </div>
-                <div>
-                    <input
-                        type="radio"
-                        id="contract"
-                        value='["Contract"]'
-                        v-model="post.contract_form"
-                        required
-                    />
-                    <label class="form-check-label" for="contract"
-                        >Contract</label
-                    >
-                </div>
-                <div>
-                    <input
-                        type="radio"
-                        id="internship"
-                        value='["Intership"]'
-                        v-model="post.contract_form"
-                        required
-                    />
-                    <label class="form-check-label" for="internship"
-                        >Internship</label
-                    >
-                </div>
-                <div>
-                    <input
-                        type="radio"
-                        id="temporary"
-                        value='["Temporary"]'
-                        v-model="post.contract_form"
-                        required
-                    />
-                    <label class="form-check-label" for="temporary"
-                        >Temporary</label
-                    >
-                </div>
+                <div class="invalid-feedback">계약 형태를 선택해주세요.</div>
             </div>
-            <div class="invalid-feedback">계약 형태를 선택해주세요.</div>
             <div>
                 <label>회사 홈페이지 링크</label>
                 <input
@@ -325,6 +335,9 @@ export default {
             this.validateEmail();
             this.validateRadio('is_remoted');
             this.validateRadio('is_visa_sponsored');
+            this.validateRadio('contract_form');
+            console.log(this.post.contract_form);
+            console.log(this.message.contract_form_error);
             for (let data of datas) {
                 this.validateForm(data);
             }
