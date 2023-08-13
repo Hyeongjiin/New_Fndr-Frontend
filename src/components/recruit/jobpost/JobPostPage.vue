@@ -68,7 +68,7 @@
                     v-model="post.company_apply_link"
                     placeholder="채용공고 지원 링크"
                     :class="{
-                        'is-invalid': message.company_apply_link_error === null,
+                        'is-invalid': message.company_apply_link_error,
                     }"
                     class="form-control"
                     required
