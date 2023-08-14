@@ -24,7 +24,7 @@ export default {
             results: [],
             allResults: [], // 모든 페이지의 데이터를 저장하는 곳(5개 페이지)
             lastLoadedPage: 0, // 마지막으로 가져온 페이지를 추적
-            hasMorePages: true // Initialize to true, assuming there might be more pages at the beginning
+            hasMorePages: true
         }
     },
     methods: {
@@ -39,12 +39,12 @@ export default {
                 },
             });
             const data = await response.json();
-
+            console.log(data)
             if (data.Response.recruit_post_list.length === 0) {
                 this.hasMorePages = false;
             } else {
-                this.allResults[currentPage - 1] = data.Response.recruit_post_list;  // Store data at page index
-                this.hasMorePages = true;  // Since we got data for the current page, assume there might be a next page
+                this.allResults[currentPage - 1] = data.Response.recruit_post_list;
+                this.hasMorePages = true;
                 this.lastLoadedPage = currentPage;
             }
 
