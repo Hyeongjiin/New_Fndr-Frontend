@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>채용공고 등록</h2>
+        <h2>채용공고 수정</h2>
         <form
             @submit.prevent="submitUpdateForm(this.$store.state.jobDetail.id)"
             novalidate
