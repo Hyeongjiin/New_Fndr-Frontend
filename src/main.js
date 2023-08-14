@@ -15,9 +15,17 @@ const store = createStore({
     state() {
         return {
             isLoggedIn: false,
+            jobDetail: {},
+            jobDetailError: '',
         };
     },
     mutations: {
+        getDetail(state, detail) {
+            state.jobDetail = detail;
+        },
+        getDetailError(state, detailError) {
+            state.jobDetailError = detailError;
+        },
         login(state) {
             state.isLoggedIn = true;
             console.log(state.isLoggedIn);
@@ -27,7 +35,43 @@ const store = createStore({
             console.log(state.isLoggedIn);
         }
     },
+    getters: {
+        tagsArray: (state) => {
+            try {
+                if (!state.jobDetail.tag) {
+                    return [];
+                }
+                const tagArray = JSON.parse(state.jobDetail.tag);
+                const techNameArray = state.jobDetail.description_teches.map(
+                    (tech) => tech.tech_name
+                );
+                const totalTagArray = [...tagArray, ...techNameArray];
+                return totalTagArray;
+            } catch (error) {
+                console.error('Failed to parse jobDetail.tag', error);
+                return [];
+            }
+        }   
+    },
     actions: {
+        async getPostDetail(context, postId) {
+            try {
+                const response = await axios.get(`http://localhost:8080/rest/detail/${postId}`);
+                console.log(response.data);
+                if (response.data && response.data.Response) {
+                    context.commit('getDetail', response.data.Response);
+                } else {
+                    context.commit('getDetailError', "Invalid response format.")
+                }
+                console.log(context.state.jobDetail);
+            } catch (error) {
+                if (error.response && error.response.data && error.response.data.Message) {
+                    context.commit('getDetailError', error.response.data.Message);
+                } else {
+                    context.commit('getDetailError', "An error occurred while fetching job details.");
+                }
+            }
+        },
         async signupSubmit(context, payload) {
             try {
                 const response = await axios.post("http://localhost:8080/rest/auth/signup", {
