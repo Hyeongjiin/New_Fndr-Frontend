@@ -1,4 +1,5 @@
 <template>
+    <router-link :to="'/job-update/' + jobDetail.id">수정하기</router-link>
     <div class="box">
         <detail-view-left></detail-view-left>
         <detail-view-right></detail-view-right>
@@ -16,6 +17,9 @@ export default {
         DetailViewRight,
     },
     computed: {
+        jobDetail() {
+            return this.$store.state.jobDetail;
+        },
         jobDetailError() {
             return this.$store.state.jobDetailError;
         },

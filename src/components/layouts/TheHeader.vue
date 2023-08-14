@@ -1,9 +1,20 @@
 <template>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container">
-            <span class="navbar-brand"><router-link to="/" @click="refreshIfSameRoute">Fndr.io</router-link></span>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-brand"
+                ><router-link to="/" @click="refreshIfSameRoute"
+                    >Fndr.io</router-link
+                ></span
+            >
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -26,16 +37,36 @@
                         >
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link" to="/" @click="refreshIfSameRoute">Review</router-link>
+                        <router-link
+                            class="nav-link"
+                            to="/"
+                            @click="refreshIfSameRoute"
+                            >Review</router-link
+                        >
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link" to="/" @click="refreshIfSameRoute">Community</router-link>
+                        <router-link
+                            class="nav-link"
+                            to="/"
+                            @click="refreshIfSameRoute"
+                            >Community</router-link
+                        >
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link" v-if="!this.$store.state.isLoggedIn" to="/login"
-                            @click="refreshIfSameRoute">Login/SignUp</router-link>
-                        <router-link class="nav-link" v-else @click="this.$store.dispatch('logoutSubmit')"
-                            to="/">Logout</router-link>
+                        <router-link
+                            class="nav-link"
+                            v-if="!this.$store.state.isLoggedIn"
+                            to="/login"
+                            @click="refreshIfSameRoute"
+                            >Login/SignUp</router-link
+                        >
+                        <router-link
+                            class="nav-link"
+                            v-else
+                            @click="this.$store.dispatch('logoutSubmit')"
+                            to="/"
+                            >Logout</router-link
+                        >
                     </li>
                     <!-- <li class="nav-item">
             <a class="nav-link disabled">Disabled</a>
@@ -77,7 +108,7 @@ a {
     color: #f73859;
 }
 
-.navbar-brand>a {
+.navbar-brand > a {
     text-decoration: none;
     font-family: 'Gasoek One', sans-serif;
     color: #f73859;

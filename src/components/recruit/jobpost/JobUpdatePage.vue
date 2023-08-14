@@ -1,7 +1,10 @@
 <template>
     <div>
         <h2>채용공고 등록</h2>
-        <form @submit.prevent="submitPostForm" novalidate>
+        <form
+            @submit.prevent="submitUpdateForm(this.$store.state.jobDetail.id)"
+            novalidate
+        >
             <div>
                 <label>회사명</label>
                 <input
@@ -255,6 +258,11 @@
             </div>
 
             <!-- Image Input -->
+            <img
+                v-if="this.$store.state.jobDetail.company_logo !== null"
+                :src="this.$store.state.jobDetail.company_logo"
+                alt="Company Logo"
+            />
             <input type="file" ref="companyLogoInput" />
             <div v-if="this.message.job_post_error !== ''">
                 {{ this.message.job_post_error }}
@@ -272,18 +280,23 @@ export default {
     data() {
         return {
             post: {
-                company_name: '',
-                company_contact: '',
-                description_title: '',
-                description_content: '',
-                company_apply_link: '',
-                is_visa_sponsored: null,
-                is_remoted: null,
-                salary: '',
-                contract_form: null,
-                company_page_link: '',
-                tag: '',
-                location: '',
+                company_name: this.$store.state.jobDetail.company_name,
+                company_contact: this.$store.state.jobDetail.company_contact,
+                description_title:
+                    this.$store.state.jobDetail.description_title,
+                description_content:
+                    this.$store.state.jobDetail.description_content,
+                company_apply_link:
+                    this.$store.state.jobDetail.company_apply_link,
+                is_visa_sponsored:
+                    this.$store.state.jobDetail.is_visa_sponsored,
+                is_remoted: this.$store.state.jobDetail.is_remoted,
+                salary: this.$store.state.jobDetail.salary,
+                contract_form: this.$store.state.jobDetail.contract_form,
+                company_page_link:
+                    this.$store.state.jobDetail.company_page_link,
+                tag: this.$store.state.jobDetail.tag,
+                location: this.$store.state.jobDetail.location,
             },
             message: {
                 company_name_error: '',
@@ -324,7 +337,7 @@ export default {
                 this.message[fieldName + '_error'] = '';
             }
         },
-        async submitPostForm() {
+        async submitUpdateForm(postId) {
             const datas = [
                 'company_name',
                 'description_title',
@@ -353,7 +366,7 @@ export default {
                 this.message.location_error
             ) {
                 this.message.job_post_error =
-                    '채용공고 생성 양식 조건을 모두 만족시켜 주세요.';
+                    '채용공고 수정 양식 조건을 모두 만족시켜 주세요.';
                 console.log(this.message.job_post_error);
                 return;
             }
@@ -366,8 +379,8 @@ export default {
             postData.append('company_logo', companyLogoFile);
 
             try {
-                const response = await axios.post(
-                    'http://localhost:8080/rest/job',
+                const response = await axios.patch(
+                    `http://localhost:8080/rest/job/${postId}`,
                     postData,
                     {
                         withCredentials: true,

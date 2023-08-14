@@ -15,6 +15,7 @@ const store = createStore({
     state() {
         return {
             isLoggedIn: false,
+            userId: null,
             jobDetail: {},
             jobDetailError: '',
         };
@@ -29,6 +30,10 @@ const store = createStore({
         login(state) {
             state.isLoggedIn = true;
             console.log(state.isLoggedIn);
+        },
+        getUserId(state, userId) {
+            state.userId = userId;
+            console.log(state.userId);
         },
         logout(state) {
             state.isLoggedIn = false;
@@ -106,6 +111,7 @@ const store = createStore({
                 if (response.data.ResultCode === "Login_Success") {
                     console.log("로그인에 성공했습니다.");
                     context.commit('login')
+
                     router.push('/');
                 } else {
                     const errorMessage = response.data.Message;
@@ -144,9 +150,10 @@ const store = createStore({
                 const response = await axios.get("http://localhost:8080/rest/auth/session", {
                     withCredentials: true,
                 });
-                console.log(response);
+                const userId = response.data.user_id;
                 if (response.data.ResultCode === "Session_Exist") {
                     console.log("세션이 존재합니다.");
+                    context.commit('getUserId', userId);
                     context.commit('login');
                 } else if (response.data.ResultCode === "Session_Not_Exist") {
                     console.log("세션이 존재하지 않습니다.");
