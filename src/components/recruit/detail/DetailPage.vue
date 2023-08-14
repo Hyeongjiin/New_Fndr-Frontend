@@ -3,7 +3,29 @@
         <detail-view-left></detail-view-left>
         <detail-view-right></detail-view-right>
     </div>
+    <div>{{ jobDetailError }}</div>
 </template>
+
+<script>
+import DetailViewLeft from './DetailViewLeft.vue';
+import DetailViewRight from './DetailViewRight.vue';
+
+export default {
+    components: {
+        DetailViewLeft,
+        DetailViewRight,
+    },
+    computed: {
+        jobDetailError() {
+            return this.$store.state.jobDetailError;
+        },
+    },
+    created() {
+        const postId = this.$route.params.postId;
+        this.$store.dispatch('getPostDetail', postId);
+    },
+};
+</script>
 
 <style scoped>
 .box {
@@ -16,46 +38,3 @@
     justify-content: center;
 }
 </style>
-
-<script>
-import axios from 'axios';
-import DetailViewLeft from './DetailViewLeft.vue';
-import DetailViewRight from './DetailViewRight.vue';
-
-export default {
-    components: {
-        DetailViewLeft,
-        DetailViewRight,
-    },
-    created() {
-        const postId = this.$route.params.postId;
-        // this.fetchJobDetail(postId);
-        this.$store.dispatch('getPostDetail', postId);
-    },
-    methods: {
-        async fetchJobDetail(postId) {
-            try {
-                const response = await axios.get(
-                    `http://localhost:8080/rest/detail/${postId}`
-                );
-                if (response.data && response.data.Response) {
-                    this.jobDetail = response.data.Response;
-                } else {
-                    this.error = 'Invalid response format.';
-                }
-            } catch (error) {
-                if (
-                    error.response &&
-                    error.response.data &&
-                    error.response.data.Message
-                ) {
-                    this.error = error.response.data.Message;
-                } else {
-                    this.error =
-                        'An error occurred while fetching job details.';
-                }
-            }
-        },
-    },
-};
-</script>
