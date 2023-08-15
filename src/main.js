@@ -62,19 +62,36 @@ const store = createStore({
         async getPostDetail(context, postId) {
             try {
                 const response = await axios.get(`http://localhost:8080/rest/detail/${postId}`);
-                console.log(response.data);
+                // console.log(response.data);
                 if (response.data && response.data.Response) {
                     context.commit('getDetail', response.data.Response);
                 } else {
                     context.commit('getDetailError', "Invalid response format.")
                 }
-                console.log(context.state.jobDetail);
+                // console.log(context.state.jobDetail);
             } catch (error) {
                 if (error.response && error.response.data && error.response.data.Message) {
                     context.commit('getDetailError', error.response.data.Message);
                 } else {
                     context.commit('getDetailError', "An error occurred while fetching job details.");
                 }
+            }
+        },
+        async deleteJobPost(context, postId) {
+            try {
+                const response = await axios.delete(`http://localhost:8080/rest/job/${postId}`, {
+                    withCredentials: true,
+                });
+                console.log(response.data);
+                if (response.data && response.data.Response) {
+                    context.commit('getDetail', response.data.Response);
+                } else {
+                    context.commit('getDetailError', "Invalid response format.")
+                }
+            } catch (error) {
+                console.log(error.request.response);
+                const errorMessage = error.response.data.Message || "Internal server error";
+                console.error("There was an error:", errorMessage);
             }
         },
         async signupSubmit(context, payload) {
