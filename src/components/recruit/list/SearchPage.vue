@@ -2,42 +2,57 @@
     <div class="box">
         <search-side-bar></search-side-bar>
         <!-- 자식컴포넌트로 데이터 전달 -->
-        <search-list :articles="results"></search-list>
+        <div class="right">
+            <search-list :articles="results"></search-list>
+            <PagingView :has-more-pages="hasMorePages" :current-page="parseInt($route.params.page)"></PagingView>
+        </div>
     </div>
 </template>
 
 <script>
 import SearchSideBar from "../list/SearchSideBar.vue";
 import SearchList from "../list/SearchList.vue";
+import PagingView from "@/components/UI/PagingView.vue"
 export default {
     components: {
         SearchSideBar,
         SearchList,
+        PagingView,
     },
     data() {
         return {
             results: [],
+            allResults: [], // 모든 페이지의 데이터를 저장하는 곳(5개 페이지)
+            lastLoadedPage: 0, // 마지막으로 가져온 페이지를 추적
+            hasMorePages: true
         }
     },
     methods: {
-        // SearchSection.vue에서 보낸 emits 여기서 사용
-        fetchResults(searchParams) {
-            const currentPage = this.$route.params.page || 1;
-            const url = `http://localhost:8080/rest/search/${currentPage}?keyword=${searchParams.keyword}&nation=${searchParams.nation}`;
+        async fetchResults(searchParams) {
+            let currentPage = parseInt(this.$route.params.page);
 
-            fetch(url, {
+            const url = `http://localhost:8080/rest/search/${currentPage}?keyword=${searchParams.keyword}&nation=${searchParams.nation}`;
+            const response = await fetch(url, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                 },
-            })
-                .then(response => response.json())
-                .then(data => {
-                    this.results = data.Response.recruit_post_list;
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                });
+            });
+            const data = await response.json();
+            console.log(data)
+            if (data.Response.recruit_post_list.length === 0) {
+                this.hasMorePages = false;
+            } else {
+                this.allResults[currentPage - 1] = data.Response.recruit_post_list;
+                this.hasMorePages = true;
+                this.lastLoadedPage = currentPage;
+            }
+
+            this.updateResults();
+        },
+        updateResults() {
+            const pageIndex = parseInt(this.$route.params.page) - 1;
+            this.results = this.allResults[pageIndex] || [];
         },
         loadDataFromRoute() {
             let searchParams = {
@@ -51,9 +66,17 @@ export default {
         this.loadDataFromRoute();
     },
     watch: {
-        '$route.query': 'loadDataFromRoute'
-        // $route.query값이 변화 되는 것이 감지 되면 바뀐 값을 렌더링하게 함
-    },
+        '$route.params.page': function (newPage) {
+            this.updateResults();
+
+            if (!this.results.length) {
+                this.fetchResults({
+                    keyword: this.$route.query.keyword || '',
+                    nation: this.$route.query.nation || ''
+                });
+            }
+        }
+    }
 }
 </script>
 
