@@ -257,20 +257,27 @@
                 </div>
             </div>
             <div>
+                기존 로고
+            </div>
+            <div>
                 <img
                 v-if="this.$store.state.jobDetail.company_logo !== null"
                 :src="imgUrl + this.$store.state.jobDetail.company_logo"
                 alt="Company Logo"
                 />
             </div>
+            <div>새로운 로고</div>
             <div>
-                <input type="file" ref="companyLogoInput" />
+                <img v-if="imagePreview" :src="imagePreview" alt="Image Preview" />
+            </div>
+            <div>
+                <input type="file" ref="companyLogoInput" @change="previewImage" />
             </div>
             <div v-if="this.message.job_post_error !== ''">
                 {{ this.message.job_post_error }}
             </div>
 
-            <button type="submit">등록하기</button>
+            <button type="submit">수정하기</button>
         </form>
     </div>
 </template>
@@ -299,6 +306,7 @@ export default {
                     this.$store.state.jobDetail.company_page_link,
                 tag: this.$store.state.jobDetail.tag,
                 location: this.$store.state.jobDetail.location,
+                old_company_logo: this.$store.state.jobDetail.company_logo
             },
             message: {
                 company_name_error: '',
@@ -312,10 +320,23 @@ export default {
                 location_error: '',
                 job_post_error: '',
             },
-            imgUrl: 'http://localhost:8080/'
+            imgUrl: 'http://localhost:8080/',
+            imagePreview: null,
         };
     },
     methods: {
+        previewImage(event) {
+            const input = event.target;
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = (e) => {
+                    this.imagePreview = e.target.result;
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        },
         validateEmail() {
             const emailRegex =
                 /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
