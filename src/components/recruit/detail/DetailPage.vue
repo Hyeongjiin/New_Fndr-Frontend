@@ -14,7 +14,6 @@
         <detail-view-left></detail-view-left>
         <detail-view-right></detail-view-right>
     </div>
-    <div>{{ jobDetailError }}</div>
 </template>
 
 <script>
