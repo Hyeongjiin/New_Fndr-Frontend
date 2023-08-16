@@ -254,10 +254,18 @@
                 </div>
             </div>
             <div>
-                <img v-if="imagePreview" :src="imagePreview" alt="Image Preview" />
+                <img
+                    v-if="imagePreview"
+                    :src="imagePreview"
+                    alt="Image Preview"
+                />
             </div>
             <div>
-                <input type="file" ref="companyLogoInput" @change="previewImage" />
+                <input
+                    type="file"
+                    ref="companyLogoInput"
+                    @change="previewImage"
+                />
             </div>
             <div v-if="this.message.job_post_error !== ''">
                 {{ this.message.job_post_error }}
@@ -309,10 +317,10 @@ export default {
             const input = event.target;
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
-                
+
                 reader.onload = (e) => {
                     this.imagePreview = e.target.result;
-                }
+                };
 
                 reader.readAsDataURL(input.files[0]);
             }
@@ -397,11 +405,13 @@ export default {
                 );
 
                 if (response.data.ResultCode === 'JobPost_Create_Success') {
-                    // 성공 처리
-                    alert(response.data.Message);
+                    const newCompanyLogo = response.data.companyLogo;
+                    this.$store.commit('updateCompanyLogo', newCompanyLogo);
+                    const postId = response.data.postId;
+                    this.$router.push(`/detail/${postId}`);
                 } else {
-                    // 오류 처리
-                    alert(response.data.Message);
+                    console.log(response.data.Message);
+                    this.$router.push('/');
                 }
             } catch (error) {
                 console.error('API 호출 중 에러 발생', error);

@@ -8,7 +8,7 @@
                 class="default"
             />
             <img
-                v-else
+                v-else-if="jobDetail.company_logo"
                 :src="'http://localhost:8080/' + jobDetail.company_logo"
                 alt="company picture"
                 class="custom"

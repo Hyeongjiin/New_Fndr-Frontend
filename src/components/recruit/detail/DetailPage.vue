@@ -34,7 +34,7 @@ export default {
             return this.$store.state.jobDetailError;
         },
     },
-    created() {
+    mounted() {
         const postId = this.$route.params.postId;
         this.$store.dispatch('getPostDetail', postId);
     },

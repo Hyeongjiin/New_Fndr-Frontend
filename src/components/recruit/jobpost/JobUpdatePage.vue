@@ -256,22 +256,28 @@
                     채용공고에 해당하는 위치를 입력해주세요.
                 </div>
             </div>
-            <div>
-                기존 로고
-            </div>
+            <div>기존 로고</div>
             <div>
                 <img
-                v-if="this.$store.state.jobDetail.company_logo !== null"
-                :src="imgUrl + this.$store.state.jobDetail.company_logo"
-                alt="Company Logo"
+                    v-if="this.$store.state.jobDetail.company_logo !== null"
+                    :src="imgUrl + this.$store.state.jobDetail.company_logo"
+                    alt="Company Logo"
                 />
             </div>
             <div>새로운 로고</div>
             <div>
-                <img v-if="imagePreview" :src="imagePreview" alt="Image Preview" />
+                <img
+                    v-if="imagePreview"
+                    :src="imagePreview"
+                    alt="Image Preview"
+                />
             </div>
             <div>
-                <input type="file" ref="companyLogoInput" @change="previewImage" />
+                <input
+                    type="file"
+                    ref="companyLogoInput"
+                    @change="previewImage"
+                />
             </div>
             <div v-if="this.message.job_post_error !== ''">
                 {{ this.message.job_post_error }}
@@ -306,7 +312,7 @@ export default {
                     this.$store.state.jobDetail.company_page_link,
                 tag: this.$store.state.jobDetail.tag,
                 location: this.$store.state.jobDetail.location,
-                old_company_logo: this.$store.state.jobDetail.company_logo
+                old_company_logo: this.$store.state.jobDetail.company_logo,
             },
             message: {
                 company_name_error: '',
@@ -329,10 +335,10 @@ export default {
             const input = event.target;
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
-                
+
                 reader.onload = (e) => {
                     this.imagePreview = e.target.result;
-                }
+                };
 
                 reader.readAsDataURL(input.files[0]);
             }
@@ -416,12 +422,21 @@ export default {
                     }
                 );
 
-                if (response.data.ResultCode === 'JobPost_Create_Success') {
-                    // 성공 처리
-                    alert(response.data.Message);
+                if (
+                    response.data.ResultCode === 'JobPost_Update_Success' ||
+                    response.data.ResultCode === 'JobPost_No_Update'
+                ) {
+                    const postId = this.$store.state.jobDetail.id;
+                    let newCompanyLogo = response.data.company_logo;
+                    if (!newCompanyLogo) {
+                        newCompanyLogo =
+                            this.$store.state.jobDetail.company_logo;
+                    }
+                    this.$store.commit('updateCompanyLogo', newCompanyLogo);
+                    this.$router.push(`/detail/${postId}`);
+                    console.log(response.data.Message);
                 } else {
-                    // 오류 처리
-                    alert(response.data.Message);
+                    console.log(response.data.Message);
                 }
             } catch (error) {
                 console.error('API 호출 중 에러 발생', error);
