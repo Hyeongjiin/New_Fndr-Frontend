@@ -22,6 +22,7 @@
                     <li class="nav-item">
                         <router-link
                             class="nav-link"
+                            v-if="this.$store.state.isLoggedIn"
                             to="/job-post"
                             @click="refreshIfSameRoute"
                             >Post</router-link
