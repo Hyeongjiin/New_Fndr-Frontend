@@ -253,14 +253,18 @@
                     채용공고에 해당하는 위치를 입력해주세요.
                 </div>
             </div>
-
-            <!-- Image Input -->
-            <input type="file" ref="companyLogoInput" />
+            <div>
+                <img v-if="imagePreview" :src="imagePreview" alt="Image Preview" />
+            </div>
+            <div>
+                <input type="file" ref="companyLogoInput" @change="previewImage" />
+            </div>
             <div v-if="this.message.job_post_error !== ''">
                 {{ this.message.job_post_error }}
             </div>
-
-            <button type="submit">등록하기</button>
+            <div>
+                <button type="submit">등록하기</button>
+            </div>
         </form>
     </div>
 </template>
@@ -297,9 +301,22 @@ export default {
                 location_error: '',
                 job_post_error: '',
             },
+            imagePreview: null,
         };
     },
     methods: {
+        previewImage(event) {
+            const input = event.target;
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = (e) => {
+                    this.imagePreview = e.target.result;
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        },
         validateEmail() {
             const emailRegex =
                 /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;

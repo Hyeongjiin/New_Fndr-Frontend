@@ -256,14 +256,16 @@
                     채용공고에 해당하는 위치를 입력해주세요.
                 </div>
             </div>
-
-            <!-- Image Input -->
-            <img
+            <div>
+                <img
                 v-if="this.$store.state.jobDetail.company_logo !== null"
-                :src="this.$store.state.jobDetail.company_logo"
+                :src="imgUrl + this.$store.state.jobDetail.company_logo"
                 alt="Company Logo"
-            />
-            <input type="file" ref="companyLogoInput" />
+                />
+            </div>
+            <div>
+                <input type="file" ref="companyLogoInput" />
+            </div>
             <div v-if="this.message.job_post_error !== ''">
                 {{ this.message.job_post_error }}
             </div>
@@ -310,6 +312,7 @@ export default {
                 location_error: '',
                 job_post_error: '',
             },
+            imgUrl: 'http://localhost:8080/'
         };
     },
     methods: {
