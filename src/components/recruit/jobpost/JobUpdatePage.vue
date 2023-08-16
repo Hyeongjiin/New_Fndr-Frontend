@@ -21,15 +21,15 @@
                 <label>회사 연락처</label>
                 <input
                     type="email"
-                    v-model="post.company_contact"
+                    v-model="post.company_email"
                     @input="validateEmail"
                     placeholder="회사 연락처"
-                    :class="{ 'is-invalid': message.company_contact_error }"
+                    :class="{ 'is-invalid': message.company_email_error }"
                     class="form-control"
                     required
                 />
                 <div class="invalid-feedback">
-                    {{ message.company_contact_error }}
+                    {{ message.company_email_error }}
                 </div>
             </div>
             <div>
@@ -296,7 +296,7 @@ export default {
         return {
             post: {
                 company_name: this.$store.state.jobDetail.company_name,
-                company_contact: this.$store.state.jobDetail.company_contact,
+                company_email: this.$store.state.jobDetail.company_email,
                 description_title:
                     this.$store.state.jobDetail.description_title,
                 description_content:
@@ -316,7 +316,7 @@ export default {
             },
             message: {
                 company_name_error: '',
-                company_contact_error: '',
+                company_email_error: '',
                 description_title_error: '',
                 description_content_error: '',
                 company_apply_link_error: '',
@@ -346,11 +346,11 @@ export default {
         validateEmail() {
             const emailRegex =
                 /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-            if (!emailRegex.test(this.post.company_contact)) {
-                this.message.company_contact_error =
+            if (!emailRegex.test(this.post.company_email)) {
+                this.message.company_email_error =
                     '유효하지 않은 이메일 형식입니다.';
             } else {
-                this.message.company_contact_error = '';
+                this.message.company_email_error = '';
             }
         },
         validateRadio(fieldName) {
@@ -386,7 +386,7 @@ export default {
             }
             if (
                 this.message.company_name_error ||
-                this.message.company_contact_error ||
+                this.message.company_email_error ||
                 this.message.description_title_error ||
                 this.message.description_content_error ||
                 this.message.company_apply_link_error ||
