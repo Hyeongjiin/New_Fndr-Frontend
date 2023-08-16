@@ -1,36 +1,168 @@
 <template>
     <div class="container">
         <div class="button-section">
-            <button class="searchbutton">search</button>
+            <button @click="performSearch" class="searchbutton">search</button>
         </div>
         <div class="search-section">
             <h3>Search keyword</h3>
-            <input type="text" placeholder="keyworld" />
+            <input type="text" v-model="searchKeyword" placeholder="keyworld" />
         </div>
         <div class="search-section">
             <h3>Location</h3>
             <ul class="search-form">
-                <li><input type="checkbox" value="North America" id="location-NA"><label for="location-NA">North
-                        America</label></li>
-                <li><input type="checkbox" value="Europe" id="location-E"><label for="location-E">Europe</label></li>
-                <li><input type="checkbox" value="Asia" id="location-A"><label for="location-A">Asia</label></li>
-                <li><input type="checkbox" value="Oceania" id="location-O"><label for="location-O">Oceania</label></li>
+                <li class="continent" v-for="continent in nationsList" :key="continent.name">
+                    <input type="checkbox" :value="continent.name" :id="'location-' + continent.name"
+                        v-model="computedCheckedContinents[continent.name]"
+                        @change="handleContinentChange(continent, $event)">
+                    <label :for="'location-' + continent.name">{{ continent.name }}</label>
+                    <div class="dropdownBtn" @click="toggleDropdown(continent.name)">
+                        <i class="bi bi-caret-down-fill"></i>
+                    </div>
+                    <ul class="nation" v-if="showDropdown[continent.name]">
+                        <li v-for="country in continent.countries" :key="country">
+                            <input type="checkbox" :id="'country-' + country.id" :value="country.id"
+                                v-model="checkedCountries[country.id + '-' + continent.name]">
+                            <label :for="'country-' + country.id">{{ country.name }}</label>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </div>
         <div class="search-section">
-            <ul class="search-form">
-                <li><input type="checkbox" value="Visa support" id="Visa"><label for="Visa">Visa support</label></li>
-                <li><input type="checkbox" value="Fully remote" id="remote"><label for="remote">Fully remote</label></li>
+            <ul class="search-form second">
+                <li>
+                    <input type="checkbox" v-model="visaSupport" value="Visa support" id="Visa">
+                    <label for="Visa">Visa support</label>
+                </li>
+                <li>
+                    <input type="checkbox" v-model="fullyRemote" value="Fully remote" id="remote">
+                    <label for="remote">Fully remote</label>
+                </li>
             </ul>
         </div>
     </div>
 </template>
+<script>
+export default {
+    props: {
+        nationsList: {
+            type: Array,
+            required: true,
+        }
+    },
+    data() {
+        return {
+            showDropdown: {}, // 드롭다운 토글데이터
+            clickNation: 0,
+            searchKeyword: '',
+            checkedContinents: {},
+            checkedCountries: {},
+            checkedCountryIds: [],
+            visaSupport: false,
+            fullyRemote: false,
 
-<!-- data fetch해온거 props로 뿌린뒤에 여기에 checkbox에 연결 -->
+        }
+    },
+    created() {
+        this.initDropdown();
+    },
+    methods: {
+        toggleDropdown(key) {
+            this.showDropdown[key] = !this.showDropdown[key];
+        },
+        initDropdown() {
+            for (let continent of this.nationsList) {
+                this.showDropdown[continent.name] = false;
+            }
+        },
+        performSearch() {
+            const selectedNations = [];
+            for (const continent of this.nationsList) {
+                for (const country of continent.countries) {
+                    if (this.checkedCountries[country.id + '-' + continent.name]) {
+                        selectedNations.push(country.id);
+                    }
+                }
+            }
+
+            console.log("selectedNations:", selectedNations); // 디버깅용
+
+            const nationIds = selectedNations;
+            const queryObj = {
+                nation: nationIds
+            };
+            if (this.searchKeyword.trim()) {
+                queryObj.keyword = this.searchKeyword;
+            }
+
+            // 체크박스가 선택된 경우만 쿼리 파라미터에 추가
+            if (this.visaSupport) {
+                queryObj.visa = true;
+            }
+
+            if (this.fullyRemote) {
+                queryObj.remote = true;
+            }
+
+            console.log("queryObj before routing:", queryObj); // 디버깅용
+            this.$router.push({
+                name: 'search-jobs',
+                params: { page: 1 },
+                query: queryObj
+            });
+            this.searchTerm = ''; // 인풋필드 초기화
+        },
+        handleContinentChange(continent, event) {
+            const isChecked = event.target.checked;
+            for (let country of continent.countries) {
+                this.checkedCountries[country.id + '-' + continent.name] = isChecked;
+            }
+            this.updateContinentCheckbox(continent);
+        },
+        updateContinentCheckbox(continent) {
+            const allChecked = continent.countries.every(country => this.checkedCountries[country.id + '-' + continent.name]);
+            this.checkedContinents[continent.name] = allChecked;
+        }
+
+    },
+    computed: {
+        computedCheckedContinents: {
+            get() {
+                let result = {};
+                for (let continent of this.nationsList) {
+                    result[continent.name] = continent.countries.every(country => this.checkedCountries[country.id + '-' + continent.name]);
+                }
+                return result;
+            },
+            set(newValue) {
+                for (let continentName in newValue) {
+                    const isContinentChecked = newValue[continentName];
+                    const continent = this.nationsList.find(c => c.name === continentName);
+                    if (continent) {
+                        for (let country of continent.countries) {
+                            this.checkedCountries[country.id + '-' + continent.name] = isContinentChecked;
+                        }
+                    }
+                }
+            }
+        }
+    },
+    watch: {
+        checkedCountries: {
+            handler() {
+                for (let continent of this.nationsList) {
+                    this.updateContinentCheckbox(continent);
+                }
+            },
+            deep: true
+        }
+    }
+}
+</script>
     
 <style scoped>
 * {
-    color:#4E4E4E;
+    color: #4E4E4E;
 }
 
 
@@ -82,6 +214,7 @@ h3 {
     color: white;
     background-color: #F73859;
     text-transform: uppercase;
+    cursor: pointer;
 
 }
 
@@ -122,13 +255,45 @@ h3 {
     list-style-type: none;
 }
 
-.search-form > li {
+.second>li {
     margin-bottom: 10px;
 }
 
-.search-form > li:last-child {
+.continent {
+    position: relative;
+    margin-bottom: 10px;
+    padding: 0;
+}
+
+.dropdownBtn {
+    position: absolute;
+    right: 0;
+    top: 0px;
+    display: block;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    -webkit-transition: all .175s;
+    -o-transition: all .175s;
+    transition: all .175s;
+}
+
+.nation {
+    list-style: none;
+    padding-left: 20px;
+    margin: 0;
+}
+
+.nation li {
+    margin: 10px;
+}
+
+.search-form>li:last-child {
     margin-bottom: 0px;
 }
+
 label {
     align-items: center;
 }
@@ -169,6 +334,10 @@ label {
     background-color: #F73859;
     background-image: url(/src/components/img/check.svg);
     background-size: cover;
+}
+
+.bi {
+    color: #F73859;
 }
 </style>
     
