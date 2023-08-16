@@ -1,6 +1,6 @@
 <template>
     <div class="box">
-        <search-side-bar></search-side-bar>
+        <search-side-bar :nationsList="organizedNationsList"></search-side-bar>
         <!-- 자식컴포넌트로 데이터 전달 -->
         <div class="right">
             <search-list :articles="results"></search-list>
@@ -24,14 +24,45 @@ export default {
             results: [],
             allResults: [], // 모든 페이지의 데이터를 저장하는 곳(5개 페이지)
             lastLoadedPage: 0, // 마지막으로 가져온 페이지를 추적
-            hasMorePages: true
+            hasMorePages: true,
+            nationsList: [] // 국가리스트
+        }
+    },
+    computed: {
+        organizedNationsList() {
+            const organizedData = {};
+
+            for (const item of this.nationsList) {
+                if (!organizedData[item.continent]) {
+                    organizedData[item.continent] = {
+                        name: item.continent,
+                        countries: []
+                    };
+                }
+                organizedData[item.continent].countries.push({ name: item.nation, id: item.id });
+            }
+            return Object.values(organizedData);
         }
     },
     methods: {
         async fetchResults(searchParams) {
+
+            this.results = [];
+            this.allResults = [];
+
             let currentPage = parseInt(this.$route.params.page);
 
-            const url = `http://localhost:8080/rest/search/${currentPage}?keyword=${searchParams.keyword}&nation=${searchParams.nation}`;
+            let queryString = `keyword=${searchParams.keyword}&nation=${searchParams.nation.join(',')}`;
+
+            if (searchParams.visa) {
+                queryString += '&visa=true';
+            }
+
+            if (searchParams.remote) {
+                queryString += '&remote=true';
+            }
+            
+            const url = `http://localhost:8080/rest/search/${currentPage}?${queryString}`;
             const response = await fetch(url, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -57,25 +88,51 @@ export default {
         loadDataFromRoute() {
             let searchParams = {
                 keyword: this.$route.query.keyword || '',
-                nation: this.$route.query.nation || ''
+                nation: Array.isArray(this.$route.query.nation) ? this.$route.query.nation : [this.$route.query.nation]
             };
+
+            if (this.$route.query.visa) {
+                searchParams.visa = this.$route.query.visa === 'true';
+            }
+
+            if (this.$route.query.remote) {
+                searchParams.remote = this.$route.query.remote === 'true';
+            }
+
             this.fetchResults(searchParams);
+        },
+        async fetchInitialData() { // 국가데이터 불러오는 fetch메서드
+            const url = 'http://localhost:8080/rest/search/init';
+            try {
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                    },
+                });
+
+                const data = await response.json();
+                if (data.ResultCode === "ERR_OK") {
+                    this.nationsList = data.Response.nation_continent_list;
+                } else {
+                    console.error("Failed to fetch initial data: ", data.Message);
+                }
+            } catch (error) {
+                console.error("Error fetching initial data: ", error);
+            }
         }
     },
     mounted() {
         this.loadDataFromRoute();
+        this.fetchInitialData();
     },
     watch: {
-        '$route.params.page': function (newPage) {
-            this.updateResults();
-
-            if (!this.results.length) {
-                this.fetchResults({
-                    keyword: this.$route.query.keyword || '',
-                    nation: this.$route.query.nation || ''
-                });
-            }
-        }
+        '$route.params.page': 'loadDataFromRoute',
+        '$route.query.keyword': 'loadDataFromRoute',
+        '$route.query.nation': 'loadDataFromRoute',
+        '$route.query.visa': 'loadDataFromRoute',
+        '$route.query.remote': 'loadDataFromRoute',
     }
 }
 </script>
