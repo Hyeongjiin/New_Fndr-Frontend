@@ -159,11 +159,12 @@ export default {
                 name: this.user.nickname,
                 password: this.user.password,
             });
-            this.$store.dispatch({
+            await this.$store.dispatch({
                 type: 'loginSubmit',
                 email: this.user.email,
                 password: this.user.password,
             });
+            await this.$store.dispatch('checkLoginStatus');
         },
     },
 };
