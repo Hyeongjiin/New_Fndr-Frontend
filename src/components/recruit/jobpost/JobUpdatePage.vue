@@ -21,15 +21,15 @@
                 <label>회사 연락처</label>
                 <input
                     type="email"
-                    v-model="post.company_contact"
+                    v-model="post.company_email"
                     @input="validateEmail"
                     placeholder="회사 연락처"
-                    :class="{ 'is-invalid': message.company_contact_error }"
+                    :class="{ 'is-invalid': message.company_email_error }"
                     class="form-control"
                     required
                 />
                 <div class="invalid-feedback">
-                    {{ message.company_contact_error }}
+                    {{ message.company_email_error }}
                 </div>
             </div>
             <div>
@@ -256,22 +256,28 @@
                     채용공고에 해당하는 위치를 입력해주세요.
                 </div>
             </div>
-            <div>
-                기존 로고
-            </div>
+            <div>기존 로고</div>
             <div>
                 <img
-                v-if="this.$store.state.jobDetail.company_logo !== null"
-                :src="imgUrl + this.$store.state.jobDetail.company_logo"
-                alt="Company Logo"
+                    v-if="this.$store.state.jobDetail.company_logo !== null"
+                    :src="imgUrl + this.$store.state.jobDetail.company_logo"
+                    alt="Company Logo"
                 />
             </div>
             <div>새로운 로고</div>
             <div>
-                <img v-if="imagePreview" :src="imagePreview" alt="Image Preview" />
+                <img
+                    v-if="imagePreview"
+                    :src="imagePreview"
+                    alt="Image Preview"
+                />
             </div>
             <div>
-                <input type="file" ref="companyLogoInput" @change="previewImage" />
+                <input
+                    type="file"
+                    ref="companyLogoInput"
+                    @change="previewImage"
+                />
             </div>
             <div v-if="this.message.job_post_error !== ''">
                 {{ this.message.job_post_error }}
@@ -290,7 +296,7 @@ export default {
         return {
             post: {
                 company_name: this.$store.state.jobDetail.company_name,
-                company_contact: this.$store.state.jobDetail.company_contact,
+                company_email: this.$store.state.jobDetail.company_email,
                 description_title:
                     this.$store.state.jobDetail.description_title,
                 description_content:
@@ -306,11 +312,11 @@ export default {
                     this.$store.state.jobDetail.company_page_link,
                 tag: this.$store.state.jobDetail.tag,
                 location: this.$store.state.jobDetail.location,
-                old_company_logo: this.$store.state.jobDetail.company_logo
+                old_company_logo: this.$store.state.jobDetail.company_logo,
             },
             message: {
                 company_name_error: '',
-                company_contact_error: '',
+                company_email_error: '',
                 description_title_error: '',
                 description_content_error: '',
                 company_apply_link_error: '',
@@ -329,10 +335,10 @@ export default {
             const input = event.target;
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
-                
+
                 reader.onload = (e) => {
                     this.imagePreview = e.target.result;
-                }
+                };
 
                 reader.readAsDataURL(input.files[0]);
             }
@@ -340,11 +346,11 @@ export default {
         validateEmail() {
             const emailRegex =
                 /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-            if (!emailRegex.test(this.post.company_contact)) {
-                this.message.company_contact_error =
+            if (!emailRegex.test(this.post.company_email)) {
+                this.message.company_email_error =
                     '유효하지 않은 이메일 형식입니다.';
             } else {
-                this.message.company_contact_error = '';
+                this.message.company_email_error = '';
             }
         },
         validateRadio(fieldName) {
@@ -380,7 +386,7 @@ export default {
             }
             if (
                 this.message.company_name_error ||
-                this.message.company_contact_error ||
+                this.message.company_email_error ||
                 this.message.description_title_error ||
                 this.message.description_content_error ||
                 this.message.company_apply_link_error ||
@@ -416,12 +422,21 @@ export default {
                     }
                 );
 
-                if (response.data.ResultCode === 'JobPost_Create_Success') {
-                    // 성공 처리
-                    alert(response.data.Message);
+                if (
+                    response.data.ResultCode === 'JobPost_Update_Success' ||
+                    response.data.ResultCode === 'JobPost_No_Update'
+                ) {
+                    const postId = this.$store.state.jobDetail.id;
+                    let newCompanyLogo = response.data.company_logo;
+                    if (!newCompanyLogo) {
+                        newCompanyLogo =
+                            this.$store.state.jobDetail.company_logo;
+                    }
+                    this.$store.commit('updateCompanyLogo', newCompanyLogo);
+                    this.$router.push(`/detail/${postId}`);
+                    console.log(response.data.Message);
                 } else {
-                    // 오류 처리
-                    alert(response.data.Message);
+                    console.log(response.data.Message);
                 }
             } catch (error) {
                 console.error('API 호출 중 에러 발생', error);

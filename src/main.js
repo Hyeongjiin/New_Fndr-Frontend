@@ -27,6 +27,9 @@ const store = createStore({
         getDetailError(state, detailError) {
             state.jobDetailError = detailError;
         },
+        updateCompanyLogo(state, newLogo) {
+            state.jobDetail.company_logo = newLogo;
+        },
         login(state) {
             state.isLoggedIn = true;
             console.log(state.isLoggedIn);
@@ -85,6 +88,7 @@ const store = createStore({
                 console.log(response.data);
                 if (response.data && response.data.Response) {
                     context.commit('getDetail', response.data.Response);
+                    router.push("/");
                 } else {
                     context.commit('getDetailError', "Invalid response format.")
                 }
@@ -128,7 +132,6 @@ const store = createStore({
                 if (response.data.ResultCode === "Login_Success") {
                     console.log("로그인에 성공했습니다.");
                     context.commit('login')
-
                     router.push('/');
                 } else {
                     const errorMessage = response.data.Message;

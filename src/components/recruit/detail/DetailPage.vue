@@ -14,7 +14,6 @@
         <detail-view-left></detail-view-left>
         <detail-view-right></detail-view-right>
     </div>
-    <div>{{ jobDetailError }}</div>
 </template>
 
 <script>
@@ -34,7 +33,7 @@ export default {
             return this.$store.state.jobDetailError;
         },
     },
-    created() {
+    mounted() {
         const postId = this.$route.params.postId;
         this.$store.dispatch('getPostDetail', postId);
     },
