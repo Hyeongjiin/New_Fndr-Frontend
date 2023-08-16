@@ -6,7 +6,7 @@
                     <router-link :to="'/detail/' + item.id"><h3>{{ item.description_title }}</h3></router-link>
                     <ul>
                         <li><i class="bi bi-building-fill"></i> {{ item.company_name }}</li>
-                        <li><i class="bi bi-geo-alt-fill"></i> {{ item.location }}</li>
+                        <li v-if="item.location !== ''"><i class="bi bi-geo-alt-fill"></i> {{ item.location }}</li>
                         <li v-if="item.is_remoted === true"><i class="bi bi-house-check"></i> Remote</li>
                         <li v-if="item.is_visa_sponsored == true"><i class="bi bi-card-checklist"></i> visa support</li>
                     </ul>

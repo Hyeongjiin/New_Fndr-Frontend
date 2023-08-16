@@ -1,7 +1,7 @@
 <template>
   <div class="rightbox">
     <div class="imgbox">
-      <img v-if="jobDetail.company_logo === null" :src="require('@/components/img/image.png')" alt="company picture"
+      <img v-if="jobDetail.company_logo === null || jobDetail.company_logo === ''" :src="require('@/components/img/image.png')" alt="company picture"
         class="default">
       <img v-else :src="jobDetail.company_logo" alt="company picture" class="custom">
     </div>
