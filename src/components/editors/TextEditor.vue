@@ -3,6 +3,7 @@
         :value="modelValue"
         @input="handleInput"
         @change="onEditorChange"
+        :options="state.editorOption"
         class="editor"
     ></quill-editor>
 </template>
@@ -18,22 +19,12 @@ export default {
     emits: ['update:modelValue'],
     mounted() {
         this.$nextTick(() => {
-            const editorPlaceholder = document.querySelector('.ql-editor');
-            if (editorPlaceholder) {
-                editorPlaceholder.setAttribute('data-placeholder', '');
-            }
             const inputElement = document.querySelector(
                 'input[data-formula="e=mc^2"]'
             );
             if (inputElement) {
                 inputElement.style.display = 'none';
             }
-            const linkButton = document.querySelector('.ql-link');
-            const imageButton = document.querySelector('.ql-image');
-            const videoButton = document.querySelector('.ql-video');
-            linkButton.style.display = 'none';
-            imageButton.style.display = 'none';
-            videoButton.style.display = 'none';
         });
     },
     setup(props, { emit }) {
@@ -57,10 +48,8 @@ export default {
                         [{ font: [] }],
                         [{ align: [] }],
                         ['clean'],
-                        ['link'],
                     ],
                 },
-                // more options
             },
             disabled: false,
         });
@@ -81,11 +70,6 @@ export default {
         const onEditorChange = ({ quill, html, text }) => {
             handleInput(html);
         };
-
-        setTimeout(() => {
-            state.disabled = true;
-        }, 2000);
-
         return {
             state,
             onEditorBlur,
