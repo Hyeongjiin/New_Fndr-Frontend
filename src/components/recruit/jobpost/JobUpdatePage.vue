@@ -236,7 +236,7 @@
                 <label>태그</label>
                 <input
                     type="tag"
-                    v-model="post.tag"
+                    v-model="tag_input"
                     placeholder="채용공고 관련 태그들"
                 />
             </div>
@@ -294,6 +294,8 @@ import axios from 'axios';
 export default {
     data() {
         return {
+            tag_input: this.$store.state.jobDetail.tag,
+            tag_list: [],
             post: {
                 company_name: this.$store.state.jobDetail.company_name,
                 company_email: this.$store.state.jobDetail.company_email,
@@ -310,7 +312,7 @@ export default {
                 contract_form: this.$store.state.jobDetail.contract_form,
                 company_page_link:
                     this.$store.state.jobDetail.company_page_link,
-                tag: this.$store.state.jobDetail.tag,
+                tag: '',
                 location: this.$store.state.jobDetail.location,
                 old_company_logo: this.$store.state.jobDetail.company_logo,
             },
@@ -329,6 +331,18 @@ export default {
             imgUrl: 'http://localhost:8080/',
             imagePreview: null,
         };
+    },
+    mounted() {
+        if (this.tag_input) {
+            this.tag_input = JSON.parse(this.tag_input);
+            this.tag_input = this.tag_input.join(', ');
+        }
+    },
+    watch: {
+        tag_input: function (newVal, oldVal) {
+            this.tag_list = newVal.split(',').map((tag) => tag.trim());
+            this.post.tag = JSON.stringify(this.tag_list);
+        },
     },
     methods: {
         previewImage(event) {
@@ -400,18 +414,20 @@ export default {
                 console.log(this.message.job_post_error);
                 return;
             }
-            const postData = new FormData();
+            const updateData = new FormData();
             for (let key in this.post) {
-                postData.append(key, this.post[key]);
+                updateData.append(key, this.post[key]);
             }
-            console.log(postData);
+            for (let [key, value] of updateData.entries()) {
+                console.log(`${key}: ${value}`);
+            }
             const companyLogoFile = this.$refs.companyLogoInput.files[0];
-            postData.append('company_logo', companyLogoFile);
+            updateData.append('company_logo', companyLogoFile);
 
             try {
                 const response = await axios.patch(
                     `http://localhost:8080/rest/job/${postId}`,
-                    postData,
+                    updateData,
                     {
                         withCredentials: true,
                     },

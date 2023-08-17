@@ -233,7 +233,7 @@
                 <label>태그</label>
                 <input
                     type="tag"
-                    v-model="post.tag"
+                    v-model="tag_input"
                     placeholder="채용공고 관련 태그들"
                 />
             </div>
@@ -283,6 +283,8 @@ import axios from 'axios';
 export default {
     data() {
         return {
+            tag_input: '',
+            tag_list: [],
             post: {
                 company_name: '',
                 company_email: '',
@@ -311,6 +313,12 @@ export default {
             },
             imagePreview: null,
         };
+    },
+    watch: {
+        tag_input: function (newVal, oldVal) {
+            this.tag_list = newVal.split(',').map((tag) => tag.trim());
+            this.post.tag = JSON.stringify(this.tag_list);
+        },
     },
     methods: {
         previewImage(event) {
