@@ -355,6 +355,8 @@ export default {
                 };
 
                 reader.readAsDataURL(input.files[0]);
+            } else {
+                this.imagePreview = null;
             }
         },
         validateEmail() {
