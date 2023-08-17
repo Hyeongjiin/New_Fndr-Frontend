@@ -16,6 +16,15 @@ export default {
         modelValue: String,
     },
     emits: ['update:modelValue'],
+    mounted() {
+        this.$nextTick(() => {
+            // Vue 컴포넌트 내 DOM 요소가 모두 로드된 후 실행
+            const imageButton = document.querySelector('.ql-image');
+            const videoButton = document.querySelector('.ql-video');
+            imageButton.style.display = 'none';
+            videoButton.style.display = 'none';
+        });
+    },
     setup(props, { emit }) {
         const state = reactive({
             content: '',
@@ -37,7 +46,7 @@ export default {
                         [{ font: [] }],
                         [{ align: [] }],
                         ['clean'],
-                        ['link', 'image', 'video'],
+                        ['link'],
                     ],
                 },
                 // more options
