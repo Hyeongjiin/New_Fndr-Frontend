@@ -1,7 +1,10 @@
 <template>
     <div>
-        <h2>채용공고 등록</h2>
-        <form @submit.prevent="submitPostForm" novalidate>
+        <h2>채용공고 수정</h2>
+        <form
+            @submit.prevent="submitUpdateForm(this.$store.state.jobDetail.id)"
+            novalidate
+        >
             <div>
                 <label>회사명</label>
                 <input
@@ -254,6 +257,15 @@
                     채용공고에 해당하는 위치를 입력해주세요.
                 </div>
             </div>
+            <div>기존 로고</div>
+            <div>
+                <img
+                    v-if="this.$store.state.jobDetail.company_logo !== null"
+                    :src="imgUrl + this.$store.state.jobDetail.company_logo"
+                    alt="Company Logo"
+                />
+            </div>
+            <div>새로운 로고</div>
             <div>
                 <img
                     v-if="imagePreview"
@@ -271,9 +283,8 @@
             <div v-if="this.message.job_post_error !== ''">
                 {{ this.message.job_post_error }}
             </div>
-            <div>
-                <button type="submit">등록하기</button>
-            </div>
+
+            <button type="submit">수정하기</button>
         </form>
     </div>
 </template>
@@ -288,21 +299,27 @@ export default {
     },
     data() {
         return {
-            tag_input: '',
+            tag_input: this.$store.state.jobDetail.tag,
             tag_list: [],
             post: {
-                company_name: '',
-                company_email: '',
-                description_title: '',
-                description_content: '',
-                company_apply_link: '',
-                is_visa_sponsored: null,
-                is_remoted: null,
-                salary: '',
-                contract_form: null,
-                company_page_link: '',
+                company_name: this.$store.state.jobDetail.company_name,
+                company_email: this.$store.state.jobDetail.company_email,
+                description_title:
+                    this.$store.state.jobDetail.description_title,
+                description_content:
+                    this.$store.state.jobDetail.description_content,
+                company_apply_link:
+                    this.$store.state.jobDetail.company_apply_link,
+                is_visa_sponsored:
+                    this.$store.state.jobDetail.is_visa_sponsored,
+                is_remoted: this.$store.state.jobDetail.is_remoted,
+                salary: this.$store.state.jobDetail.salary,
+                contract_form: this.$store.state.jobDetail.contract_form,
+                company_page_link:
+                    this.$store.state.jobDetail.company_page_link,
                 tag: '',
-                location: '',
+                location: this.$store.state.jobDetail.location,
+                old_company_logo: this.$store.state.jobDetail.company_logo,
             },
             message: {
                 company_name_error: '',
@@ -316,8 +333,15 @@ export default {
                 location_error: '',
                 job_post_error: '',
             },
+            imgUrl: 'http://localhost:8080/',
             imagePreview: null,
         };
+    },
+    mounted() {
+        if (this.tag_input) {
+            this.tag_input = JSON.parse(this.tag_input);
+            this.tag_input = this.tag_input.join(', ');
+        }
     },
     watch: {
         tag_input: function (newVal, oldVal) {
@@ -336,6 +360,8 @@ export default {
                 };
 
                 reader.readAsDataURL(input.files[0]);
+            } else {
+                this.imagePreview = null;
             }
         },
         validateEmail() {
@@ -362,10 +388,9 @@ export default {
                 this.message[fieldName + '_error'] = '';
             }
         },
-        async submitPostForm() {
+        async submitUpdateForm(postId) {
             const datas = [
                 'company_name',
-                'company_email',
                 'description_title',
                 'description_content',
                 'company_apply_link',
@@ -392,22 +417,23 @@ export default {
                 this.message.location_error
             ) {
                 this.message.job_post_error =
-                    '채용공고 생성 양식 조건을 모두 만족시켜 주세요.';
+                    '채용공고 수정 양식 조건을 모두 만족시켜 주세요.';
                 console.log(this.message.job_post_error);
                 return;
             }
-            const postData = new FormData();
+            const updateData = new FormData();
             for (let key in this.post) {
-                postData.append(key, this.post[key]);
+                updateData.append(key, this.post[key]);
             }
-            console.log(postData);
             const companyLogoFile = this.$refs.companyLogoInput.files[0];
-            postData.append('company_logo', companyLogoFile);
-
+            updateData.append('company_logo', companyLogoFile);
+            for (let [key, value] of updateData.entries()) {
+                console.log(`${key}: ${value}`);
+            }
             try {
-                const response = await axios.post(
-                    'http://localhost:8080/rest/job',
-                    postData,
+                const response = await axios.patch(
+                    `http://localhost:8080/rest/job/${postId}`,
+                    updateData,
                     {
                         withCredentials: true,
                     },
@@ -418,14 +444,21 @@ export default {
                     }
                 );
 
-                if (response.data.ResultCode === 'JobPost_Create_Success') {
-                    const newCompanyLogo = response.data.companyLogo;
+                if (
+                    response.data.ResultCode === 'JobPost_Update_Success' ||
+                    response.data.ResultCode === 'JobPost_No_Update'
+                ) {
+                    const postId = this.$store.state.jobDetail.id;
+                    let newCompanyLogo = response.data.company_logo;
+                    if (!newCompanyLogo) {
+                        newCompanyLogo =
+                            this.$store.state.jobDetail.company_logo;
+                    }
                     this.$store.commit('updateCompanyLogo', newCompanyLogo);
-                    const postId = response.data.postId;
                     this.$router.push(`/detail/${postId}`);
+                    console.log(response.data.Message);
                 } else {
                     console.log(response.data.Message);
-                    this.$router.push('/');
                 }
             } catch (error) {
                 console.error('API 호출 중 에러 발생', error);

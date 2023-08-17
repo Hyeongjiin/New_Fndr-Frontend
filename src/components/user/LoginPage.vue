@@ -69,17 +69,18 @@ export default {
                 this.message.passwordError = '';
             }
         },
-        login() {
+        async login() {
             this.validateEmail();
             this.validatePassword();
             if (this.message.emailError || this.message.passwordError) {
                 return;
             } else {
-                this.$store.dispatch({
+                await this.$store.dispatch({
                     type: 'loginSubmit',
                     email: this.user.email,
                     password: this.user.password,
                 });
+                await this.$store.dispatch('checkLoginStatus');
             }
         },
     },
