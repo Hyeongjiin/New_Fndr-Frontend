@@ -18,9 +18,20 @@ export default {
     emits: ['update:modelValue'],
     mounted() {
         this.$nextTick(() => {
-            // Vue 컴포넌트 내 DOM 요소가 모두 로드된 후 실행
+            const editorPlaceholder = document.querySelector('.ql-editor');
+            if (editorPlaceholder) {
+                editorPlaceholder.setAttribute('data-placeholder', '');
+            }
+            const inputElement = document.querySelector(
+                'input[data-formula="e=mc^2"]'
+            );
+            if (inputElement) {
+                inputElement.style.display = 'none';
+            }
+            const linkButton = document.querySelector('.ql-link');
             const imageButton = document.querySelector('.ql-image');
             const videoButton = document.querySelector('.ql-video');
+            linkButton.style.display = 'none';
             imageButton.style.display = 'none';
             videoButton.style.display = 'none';
         });
