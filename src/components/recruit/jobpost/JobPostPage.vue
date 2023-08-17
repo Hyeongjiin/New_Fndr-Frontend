@@ -7,7 +7,7 @@
                 <input
                     type="company_name"
                     v-model="post.company_name"
-                    placeholder="회사명"
+                    placeholder="The fndr Corporation"
                     :class="{ 'is-invalid': message.company_name_error }"
                     class="form-control"
                     required
@@ -20,11 +20,14 @@
                     type="email"
                     v-model="post.company_email"
                     @input="validateEmail"
-                    placeholder="회사 연락처"
+                    placeholder="example@fndr.com"
                     :class="{ 'is-invalid': message.company_email_error }"
                     class="form-control"
                     required
                 />
+                <div>
+                    Company email in case of any problems. Not publicly visible.
+                </div>
                 <div class="invalid-feedback">
                     {{ message.company_email_error }}
                 </div>
@@ -34,7 +37,7 @@
                 <input
                     type="description_title"
                     v-model="post.description_title"
-                    placeholder="채용공고 제목"
+                    placeholder="fndr developer"
                     :class="{
                         'is-invalid': message.description_title_error,
                     }"
@@ -50,7 +53,6 @@
                 <input
                     type="description_content"
                     v-model="post.description_content"
-                    placeholder="채용공고 내용"
                     :class="{
                         'is-invalid': message.description_content_error,
                     }"
@@ -66,7 +68,7 @@
                 <input
                     type="company_apply_link"
                     v-model="post.company_apply_link"
-                    placeholder="채용공고 지원 링크"
+                    placeholder="https://fndr.com/apply/software-developer"
                     :class="{
                         'is-invalid': message.company_apply_link_error,
                     }"
@@ -149,11 +151,7 @@
             </div>
             <div>
                 <label>급여 범위</label>
-                <input
-                    type="salary"
-                    v-model="post.salary"
-                    placeholder="급여 범위"
-                />
+                <input type="salary" v-model="post.salary" />
             </div>
             <div>
                 <div :class="{ 'is-invalid': message.contract_form_error }">
@@ -226,7 +224,7 @@
                 <input
                     type="company_page_link"
                     v-model="post.company_page_link"
-                    placeholder="회사 홈페이지 링크"
+                    placeholder="https://fndr.com"
                 />
             </div>
             <div>
@@ -234,21 +232,25 @@
                 <input
                     type="tag"
                     v-model="tag_input"
-                    placeholder="채용공고 관련 태그들"
+                    placeholder="Example: Backend, MySQL, Java (Separated by comma)"
                 />
+                <div>Example: Backend, MySQL, Java (Separated by comma)</div>
             </div>
             <div>
                 <label>채용 위치</label>
                 <input
                     type="location"
                     v-model="post.location"
-                    placeholder="채용 위치"
+                    placeholder="Example: Seoul / Remote / Anywhere"
                     :class="{
                         'is-invalid': message.location_error,
                     }"
                     class="form-control"
                     required
                 />
+                <div>
+                    The Country, City, Address or Remote of the job posting
+                </div>
                 <div class="invalid-feedback">
                     채용공고에 해당하는 위치를 입력해주세요.
                 </div>
