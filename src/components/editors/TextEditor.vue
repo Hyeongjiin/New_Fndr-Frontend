@@ -65,7 +65,6 @@ export default {
         };
         const handleInput = (newValue) => {
             emit('update:modelValue', newValue);
-            console.log(newValue);
         };
         const onEditorChange = ({ quill, html, text }) => {
             handleInput(html);
