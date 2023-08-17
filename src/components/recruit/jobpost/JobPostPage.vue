@@ -50,8 +50,7 @@
             </div>
             <div>
                 <label>내용</label>
-                <input
-                    type="description_content"
+                <TextEditor
                     v-model="post.description_content"
                     :class="{
                         'is-invalid': message.description_content_error,
@@ -63,6 +62,7 @@
                     채용공고의 내용을 입력해주세요.
                 </div>
             </div>
+            <div>{{ this.post.description_content }}</div>
             <div>
                 <label>채용지원 링크</label>
                 <input
@@ -281,8 +281,12 @@
 
 <script>
 import axios from 'axios';
+import TextEditor from '../../../components/editors/TextEditor.vue';
 
 export default {
+    components: {
+        TextEditor,
+    },
     data() {
         return {
             tag_input: '',

@@ -4,6 +4,7 @@ import axios from 'axios';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/js/bootstrap";
+import { quillEditor } from 'vue3-quill'
 
 import App from "./App.vue";
 import BaseCard from "./components/UI/BaseCard.vue";
@@ -191,4 +192,5 @@ const app = createApp(App);
 app.component("base-card", BaseCard);
 app.use(router);
 app.use(store);
+app.use(quillEditor);
 app.mount("#app");
