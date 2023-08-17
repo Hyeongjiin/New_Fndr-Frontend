@@ -62,7 +62,6 @@
                     채용공고의 내용을 입력해주세요.
                 </div>
             </div>
-            <div>{{ this.post.description_content }}</div>
             <div>
                 <label>채용지원 링크</label>
                 <input

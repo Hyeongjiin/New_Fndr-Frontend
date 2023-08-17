@@ -53,8 +53,7 @@
             </div>
             <div>
                 <label>내용</label>
-                <input
-                    type="description_content"
+                <TextEditor
                     v-model="post.description_content"
                     :class="{
                         'is-invalid': message.description_content_error,
@@ -292,8 +291,12 @@
 
 <script>
 import axios from 'axios';
+import TextEditor from '../../../components/editors/TextEditor.vue';
 
 export default {
+    components: {
+        TextEditor,
+    },
     data() {
         return {
             tag_input: this.$store.state.jobDetail.tag,
