@@ -425,12 +425,11 @@ export default {
             for (let key in this.post) {
                 updateData.append(key, this.post[key]);
             }
+            const companyLogoFile = this.$refs.companyLogoInput.files[0];
+            updateData.append('company_logo', companyLogoFile);
             for (let [key, value] of updateData.entries()) {
                 console.log(`${key}: ${value}`);
             }
-            const companyLogoFile = this.$refs.companyLogoInput.files[0];
-            updateData.append('company_logo', companyLogoFile);
-
             try {
                 const response = await axios.patch(
                     `http://localhost:8080/rest/job/${postId}`,
