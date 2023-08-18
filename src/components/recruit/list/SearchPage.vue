@@ -4,7 +4,9 @@
         <!-- 자식컴포넌트로 데이터 전달 -->
         <div class="right">
             <search-list :articles="results"></search-list>
-            <PagingView :has-more-pages="hasMorePages" :current-page="parseInt($route.params.page)"></PagingView>
+            <PagingView :isLoading="isLoading" :has-more-pages="hasMorePages" :current-page="parseInt($route.params.page)"
+                :total-pages="totalPages">
+            </PagingView>
         </div>
     </div>
 </template>
@@ -21,11 +23,13 @@ export default {
     },
     data() {
         return {
+            isLoading: true, // 데이터 로딩 완료 판별데이터
             results: [],
             allResults: [], // 모든 페이지의 데이터를 저장하는 곳(5개 페이지)
             lastLoadedPage: 0, // 마지막으로 가져온 페이지를 추적
             hasMorePages: true,
-            nationsList: [] // 국가리스트
+            nationsList: [], // 국가리스트
+            totalPages: 0,
         }
     },
     computed: {
@@ -46,7 +50,7 @@ export default {
     },
     methods: {
         async fetchResults(searchParams) {
-
+            this.isLoading = true; // 로딩 시작
             this.results = [];
             this.allResults = [];
 
@@ -61,7 +65,7 @@ export default {
             if (searchParams.remote) {
                 queryString += '&remote=true';
             }
-            
+
             const url = `http://localhost:8080/rest/search/${currentPage}?${queryString}`;
             const response = await fetch(url, {
                 headers: {
@@ -70,7 +74,8 @@ export default {
                 },
             });
             const data = await response.json();
-            console.log(data)
+            this.totalPages = data.Response.page.total;
+            console.log("Total Pages:", this.totalPages);
             if (data.Response.recruit_post_list.length === 0) {
                 this.hasMorePages = false;
             } else {
@@ -80,6 +85,7 @@ export default {
             }
 
             this.updateResults();
+            this.isLoading = false; // 데이터 로딩처리 완료
         },
         updateResults() {
             const pageIndex = parseInt(this.$route.params.page) - 1;
