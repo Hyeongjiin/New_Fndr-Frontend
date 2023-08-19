@@ -5,13 +5,23 @@
                 <div class="info">
                     <router-link :to="'/detail/' + item.id"><h3>{{ item.description_title }}</h3></router-link>
                     <ul>
-                        <li><i class="bi bi-building-fill"></i> {{ item.company_name }}</li>
-                        <li v-if="item.location !== ''"><i class="bi bi-geo-alt-fill"></i> {{ item.location }}</li>
-                        <li v-if="item.is_remoted === true"><i class="bi bi-house-check"></i> Remote</li>
-                        <li v-if="item.is_visa_sponsored == true"><i class="bi bi-card-checklist"></i> visa support</li>
+                        <li>
+                            <i class="bi bi-building-fill"></i>
+                            {{ item.company_name }}
+                        </li>
+                        <li v-if="item.location !== ''>
+                            <i class="bi bi-geo-alt-fill"></i>
+                            {{ item.location }}
+                        </li>
+                        <li v-if="item.is_remoted === true">
+                            <i class="bi bi-house-check"></i> Remote
+                        </li>
+                        <li v-if="item.is_visa_sponsored === true">
+                            <i class="bi bi-card-checklist"></i> visa support
+                        </li>
                     </ul>
                 </div>
-                <div  v-if="item.company_logo !== null" class="info-img">
+                <div v-if="item.company_logo !== null" class="info-img">
                     <!--이미지 넣어야 됨-->
                 </div>
             </div>
@@ -24,7 +34,6 @@
 export default {
     props: ['articles'],
 }
-
 </script>
 
 <style scoped>
@@ -49,7 +58,7 @@ export default {
     height: 80px;
     border-radius: 20px;
     display: block;
-    background-color: #F73859;
+    background-color: #f73859;
 }
 
 .info {
@@ -59,33 +68,33 @@ export default {
     align-items: flex-start;
 }
 
-.info>ul {
+.info > ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
 
-.info>ul>li {
+.info > ul > li {
     float: left;
     margin-left: 10px;
 }
 
-.info>ul>li:first-child {
+.info > ul > li:first-child {
     margin-left: 0px;
 }
 
-.info>a {
+.info > a {
     text-decoration: none;
     color: black;
 }
 
-.info>a>h3 {
+.info > a > h3 {
     font-size: 25px;
     font-weight: 700;
 }
 
 .bi {
-    color: #F73859;
+    color: #f73859;
 }
 
 .description {
@@ -93,8 +102,7 @@ export default {
     width: auto;
     height: 3rem;
     border-radius: 10px;
-    background: #E3E3E3;
+    background: #e3e3e3;
     display: inline-block;
 }
-
 </style>

@@ -4,6 +4,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import MainPage from "../components/mainpage/MainPage.vue";
 import SearchPage from "../components/recruit/list/SearchPage.vue";
 import DetailPage from "../components/recruit/detail/DetailPage.vue";
+import JobPostPage from "../components/recruit/jobpost/JobPostPage.vue";
+import JobUpdatePage from "../components/recruit/jobpost/JobUpdatePage.vue";
 import LoginPage from "../components/user/LoginPage.vue";
 import SignupPage from "../components/user/SignupPage.vue";
 
@@ -12,6 +14,8 @@ const routes = [
   { path: "/", component: MainPage },
   { path: "/search-jobs/:page", component: SearchPage, name: 'search-jobs' },
   { path: "/detail/:postId", component: DetailPage },
+  { path: "/job-post", component: JobPostPage },
+  { path: "/job-update/:postId", component: JobUpdatePage },
   { path: "/login", component: LoginPage },
   { path: "/signup", component: SignupPage },
   

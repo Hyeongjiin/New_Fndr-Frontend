@@ -4,6 +4,7 @@ import axios from 'axios';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/js/bootstrap";
+import { quillEditor } from 'vue3-quill'
 
 import App from "./App.vue";
 import BaseCard from "./components/UI/BaseCard.vue";
@@ -15,19 +16,89 @@ const store = createStore({
     state() {
         return {
             isLoggedIn: false,
+            userId: null,
+            jobDetail: {},
+            jobDetailError: '',
         };
     },
     mutations: {
+        getDetail(state, detail) {
+            state.jobDetail = detail;
+        },
+        getDetailError(state, detailError) {
+            state.jobDetailError = detailError;
+        },
+        updateCompanyLogo(state, newLogo) {
+            state.jobDetail.company_logo = newLogo;
+        },
         login(state) {
             state.isLoggedIn = true;
             console.log(state.isLoggedIn);
+        },
+        getUserId(state, userId) {
+            state.userId = userId;
+            console.log(state.userId);
         },
         logout(state) {
             state.isLoggedIn = false;
             console.log(state.isLoggedIn);
         }
     },
+    getters: {
+        tagsArray: (state) => {
+            try {
+                if (!state.jobDetail.tag) {
+                    return [];
+                }
+                const tagArray = JSON.parse(state.jobDetail.tag);
+                const techNameArray = state.jobDetail.description_teches.map(
+                    (tech) => tech.tech_name
+                );
+                const totalTagArray = [...tagArray, ...techNameArray];
+                return totalTagArray;
+            } catch (error) {
+                console.error('Failed to parse jobDetail.tag', error);
+                return [];
+            }
+        }   
+    },
     actions: {
+        async getPostDetail(context, postId) {
+            try {
+                const response = await axios.get(`http://localhost:8080/rest/detail/${postId}`);
+                // console.log(response.data);
+                if (response.data && response.data.Response) {
+                    context.commit('getDetail', response.data.Response);
+                } else {
+                    context.commit('getDetailError', "Invalid response format.")
+                }
+                // console.log(context.state.jobDetail);
+            } catch (error) {
+                if (error.response && error.response.data && error.response.data.Message) {
+                    context.commit('getDetailError', error.response.data.Message);
+                } else {
+                    context.commit('getDetailError', "An error occurred while fetching job details.");
+                }
+            }
+        },
+        async deleteJobPost(context, postId) {
+            try {
+                const response = await axios.delete(`http://localhost:8080/rest/job/${postId}`, {
+                    withCredentials: true,
+                });
+                console.log(response.data);
+                if (response.data && response.data.Response) {
+                    context.commit('getDetail', response.data.Response);
+                    router.push("/");
+                } else {
+                    context.commit('getDetailError', "Invalid response format.")
+                }
+            } catch (error) {
+                console.log(error.request.response);
+                const errorMessage = error.response.data.Message || "Internal server error";
+                console.error("There was an error:", errorMessage);
+            }
+        },
         async signupSubmit(context, payload) {
             try {
                 const response = await axios.post("http://localhost:8080/rest/auth/signup", {
@@ -100,9 +171,10 @@ const store = createStore({
                 const response = await axios.get("http://localhost:8080/rest/auth/session", {
                     withCredentials: true,
                 });
-                console.log(response);
+                const userId = response.data.user_id;
                 if (response.data.ResultCode === "Session_Exist") {
                     console.log("세션이 존재합니다.");
+                    context.commit('getUserId', userId);
                     context.commit('login');
                 } else if (response.data.ResultCode === "Session_Not_Exist") {
                     console.log("세션이 존재하지 않습니다.");
@@ -120,4 +192,5 @@ const app = createApp(App);
 app.component("base-card", BaseCard);
 app.use(router);
 app.use(store);
+app.use(quillEditor);
 app.mount("#app");
