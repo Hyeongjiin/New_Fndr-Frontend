@@ -9,7 +9,7 @@
                             <i class="bi bi-building-fill"></i>
                             {{ item.company_name }}
                         </li>
-                        <li v-if="item.location !== ''>
+                        <li v-if="item.location !== ''">
                             <i class="bi bi-geo-alt-fill"></i>
                             {{ item.location }}
                         </li>
