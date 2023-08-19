@@ -3,15 +3,13 @@
         <base-card v-for="(item, index) in articles" :key="index">
             <div class="Search-section1">
                 <div class="info">
-                    <router-link :to="'/detail/' + item.id"
-                        ><h3>{{ item.description_title }}</h3></router-link
-                    >
+                    <router-link :to="'/detail/' + item.id"><h3>{{ item.description_title }}</h3></router-link>
                     <ul>
                         <li>
                             <i class="bi bi-building-fill"></i>
                             {{ item.company_name }}
                         </li>
-                        <li>
+                        <li v-if="item.location !== ''>
                             <i class="bi bi-geo-alt-fill"></i>
                             {{ item.location }}
                         </li>
@@ -35,26 +33,7 @@
 <script>
 export default {
     props: ['articles'],
-    // data() {
-    //     return {
-    //         articles: []
-    //     }
-    // },
-    // mounted() {
-
-    //     fetch('http://localhost:8080/rest/search/1?visa=true', {
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'Accept': 'application/json',
-    //         },
-    //     }).then(response => response.json())
-    //         .then(data => console.log(this.articles = data.Response.recruit_post_list
-    //         ))
-    //         .catch(error => {
-    //             console.error('Error fetching data:', error);
-    //         });
-    // },
-};
+}
 </script>
 
 <style scoped>

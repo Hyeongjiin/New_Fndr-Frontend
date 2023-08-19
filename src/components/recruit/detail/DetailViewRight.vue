@@ -2,7 +2,7 @@
     <div class="rightbox">
         <div class="imgbox">
             <img
-                v-if="jobDetail.company_logo === null"
+                v-if="jobDetail.company_logo === null || jobDetail.company_logo === ''"
                 :src="require('@/components/img/image.png')"
                 alt="company picture"
                 class="default"
