@@ -2,7 +2,10 @@
     <div class="rightbox">
         <div class="imgbox">
             <img
-                v-if="jobDetail.company_logo === null || jobDetail.company_logo === ''"
+                v-if="
+                    jobDetail.company_logo === null ||
+                    jobDetail.company_logo === ''
+                "
                 :src="require('@/components/img/image.png')"
                 alt="company picture"
                 class="default"
@@ -39,6 +42,22 @@
                 Apply
             </button>
         </div>
+        <div class="btn-box">
+            <button
+                v-if="jobDetail.creator_id === this.$store.state.userId"
+                class="modify-btn"
+                @click="editJobPost"
+            >
+                Edit
+            </button>
+            <button
+                v-if="jobDetail.creator_id === this.$store.state.userId"
+                class="modify-btn"
+                @click="deleteJobPost"
+            >
+                Delete
+            </button>
+        </div>
     </div>
 </template>
 
@@ -53,6 +72,17 @@ export default {
         redirectToOtherSite() {
             if (this.jobDetail.company_apply_link !== null) {
                 window.open(this.jobDetail.company_apply_link, '_blank');
+            }
+        },
+        editJobPost() {
+            if (this.jobDetail.creator_id === this.$store.state.userId) {
+                this.$router.push(`/job-update/${this.jobDetail.id}`);
+            }
+        },
+        deleteJobPost() {
+            if (this.jobDetail.creator_id === this.$store.state.userId) {
+                this.$store.dispatch('deleteJobPost', this.jobDetail.id);
+                this.$router.push('/');
             }
         },
     },
@@ -129,8 +159,26 @@ export default {
     border: none;
     text-align: center;
     cursor: pointer;
-    width: 150px;
+    height: 50px;
+    width: 230px;
     font-size: 18px;
+    border-radius: 50px;
+}
+
+.modify-btn {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 12px;
+    color: white;
+    background-color: #adadad;
+    border: none;
+    text-align: center;
+    cursor: pointer;
+    height: 45px;
+    width: 100px;
+    margin: 10px;
+    font-size: 15px;
     border-radius: 50px;
 }
 

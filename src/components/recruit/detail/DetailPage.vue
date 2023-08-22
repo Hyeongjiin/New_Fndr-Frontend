@@ -1,15 +1,4 @@
 <template>
-    <router-link
-        v-if="jobDetail.creator_id === this.$store.state.userId"
-        :to="'/job-update/' + jobDetail.id"
-        >수정하기</router-link
-    >
-    <router-link
-        v-if="jobDetail.creator_id === this.$store.state.userId"
-        @click="this.$store.dispatch('deleteJobPost', jobDetail.id)"
-        to="/"
-        >삭제하기</router-link
-    >
     <div class="box">
         <detail-view-left></detail-view-left>
         <detail-view-right></detail-view-right>
