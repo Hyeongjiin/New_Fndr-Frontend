@@ -1,11 +1,11 @@
 <template>
     <div class="box">
         <div>
-            <h2>채용공고 등록</h2>
+            <h2>Post a Job</h2>
             <form @submit.prevent="submitPostForm" novalidate>
-                <div>
-                    <div>
-                        <label>Company Name</label>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label class="label-title">Company Name</label>
                         <input
                             type="company_name"
                             v-model="post.company_name"
@@ -17,11 +17,11 @@
                             required
                         />
                         <div class="invalid-feedback">
-                            회사명을 입력해주세요.
+                            Please enter the company name.
                         </div>
                     </div>
-                    <div>
-                        <label>Company Email</label>
+                    <div class="col-sm-6">
+                        <label class="label-title">Company Email</label>
                         <input
                             type="email"
                             v-model="post.company_email"
@@ -33,7 +33,7 @@
                             class="form-control"
                             required
                         />
-                        <div>
+                        <div class="contact-info">
                             Company email in case of any problems. Not publicly
                             visible.
                         </div>
@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div>
-                    <label>Company HomePage Link</label>
+                    <label class="label-title">Company HomePage Link</label>
                     <input
                         type="company_page_link"
                         v-model="post.company_page_link"
@@ -52,7 +52,7 @@
                     />
                 </div>
                 <div>
-                    <label>Job Title</label>
+                    <label class="label-title">Job Title</label>
                     <input
                         type="description_title"
                         v-model="post.description_title"
@@ -64,30 +64,41 @@
                         required
                     />
                     <div class="invalid-feedback">
-                        채용공고의 제목을 입력해주세요.
+                        Please enter the job title.
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <label class="label-title">Location</label>
+                        <input
+                            type="location"
+                            v-model="post.location"
+                            placeholder="Example: Seoul / Remote / Anywhere"
+                            :class="{
+                                'is-invalid': message.location_error,
+                            }"
+                            class="form-control"
+                            required
+                        />
+                        <div class="location-info">
+                            The Country, City, Address or Remote of the job
+                            posting
+                        </div>
+                        <div class="invalid-feedback">
+                            Please enter the job location.
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <label class="label-title">Salary Range</label>
+                        <input
+                            type="salary"
+                            v-model="post.salary"
+                            class="form-control"
+                        />
                     </div>
                 </div>
                 <div>
-                    <label>Location</label>
-                    <input
-                        type="location"
-                        v-model="post.location"
-                        placeholder="Example: Seoul / Remote / Anywhere"
-                        :class="{
-                            'is-invalid': message.location_error,
-                        }"
-                        class="form-control"
-                        required
-                    />
-                    <div>
-                        The Country, City, Address or Remote of the job posting
-                    </div>
-                    <div class="invalid-feedback">
-                        채용공고에 해당하는 위치를 입력해주세요.
-                    </div>
-                </div>
-                <div>
-                    <label>Application URL</label>
+                    <label class="label-title">Application URL</label>
                     <input
                         type="company_apply_link"
                         v-model="post.company_apply_link"
@@ -99,16 +110,8 @@
                         required
                     />
                     <div class="invalid-feedback">
-                        채용공고의 지원 링크을 입력해주세요.
+                        Please enter the job application link.
                     </div>
-                </div>
-                <div>
-                    <label>Salary Range</label>
-                    <input
-                        type="salary"
-                        v-model="post.salary"
-                        class="form-control"
-                    />
                 </div>
                 <div>
                     <div
@@ -116,7 +119,7 @@
                             'is-invalid': message.is_remoted_error,
                         }"
                     >
-                        <label>Remote work</label>
+                        <label class="label-title">Remote work</label>
                         <div>
                             <input
                                 type="radio"
@@ -142,7 +145,7 @@
                         </div>
                     </div>
                     <div class="invalid-feedback">
-                        원격 근무 여부를 확인해주세요.
+                        Please confirm if remote work is available.
                     </div>
                 </div>
                 <div>
@@ -151,7 +154,7 @@
                             'is-invalid': message.is_visa_sponsored_error,
                         }"
                     >
-                        <label>Visa support</label>
+                        <label class="label-title">Visa support</label>
                         <div>
                             <input
                                 type="radio"
@@ -178,12 +181,12 @@
                         </div>
                     </div>
                     <div class="invalid-feedback">
-                        비자 지원 여부를 확인해주세요.
+                        Please confirm if visa support is provided.
                     </div>
                 </div>
                 <div>
                     <div :class="{ 'is-invalid': message.contract_form_error }">
-                        <label>Contract Form</label>
+                        <label class="label-title">Contract Type</label>
                         <div>
                             <input
                                 type="radio"
@@ -246,36 +249,48 @@
                         </div>
                     </div>
                     <div class="invalid-feedback">
-                        계약 형태를 선택해주세요.
+                        Please select the contract type.
                     </div>
                 </div>
                 <div>
-                    <label>Skills / Tags</label>
+                    <label class="label-title">Skills / Tags</label>
                     <input
                         type="tag"
                         v-model="tag_input"
                         placeholder="Example: Backend, MySQL, Java (Separated by comma)"
                         class="form-control"
                     />
-                    <div>
+                    <div class="tag-info">
                         Example: Backend, MySQL, Java (Separated by comma)
                     </div>
                 </div>
                 <div>
-                    <label>Job Description</label>
+                    <label class="label-title">Job Description</label>
                     <TextEditor
                         v-model="post.description_content"
                         :class="{
                             'is-invalid': message.description_content_error,
                         }"
-                        class="form-control"
+                        class="form-control text-editor"
                         required
                     />
                     <div class="invalid-feedback">
-                        채용공고의 내용을 입력해주세요.
+                        Please enter the job content.
                     </div>
                 </div>
-                <div>Company Logo</div>
+                <div>
+                    <label class="label-title">Company Logo</label>
+                    <input
+                        class="logo-input"
+                        id="fileInput"
+                        type="file"
+                        ref="companyLogoInput"
+                        @change="previewImage"
+                    />
+                    <label class="custom-file-label" for="fileInput"
+                        >Select Logo</label
+                    >
+                </div>
                 <div>
                     <img
                         v-if="imagePreview"
@@ -283,14 +298,10 @@
                         alt="Image Preview"
                     />
                 </div>
-                <div>
-                    <input
-                        type="file"
-                        ref="companyLogoInput"
-                        @change="previewImage"
-                    />
-                </div>
-                <div v-if="this.message.job_post_error !== ''">
+                <div
+                    class="job-post-error"
+                    v-if="this.message.job_post_error !== ''"
+                >
                     {{ this.message.job_post_error }}
                 </div>
                 <div class="btn-box">
@@ -369,8 +380,7 @@ export default {
             const emailRegex =
                 /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
             if (!emailRegex.test(this.post.company_email)) {
-                this.message.company_email_error =
-                    '유효하지 않은 이메일 형식입니다.';
+                this.message.company_email_error = 'Invalid email format';
             } else {
                 this.message.company_email_error = '';
             }
@@ -419,7 +429,7 @@ export default {
                 this.message.location_error
             ) {
                 this.message.job_post_error =
-                    '채용공고 생성 양식 조건을 모두 만족시켜 주세요.';
+                    'Please satisfy all the conditions for creating the job post.';
                 console.log(this.message.job_post_error);
                 return;
             }
@@ -505,5 +515,40 @@ export default {
 }
 button:hover {
     opacity: 0.7;
+}
+.contact-info {
+    color: #707891;
+    font-size: 15px;
+}
+.location-info {
+    color: #707891;
+    font-size: 15px;
+}
+.tag-info {
+    color: #707891;
+    font-size: 17px;
+}
+.text-editor {
+    height: 350px;
+}
+.job-post-error {
+    font-size: 15px;
+    color: #dd3a49;
+}
+.logo-input {
+    display: none;
+}
+
+.custom-file-label {
+    padding: 10px 15px;
+    background-color: #f5f5f5;
+    color: #3d3d3d;
+    border: none;
+    margin: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.label-title {
+    font-size: 17px;
 }
 </style>
