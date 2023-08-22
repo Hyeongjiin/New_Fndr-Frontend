@@ -1,9 +1,9 @@
 <template>
-    <div>
-        <h2>Login</h2>
+    <div class="loginbox">
+        <h2 class="brand">Fndr.io</h2>
         <form @submit.prevent="login" novalidate>
             <div>
-                <label>Email:</label>
+                <label>Email</label>
                 <input
                     type="email"
                     v-model="user.email"
@@ -14,7 +14,7 @@
                 <div class="invalid-feedback">{{ message.emailError }}</div>
             </div>
             <div>
-                <label>Password:</label>
+                <label>Password</label>
                 <input
                     type="password"
                     v-model="user.password"
@@ -26,10 +26,10 @@
                 />
                 <div class="invalid-feedback">{{ message.passwordError }}</div>
             </div>
-            <button type="submit">로그인</button>
-            <router-link to="/signup"
-                ><button>회원가입 하기</button></router-link
-            >
+            <div class="btn-box">
+                <button class="btn join" @click="toSignUp">Sign up</button>
+                <button class="btn login" type="submit">Log in</button>
+            </div>
         </form>
     </div>
 </template>
@@ -53,18 +53,21 @@ export default {
         };
     },
     methods: {
+        toSignUp() {
+            this.$router.push('/signup');
+        },
         validateEmail() {
             const emailRegex =
                 /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
             if (!emailRegex.test(this.user.email)) {
-                this.message.emailError = '유효한 이메일을 입력해주세요.';
+                this.message.emailError = 'Please enter a valid email';
             } else {
                 this.message.emailError = '';
             }
         },
         validatePassword() {
             if (this.user.password.length == 0) {
-                this.message.passwordError = '비밀번호를 입력해주세요.';
+                this.message.passwordError = 'Please enter a password';
             } else {
                 this.message.passwordError = '';
             }
@@ -86,3 +89,61 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+.loginbox {
+    display: flex;
+    border-color: rgba(217, 217, 217, 1);
+    height: auto;
+    width: 20rem;
+    /* text-align: center; */
+    padding: 30px;
+    border-radius: 15px;
+    background-color: rgba(248, 248, 248, 1);
+    flex-direction: column;
+    align-items: center;
+}
+.brand {
+    font-family: 'Gasoek One', sans-serif;
+    color: #f73859;
+}
+.btn-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 26px;
+    width: 268px;
+    margin: 0 auto;
+    margin-top: 26px;
+}
+.btn {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 12px;
+    color: white;
+    border: none;
+    text-align: center;
+    cursor: pointer;
+    margin: 10px;
+    height: 50px;
+    width: 230px;
+    font-size: 18px;
+    border-radius: 15px;
+}
+.login {
+    background-color: #f73859;
+}
+.join {
+    background-color: #dedede;
+}
+button:hover {
+    opacity: 0.7;
+}
+label {
+    color: #4e4e4e;
+}
+.invalid-feedback {
+    font-size: 12px;
+}
+</style>
