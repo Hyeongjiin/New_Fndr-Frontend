@@ -2,7 +2,7 @@
     <div class="box">
         <div>
             <h2>Post a Job</h2>
-            <form @submit.prevent="submitPostForm" novalidate>
+            <form class="form" @submit.prevent="submitPostForm" novalidate>
                 <div class="row">
                     <div class="col-sm-6">
                         <label class="label-title">Company Name</label>
@@ -115,6 +115,7 @@
                 </div>
                 <div>
                     <div
+                        class="remote"
                         :class="{
                             'is-invalid': message.is_remoted_error,
                         }"
@@ -128,7 +129,7 @@
                                 v-model="post.is_remoted"
                                 required
                             />
-                            <label for="is_remoted_yes">possible</label>
+                            <label for="is_remoted_yes">Possible</label>
                         </div>
                         <div>
                             <input
@@ -141,7 +142,7 @@
                                 }"
                                 required
                             />
-                            <label for="is_remoted_no">impossible</label>
+                            <label for="is_remoted_no">Impossible</label>
                         </div>
                     </div>
                     <div class="invalid-feedback">
@@ -150,6 +151,7 @@
                 </div>
                 <div>
                     <div
+                        class="visa"
                         :class="{
                             'is-invalid': message.is_visa_sponsored_error,
                         }"
@@ -185,7 +187,10 @@
                     </div>
                 </div>
                 <div>
-                    <div :class="{ 'is-invalid': message.contract_form_error }">
+                    <div
+                        class="contract-type"
+                        :class="{ 'is-invalid': message.contract_form_error }"
+                    >
                         <label class="label-title">Contract Type</label>
                         <div>
                             <input
@@ -550,5 +555,63 @@ button:hover {
 }
 .label-title {
     font-size: 17px;
+}
+.contract-type {
+    display: flex;
+    justify-content: space-between;
+}
+
+.contract-type div {
+    display: flex;
+    align-items: center;
+    margin-right: 40px;
+}
+.contract-type div input {
+    margin-right: 10px;
+}
+.remote {
+    display: flex;
+}
+.remote div {
+    display: flex;
+    align-items: center;
+    margin-left: 50px;
+}
+.remote div input {
+    margin-right: 10px;
+}
+.visa {
+    display: flex;
+}
+.visa div {
+    display: flex;
+    align-items: center;
+    margin-left: 50px;
+}
+.visa div input {
+    margin-right: 10px;
+}
+[type='radio'] {
+    display: none;
+}
+
+/* 커스텀 라디오 버튼 디자인 */
+[type='radio'] + label::before {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #555;
+    border-radius: 50%;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+/* 라디오 버튼이 선택되었을 때의 디자인 */
+[type='radio']:checked + label::before {
+    background: #f73859; /* 원하는 색상으로 변경 */
+}
+.form div {
+    margin-top: 10px;
 }
 </style>
