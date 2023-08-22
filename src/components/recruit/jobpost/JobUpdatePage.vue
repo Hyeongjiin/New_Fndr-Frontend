@@ -36,6 +36,15 @@
                 </div>
             </div>
             <div>
+                <label>회사 홈페이지 링크</label>
+                <input
+                    type="company_page_link"
+                    v-model="post.company_page_link"
+                    placeholder="https://fndr.com"
+                    class="form-control"
+                />
+            </div>
+            <div>
                 <label>제목</label>
                 <input
                     type="description_title"
@@ -52,17 +61,22 @@
                 </div>
             </div>
             <div>
-                <label>내용</label>
-                <TextEditor
-                    v-model="post.description_content"
+                <label>채용 위치</label>
+                <input
+                    type="location"
+                    v-model="post.location"
+                    placeholder="Example: Seoul / Remote / Anywhere"
                     :class="{
-                        'is-invalid': message.description_content_error,
+                        'is-invalid': message.location_error,
                     }"
                     class="form-control"
                     required
                 />
+                <div>
+                    The Country, City, Address or Remote of the job posting
+                </div>
                 <div class="invalid-feedback">
-                    채용공고의 내용을 입력해주세요.
+                    채용공고에 해당하는 위치를 입력해주세요.
                 </div>
             </div>
             <div>
@@ -80,6 +94,14 @@
                 <div class="invalid-feedback">
                     채용공고의 지원 링크을 입력해주세요.
                 </div>
+            </div>
+            <div>
+                <label>급여 범위</label>
+                <input
+                    type="salary"
+                    v-model="post.salary"
+                    class="form-control"
+                />
             </div>
             <div>
                 <div
@@ -152,10 +174,6 @@
                 </div>
             </div>
             <div>
-                <label>급여 범위</label>
-                <input type="salary" v-model="post.salary" />
-            </div>
-            <div>
                 <div :class="{ 'is-invalid': message.contract_form_error }">
                     <label>계약 형태</label>
                     <div>
@@ -222,39 +240,27 @@
                 <div class="invalid-feedback">계약 형태를 선택해주세요.</div>
             </div>
             <div>
-                <label>회사 홈페이지 링크</label>
-                <input
-                    type="company_page_link"
-                    v-model="post.company_page_link"
-                    placeholder="https://fndr.com"
-                />
-            </div>
-            <div>
                 <label>태그</label>
                 <input
                     type="tag"
                     v-model="tag_input"
                     placeholder="Example: Backend, MySQL, Java (Separated by comma)"
+                    class="form-control"
                 />
                 <div>Example: Backend, MySQL, Java (Separated by comma)</div>
             </div>
             <div>
-                <label>채용 위치</label>
-                <input
-                    type="location"
-                    v-model="post.location"
-                    placeholder="Example: Seoul / Remote / Anywhere"
+                <label>내용</label>
+                <TextEditor
+                    v-model="post.description_content"
                     :class="{
-                        'is-invalid': message.location_error,
+                        'is-invalid': message.description_content_error,
                     }"
                     class="form-control"
                     required
                 />
-                <div>
-                    The Country, City, Address or Remote of the job posting
-                </div>
                 <div class="invalid-feedback">
-                    채용공고에 해당하는 위치를 입력해주세요.
+                    채용공고의 내용을 입력해주세요.
                 </div>
             </div>
             <div>기존 로고</div>
@@ -284,7 +290,10 @@
                 {{ this.message.job_post_error }}
             </div>
 
-            <button type="submit">수정하기</button>
+            <div class="btn-box">
+                <button class="btn edit" type="submit">수정하기</button>
+                <button class="btn cancle" @click="cancle">취소</button>
+            </div>
         </form>
     </div>
 </template>
@@ -350,6 +359,9 @@ export default {
         },
     },
     methods: {
+        cancle() {
+            this.$router.push(`/detail/${this.$store.state.jobDetail.id}`);
+        },
         previewImage(event) {
             const input = event.target;
             if (input.files && input.files[0]) {
@@ -467,3 +479,40 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+.btn-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 26px;
+    width: 268px;
+    margin: 0 auto;
+    margin-top: 26px;
+}
+.btn {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 12px;
+    color: white;
+    border: none;
+    text-align: center;
+    cursor: pointer;
+    margin: 10px;
+    height: 50px;
+    width: 230px;
+    font-size: 18px;
+    border-radius: 15px;
+}
+.edit {
+    background-color: #f73859;
+}
+.cancle {
+    color: #4e4e4e;
+    background-color: #f5f5f5;
+}
+button:hover {
+    opacity: 0.7;
+}
+</style>

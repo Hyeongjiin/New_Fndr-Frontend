@@ -1,36 +1,40 @@
 <template>
-    <div class="loginbox">
-        <h2 class="brand">Fndr.io</h2>
-        <form @submit.prevent="login" novalidate>
-            <div>
-                <label>Email</label>
-                <input
-                    type="email"
-                    v-model="user.email"
-                    :class="{ 'is-invalid': message.emailError }"
-                    class="form-control"
-                    required
-                />
-                <div class="invalid-feedback">{{ message.emailError }}</div>
-            </div>
-            <div>
-                <label>Password</label>
-                <input
-                    type="password"
-                    v-model="user.password"
-                    :class="{
-                        'is-invalid': message.passwordError,
-                    }"
-                    class="form-control"
-                    required
-                />
-                <div class="invalid-feedback">{{ message.passwordError }}</div>
-            </div>
-            <div class="btn-box">
-                <button class="btn login" type="submit">Log in</button>
-                <button class="btn join" @click="toSignUp">Sign up</button>
-            </div>
-        </form>
+    <div class="box">
+        <div class="loginbox">
+            <h2 class="brand">Fndr.io</h2>
+            <form @submit.prevent="login" novalidate>
+                <div>
+                    <label>Email</label>
+                    <input
+                        type="email"
+                        v-model="user.email"
+                        :class="{ 'is-invalid': message.emailError }"
+                        class="form-control"
+                        required
+                    />
+                    <div class="invalid-feedback">{{ message.emailError }}</div>
+                </div>
+                <div>
+                    <label>Password</label>
+                    <input
+                        type="password"
+                        v-model="user.password"
+                        :class="{
+                            'is-invalid': message.passwordError,
+                        }"
+                        class="form-control"
+                        required
+                    />
+                    <div class="invalid-feedback">
+                        {{ message.passwordError }}
+                    </div>
+                </div>
+                <div class="btn-box">
+                    <button class="btn login" type="submit">Log in</button>
+                    <button class="btn join" @click="toSignUp">Sign up</button>
+                </div>
+            </form>
+        </div>
     </div>
 </template>
 
@@ -91,6 +95,15 @@ export default {
 </script>
 
 <style scoped>
+.box {
+    display: flex;
+    width: 70rem;
+    padding-top: 5rem;
+    max-width: 70rem;
+    margin: 0 auto;
+    align-items: flex-start;
+    justify-content: center;
+}
 .loginbox {
     display: flex;
     border-color: rgba(217, 217, 217, 1);

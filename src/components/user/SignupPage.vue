@@ -1,75 +1,86 @@
 <template>
-    <div class="signupbox">
-        <h2 class="brand">Fndr.io</h2>
-        <form @submit.prevent="signup" novalidate>
-            <div>
-                <label>Email</label>
-                <input
-                    type="email"
-                    v-model="user.email"
-                    @input="validateEmail"
-                    :class="{ 'is-invalid': message.emailError }"
-                    class="form-control"
-                    required
-                />
-                <div class="invalid-feedback">{{ message.emailError }}</div>
-            </div>
-            <div>
-                <label>Password</label>
-                <input
-                    type="password"
-                    v-model="user.password"
-                    @input="validatePassword"
-                    :class="{
-                        'is-invalid': message.passwordError,
-                        'is-valid': message.passwordValid,
-                    }"
-                    class="form-control"
-                    required
-                />
-                <div class="valid-feedback">{{ message.passwordValid }}</div>
-                <div class="invalid-feedback">{{ message.passwordError }}</div>
-            </div>
-            <div>
-                <label>Password Check</label>
-                <input
-                    type="password"
-                    v-model="user.passwordCheck"
-                    @input="validatePasswordCheck"
-                    :class="{
-                        'is-invalid': message.passwordCheckError,
-                        'is-valid': message.passwordCheckValid,
-                    }"
-                    class="form-control"
-                    required
-                />
-                <div class="valid-feedback">
-                    {{ message.passwordCheckValid }}
+    <div class="box">
+        <div class="signupbox">
+            <h2 class="brand">Fndr.io</h2>
+            <form @submit.prevent="signup" novalidate>
+                <div>
+                    <label>Email</label>
+                    <input
+                        type="email"
+                        v-model="user.email"
+                        @input="validateEmail"
+                        :class="{ 'is-invalid': message.emailError }"
+                        class="form-control"
+                        required
+                    />
+                    <div class="invalid-feedback">{{ message.emailError }}</div>
                 </div>
-                <div class="invalid-feedback">
-                    {{ message.passwordCheckError }}
+                <div>
+                    <label>Password</label>
+                    <input
+                        type="password"
+                        v-model="user.password"
+                        @input="validatePassword"
+                        :class="{
+                            'is-invalid': message.passwordError,
+                            'is-valid': message.passwordValid,
+                        }"
+                        class="form-control"
+                        required
+                    />
+                    <div class="valid-feedback">
+                        {{ message.passwordValid }}
+                    </div>
+                    <div class="invalid-feedback">
+                        {{ message.passwordError }}
+                    </div>
                 </div>
-            </div>
-            <div>
-                <label>Nickname</label>
-                <input
-                    type="nickname"
-                    v-model="user.nickname"
-                    @input="validateNickname"
-                    :class="{ 'is-invalid': message.nicknameError }"
-                    class="form-control"
-                    required
-                />
-                <div class="invalid-feedback">{{ message.nicknameError }}</div>
-            </div>
-            <div class="signup-error" v-if="this.message.signupError !== ''">
-                {{ this.message.signupError }}
-            </div>
-            <div class="btn-box">
-                <button class="btn join" type="submit">Sign up</button>
-                <button class="btn login" @click="toLogin">Log in</button>
-            </div>
-        </form>
+                <div>
+                    <label>Password Check</label>
+                    <input
+                        type="password"
+                        v-model="user.passwordCheck"
+                        @input="validatePasswordCheck"
+                        :class="{
+                            'is-invalid': message.passwordCheckError,
+                            'is-valid': message.passwordCheckValid,
+                        }"
+                        class="form-control"
+                        required
+                    />
+                    <div class="valid-feedback">
+                        {{ message.passwordCheckValid }}
+                    </div>
+                    <div class="invalid-feedback">
+                        {{ message.passwordCheckError }}
+                    </div>
+                </div>
+                <div>
+                    <label>Nickname</label>
+                    <input
+                        type="nickname"
+                        v-model="user.nickname"
+                        @input="validateNickname"
+                        :class="{ 'is-invalid': message.nicknameError }"
+                        class="form-control"
+                        required
+                    />
+                    <div class="invalid-feedback">
+                        {{ message.nicknameError }}
+                    </div>
+                </div>
+                <div
+                    class="signup-error"
+                    v-if="this.message.signupError !== ''"
+                >
+                    {{ this.message.signupError }}
+                </div>
+                <div class="btn-box">
+                    <button class="btn join" type="submit">Sign up</button>
+                    <button class="btn login" @click="toLogin">Log in</button>
+                </div>
+            </form>
+        </div>
     </div>
 </template>
 
@@ -175,6 +186,15 @@ export default {
 </script>
 
 <style scoper>
+.box {
+    display: flex;
+    width: 70rem;
+    padding-top: 5rem;
+    max-width: 70rem;
+    margin: 0 auto;
+    align-items: flex-start;
+    justify-content: center;
+}
 .signupbox {
     display: flex;
     border-color: rgba(217, 217, 217, 1);
