@@ -1,291 +1,304 @@
 <template>
-    <div>
-        <h2>채용공고 등록</h2>
-        <form @submit.prevent="submitPostForm" novalidate>
-            <div>
+    <div class="box">
+        <div>
+            <h2>채용공고 등록</h2>
+            <form @submit.prevent="submitPostForm" novalidate>
                 <div>
-                    <label>Company Name</label>
+                    <div>
+                        <label>Company Name</label>
+                        <input
+                            type="company_name"
+                            v-model="post.company_name"
+                            placeholder="The fndr Corporation"
+                            :class="{
+                                'is-invalid': message.company_name_error,
+                            }"
+                            class="form-control"
+                            required
+                        />
+                        <div class="invalid-feedback">
+                            회사명을 입력해주세요.
+                        </div>
+                    </div>
+                    <div>
+                        <label>Company Email</label>
+                        <input
+                            type="email"
+                            v-model="post.company_email"
+                            @input="validateEmail"
+                            placeholder="example@fndr.com"
+                            :class="{
+                                'is-invalid': message.company_email_error,
+                            }"
+                            class="form-control"
+                            required
+                        />
+                        <div>
+                            Company email in case of any problems. Not publicly
+                            visible.
+                        </div>
+                        <div class="invalid-feedback">
+                            {{ message.company_email_error }}
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label>Company HomePage Link</label>
                     <input
-                        type="company_name"
-                        v-model="post.company_name"
-                        placeholder="The fndr Corporation"
-                        :class="{ 'is-invalid': message.company_name_error }"
+                        type="company_page_link"
+                        v-model="post.company_page_link"
+                        placeholder="https://fndr.com"
+                        class="form-control"
+                    />
+                </div>
+                <div>
+                    <label>Job Title</label>
+                    <input
+                        type="description_title"
+                        v-model="post.description_title"
+                        placeholder="fndr developer"
+                        :class="{
+                            'is-invalid': message.description_title_error,
+                        }"
                         class="form-control"
                         required
                     />
-                    <div class="invalid-feedback">회사명을 입력해주세요.</div>
+                    <div class="invalid-feedback">
+                        채용공고의 제목을 입력해주세요.
+                    </div>
                 </div>
                 <div>
-                    <label>Company Email</label>
+                    <label>Location</label>
                     <input
-                        type="email"
-                        v-model="post.company_email"
-                        @input="validateEmail"
-                        placeholder="example@fndr.com"
-                        :class="{ 'is-invalid': message.company_email_error }"
+                        type="location"
+                        v-model="post.location"
+                        placeholder="Example: Seoul / Remote / Anywhere"
+                        :class="{
+                            'is-invalid': message.location_error,
+                        }"
                         class="form-control"
                         required
                     />
                     <div>
-                        Company email in case of any problems. Not publicly
-                        visible.
+                        The Country, City, Address or Remote of the job posting
                     </div>
                     <div class="invalid-feedback">
-                        {{ message.company_email_error }}
+                        채용공고에 해당하는 위치를 입력해주세요.
                     </div>
                 </div>
-            </div>
-            <div>
-                <label>Company HomePage Link</label>
-                <input
-                    type="company_page_link"
-                    v-model="post.company_page_link"
-                    placeholder="https://fndr.com"
-                    class="form-control"
-                />
-            </div>
-            <div>
-                <label>Job Title</label>
-                <input
-                    type="description_title"
-                    v-model="post.description_title"
-                    placeholder="fndr developer"
-                    :class="{
-                        'is-invalid': message.description_title_error,
-                    }"
-                    class="form-control"
-                    required
-                />
-                <div class="invalid-feedback">
-                    채용공고의 제목을 입력해주세요.
-                </div>
-            </div>
-            <div>
-                <label>Location</label>
-                <input
-                    type="location"
-                    v-model="post.location"
-                    placeholder="Example: Seoul / Remote / Anywhere"
-                    :class="{
-                        'is-invalid': message.location_error,
-                    }"
-                    class="form-control"
-                    required
-                />
                 <div>
-                    The Country, City, Address or Remote of the job posting
-                </div>
-                <div class="invalid-feedback">
-                    채용공고에 해당하는 위치를 입력해주세요.
-                </div>
-            </div>
-            <div>
-                <label>Application URL</label>
-                <input
-                    type="company_apply_link"
-                    v-model="post.company_apply_link"
-                    placeholder="https://fndr.com/apply/software-developer"
-                    :class="{
-                        'is-invalid': message.company_apply_link_error,
-                    }"
-                    class="form-control"
-                    required
-                />
-                <div class="invalid-feedback">
-                    채용공고의 지원 링크을 입력해주세요.
-                </div>
-            </div>
-            <div>
-                <label>Salary Range</label>
-                <input
-                    type="salary"
-                    v-model="post.salary"
-                    class="form-control"
-                />
-            </div>
-            <div>
-                <div
-                    :class="{
-                        'is-invalid': message.is_remoted_error,
-                    }"
-                >
-                    <label>Remote work</label>
-                    <div>
-                        <input
-                            type="radio"
-                            id="is_remoted_yes"
-                            value="true"
-                            v-model="post.is_remoted"
-                            required
-                        />
-                        <label for="is_remoted_yes">possible</label>
-                    </div>
-                    <div>
-                        <input
-                            type="radio"
-                            id="is_remoted_no"
-                            value="false"
-                            v-model="post.is_remoted"
-                            :class="{
-                                'is-invalid': message.is_remoted_error,
-                            }"
-                            required
-                        />
-                        <label for="is_remoted_no">impossible</label>
+                    <label>Application URL</label>
+                    <input
+                        type="company_apply_link"
+                        v-model="post.company_apply_link"
+                        placeholder="https://fndr.com/apply/software-developer"
+                        :class="{
+                            'is-invalid': message.company_apply_link_error,
+                        }"
+                        class="form-control"
+                        required
+                    />
+                    <div class="invalid-feedback">
+                        채용공고의 지원 링크을 입력해주세요.
                     </div>
                 </div>
-                <div class="invalid-feedback">
-                    원격 근무 여부를 확인해주세요.
+                <div>
+                    <label>Salary Range</label>
+                    <input
+                        type="salary"
+                        v-model="post.salary"
+                        class="form-control"
+                    />
                 </div>
-            </div>
-            <div>
-                <div
-                    :class="{
-                        'is-invalid': message.is_visa_sponsored_error,
-                    }"
-                >
-                    <label>Visa support</label>
-                    <div>
-                        <input
-                            type="radio"
-                            id="is_visa_sponsored_yes"
-                            value="true"
-                            v-model="post.is_visa_sponsored"
-                            required
-                        />
-                        <label for="is_visa_sponsored_yes">Possible</label>
+                <div>
+                    <div
+                        :class="{
+                            'is-invalid': message.is_remoted_error,
+                        }"
+                    >
+                        <label>Remote work</label>
+                        <div>
+                            <input
+                                type="radio"
+                                id="is_remoted_yes"
+                                value="true"
+                                v-model="post.is_remoted"
+                                required
+                            />
+                            <label for="is_remoted_yes">possible</label>
+                        </div>
+                        <div>
+                            <input
+                                type="radio"
+                                id="is_remoted_no"
+                                value="false"
+                                v-model="post.is_remoted"
+                                :class="{
+                                    'is-invalid': message.is_remoted_error,
+                                }"
+                                required
+                            />
+                            <label for="is_remoted_no">impossible</label>
+                        </div>
                     </div>
-                    <div>
-                        <input
-                            type="radio"
-                            id="is_visa_sponsored_no"
-                            value="false"
-                            v-model="post.is_visa_sponsored"
-                            :class="{
-                                'is-invalid': message.is_visa_sponsored_error,
-                            }"
-                            required
-                        />
-                        <label for="is_visa_sponsored_no">Impossible</label>
-                    </div>
-                </div>
-                <div class="invalid-feedback">
-                    비자 지원 여부를 확인해주세요.
-                </div>
-            </div>
-            <div>
-                <div :class="{ 'is-invalid': message.contract_form_error }">
-                    <label>Contract Form</label>
-                    <div>
-                        <input
-                            type="radio"
-                            id="full_time"
-                            value='["Full-Time"]'
-                            v-model="post.contract_form"
-                            required
-                        />
-                        <label class="form-check-label" for="full_time"
-                            >Full Time</label
-                        >
-                    </div>
-                    <div>
-                        <input
-                            type="radio"
-                            id="part_time"
-                            value='["Part-Time"]'
-                            v-model="post.contract_form"
-                            required
-                        />
-                        <label class="form-check-label" for="part_time"
-                            >Part Time</label
-                        >
-                    </div>
-                    <div>
-                        <input
-                            type="radio"
-                            id="contract"
-                            value='["Contract"]'
-                            v-model="post.contract_form"
-                            required
-                        />
-                        <label class="form-check-label" for="contract"
-                            >Contract</label
-                        >
-                    </div>
-                    <div>
-                        <input
-                            type="radio"
-                            id="internship"
-                            value='["Intership"]'
-                            v-model="post.contract_form"
-                            required
-                        />
-                        <label class="form-check-label" for="internship"
-                            >Internship</label
-                        >
-                    </div>
-                    <div>
-                        <input
-                            type="radio"
-                            id="temporary"
-                            value='["Temporary"]'
-                            v-model="post.contract_form"
-                            required
-                        />
-                        <label class="form-check-label" for="temporary"
-                            >Temporary</label
-                        >
+                    <div class="invalid-feedback">
+                        원격 근무 여부를 확인해주세요.
                     </div>
                 </div>
-                <div class="invalid-feedback">계약 형태를 선택해주세요.</div>
-            </div>
-            <div>
-                <label>Skills / Tags</label>
-                <input
-                    type="tag"
-                    v-model="tag_input"
-                    placeholder="Example: Backend, MySQL, Java (Separated by comma)"
-                    class="form-control"
-                />
-                <div>Example: Backend, MySQL, Java (Separated by comma)</div>
-            </div>
-            <div>
-                <label>Job Description</label>
-                <TextEditor
-                    v-model="post.description_content"
-                    :class="{
-                        'is-invalid': message.description_content_error,
-                    }"
-                    class="form-control"
-                    required
-                />
-                <div class="invalid-feedback">
-                    채용공고의 내용을 입력해주세요.
+                <div>
+                    <div
+                        :class="{
+                            'is-invalid': message.is_visa_sponsored_error,
+                        }"
+                    >
+                        <label>Visa support</label>
+                        <div>
+                            <input
+                                type="radio"
+                                id="is_visa_sponsored_yes"
+                                value="true"
+                                v-model="post.is_visa_sponsored"
+                                required
+                            />
+                            <label for="is_visa_sponsored_yes">Possible</label>
+                        </div>
+                        <div>
+                            <input
+                                type="radio"
+                                id="is_visa_sponsored_no"
+                                value="false"
+                                v-model="post.is_visa_sponsored"
+                                :class="{
+                                    'is-invalid':
+                                        message.is_visa_sponsored_error,
+                                }"
+                                required
+                            />
+                            <label for="is_visa_sponsored_no">Impossible</label>
+                        </div>
+                    </div>
+                    <div class="invalid-feedback">
+                        비자 지원 여부를 확인해주세요.
+                    </div>
                 </div>
-            </div>
-            <div>Company Logo</div>
-            <div>
-                <img
-                    v-if="imagePreview"
-                    :src="imagePreview"
-                    alt="Image Preview"
-                />
-            </div>
-            <div>
-                <input
-                    type="file"
-                    ref="companyLogoInput"
-                    @change="previewImage"
-                />
-            </div>
-            <div v-if="this.message.job_post_error !== ''">
-                {{ this.message.job_post_error }}
-            </div>
-            <div class="btn-box">
-                <button class="btn post" type="submit">Post</button>
-                <button class="btn cancle" @click="cancle">Cancle</button>
-            </div>
-        </form>
+                <div>
+                    <div :class="{ 'is-invalid': message.contract_form_error }">
+                        <label>Contract Form</label>
+                        <div>
+                            <input
+                                type="radio"
+                                id="full_time"
+                                value='["Full-Time"]'
+                                v-model="post.contract_form"
+                                required
+                            />
+                            <label class="form-check-label" for="full_time"
+                                >Full Time</label
+                            >
+                        </div>
+                        <div>
+                            <input
+                                type="radio"
+                                id="part_time"
+                                value='["Part-Time"]'
+                                v-model="post.contract_form"
+                                required
+                            />
+                            <label class="form-check-label" for="part_time"
+                                >Part Time</label
+                            >
+                        </div>
+                        <div>
+                            <input
+                                type="radio"
+                                id="contract"
+                                value='["Contract"]'
+                                v-model="post.contract_form"
+                                required
+                            />
+                            <label class="form-check-label" for="contract"
+                                >Contract</label
+                            >
+                        </div>
+                        <div>
+                            <input
+                                type="radio"
+                                id="internship"
+                                value='["Intership"]'
+                                v-model="post.contract_form"
+                                required
+                            />
+                            <label class="form-check-label" for="internship"
+                                >Internship</label
+                            >
+                        </div>
+                        <div>
+                            <input
+                                type="radio"
+                                id="temporary"
+                                value='["Temporary"]'
+                                v-model="post.contract_form"
+                                required
+                            />
+                            <label class="form-check-label" for="temporary"
+                                >Temporary</label
+                            >
+                        </div>
+                    </div>
+                    <div class="invalid-feedback">
+                        계약 형태를 선택해주세요.
+                    </div>
+                </div>
+                <div>
+                    <label>Skills / Tags</label>
+                    <input
+                        type="tag"
+                        v-model="tag_input"
+                        placeholder="Example: Backend, MySQL, Java (Separated by comma)"
+                        class="form-control"
+                    />
+                    <div>
+                        Example: Backend, MySQL, Java (Separated by comma)
+                    </div>
+                </div>
+                <div>
+                    <label>Job Description</label>
+                    <TextEditor
+                        v-model="post.description_content"
+                        :class="{
+                            'is-invalid': message.description_content_error,
+                        }"
+                        class="form-control"
+                        required
+                    />
+                    <div class="invalid-feedback">
+                        채용공고의 내용을 입력해주세요.
+                    </div>
+                </div>
+                <div>Company Logo</div>
+                <div>
+                    <img
+                        v-if="imagePreview"
+                        :src="imagePreview"
+                        alt="Image Preview"
+                    />
+                </div>
+                <div>
+                    <input
+                        type="file"
+                        ref="companyLogoInput"
+                        @change="previewImage"
+                    />
+                </div>
+                <div v-if="this.message.job_post_error !== ''">
+                    {{ this.message.job_post_error }}
+                </div>
+                <div class="btn-box">
+                    <button class="btn post" type="submit">Post</button>
+                    <button class="btn cancle" @click="cancle">Cancle</button>
+                </div>
+            </form>
+        </div>
     </div>
 </template>
 
@@ -450,6 +463,15 @@ export default {
 </script>
 
 <style scoped>
+.box {
+    display: flex;
+    width: 70rem;
+    padding-top: 5rem;
+    max-width: 70rem;
+    margin: 0 auto;
+    align-items: flex-start;
+    justify-content: center;
+}
 .btn-box {
     display: flex;
     justify-content: center;
