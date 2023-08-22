@@ -5,7 +5,7 @@
             <form class="form" @submit.prevent="submitPostForm" novalidate>
                 <div class="row">
                     <div class="col-sm-6">
-                        <label class="label-title">Company Name</label>
+                        <label class="label-title required">Company Name</label>
                         <input
                             type="company_name"
                             v-model="post.company_name"
@@ -21,7 +21,9 @@
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <label class="label-title">Company Email</label>
+                        <label class="label-title required"
+                            >Company Email</label
+                        >
                         <input
                             type="email"
                             v-model="post.company_email"
@@ -52,7 +54,7 @@
                     />
                 </div>
                 <div>
-                    <label class="label-title">Job Title</label>
+                    <label class="label-title required">Job Title</label>
                     <input
                         type="description_title"
                         v-model="post.description_title"
@@ -69,7 +71,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-5">
-                        <label class="label-title">Location</label>
+                        <label class="label-title required">Location</label>
                         <input
                             type="location"
                             v-model="post.location"
@@ -98,7 +100,7 @@
                     </div>
                 </div>
                 <div>
-                    <label class="label-title">Application URL</label>
+                    <label class="label-title required">Application URL</label>
                     <input
                         type="company_apply_link"
                         v-model="post.company_apply_link"
@@ -120,7 +122,7 @@
                             'is-invalid': message.is_remoted_error,
                         }"
                     >
-                        <label class="label-title">Remote work</label>
+                        <label class="label-title required">Remote work</label>
                         <div>
                             <input
                                 type="radio"
@@ -156,7 +158,7 @@
                             'is-invalid': message.is_visa_sponsored_error,
                         }"
                     >
-                        <label class="label-title">Visa support</label>
+                        <label class="label-title required">Visa support</label>
                         <div>
                             <input
                                 type="radio"
@@ -191,7 +193,9 @@
                         class="contract-type"
                         :class="{ 'is-invalid': message.contract_form_error }"
                     >
-                        <label class="label-title">Contract Type</label>
+                        <label class="label-title required"
+                            >Contract Type</label
+                        >
                         <div>
                             <input
                                 type="radio"
@@ -270,7 +274,7 @@
                     </div>
                 </div>
                 <div>
-                    <label class="label-title">Job Description</label>
+                    <label class="label-title required">Job Description</label>
                     <TextEditor
                         v-model="post.description_content"
                         :class="{
@@ -595,7 +599,6 @@ button:hover {
     display: none;
 }
 
-/* 커스텀 라디오 버튼 디자인 */
 [type='radio'] + label::before {
     content: '';
     display: inline-block;
@@ -607,11 +610,15 @@ button:hover {
     vertical-align: middle;
 }
 
-/* 라디오 버튼이 선택되었을 때의 디자인 */
 [type='radio']:checked + label::before {
-    background: #f73859; /* 원하는 색상으로 변경 */
+    background: #f73859;
 }
 .form div {
     margin-top: 10px;
+}
+.required::after {
+    content: '*';
+    color: red;
+    margin-left: 5px;
 }
 </style>

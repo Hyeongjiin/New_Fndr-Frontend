@@ -3,6 +3,7 @@
         <div>
             <h2>Edit Job Post</h2>
             <form
+                class="form"
                 @submit.prevent="
                     submitUpdateForm(this.$store.state.jobDetail.id)
                 "
@@ -10,7 +11,7 @@
             >
                 <div class="row">
                     <div class="col-sm-6">
-                        <label class="label-title">Company Name</label>
+                        <label class="label-title required">Company Name</label>
                         <input
                             type="company_name"
                             v-model="post.company_name"
@@ -26,7 +27,9 @@
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <label class="label-title">Company Email</label>
+                        <label class="label-title required"
+                            >Company Email</label
+                        >
                         <input
                             type="email"
                             v-model="post.company_email"
@@ -57,7 +60,7 @@
                     />
                 </div>
                 <div>
-                    <label class="label-title">Job Title</label>
+                    <label class="label-title required">Job Title</label>
                     <input
                         type="description_title"
                         v-model="post.description_title"
@@ -74,7 +77,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-5">
-                        <label class="label-title">Location</label>
+                        <label class="label-title required">Location</label>
                         <input
                             type="location"
                             v-model="post.location"
@@ -103,7 +106,7 @@
                     </div>
                 </div>
                 <div>
-                    <label class="label-title">Application URL</label>
+                    <label class="label-title required">Application URL</label>
                     <input
                         type="company_apply_link"
                         v-model="post.company_apply_link"
@@ -120,11 +123,12 @@
                 </div>
                 <div>
                     <div
+                        class="remote"
                         :class="{
                             'is-invalid': message.is_remoted_error,
                         }"
                     >
-                        <label class="label-title">Remote work</label>
+                        <label class="label-title required">Remote work</label>
                         <div>
                             <input
                                 type="radio"
@@ -155,11 +159,12 @@
                 </div>
                 <div>
                     <div
+                        class="visa"
                         :class="{
                             'is-invalid': message.is_visa_sponsored_error,
                         }"
                     >
-                        <label class="label-title">Visa support</label>
+                        <label class="label-title required">Visa support</label>
                         <div>
                             <input
                                 type="radio"
@@ -190,8 +195,13 @@
                     </div>
                 </div>
                 <div>
-                    <div :class="{ 'is-invalid': message.contract_form_error }">
-                        <label class="label-title">Contract Type</label>
+                    <div
+                        class="contract-type"
+                        :class="{ 'is-invalid': message.contract_form_error }"
+                    >
+                        <label class="label-title required"
+                            >Contract Type</label
+                        >
                         <div>
                             <input
                                 type="radio"
@@ -270,7 +280,7 @@
                     </div>
                 </div>
                 <div>
-                    <label class="label-title">Job Description</label>
+                    <label class="label-title required">Job Description</label>
                     <TextEditor
                         v-model="post.description_content"
                         :class="{
@@ -415,7 +425,10 @@ export default {
             }
         },
         validateRadio(fieldName) {
-            if (this.post[fieldName] === null) {
+            if (
+                this.post[fieldName] === null ||
+                this.post[fieldName] === '[]'
+            ) {
                 this.message[fieldName + '_error'] = 'error';
             } else {
                 this.message[fieldName + '_error'] = '';
@@ -586,5 +599,66 @@ button:hover {
 }
 .label-title {
     font-size: 17px;
+}
+.contract-type {
+    display: flex;
+    justify-content: space-between;
+}
+
+.contract-type div {
+    display: flex;
+    align-items: center;
+    margin-right: 40px;
+}
+.contract-type div input {
+    margin-right: 10px;
+}
+.remote {
+    display: flex;
+}
+.remote div {
+    display: flex;
+    align-items: center;
+    margin-left: 50px;
+}
+.remote div input {
+    margin-right: 10px;
+}
+.visa {
+    display: flex;
+}
+.visa div {
+    display: flex;
+    align-items: center;
+    margin-left: 50px;
+}
+.visa div input {
+    margin-right: 10px;
+}
+[type='radio'] {
+    display: none;
+}
+
+[type='radio'] + label::before {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #555;
+    border-radius: 50%;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+[type='radio']:checked + label::before {
+    background: #f73859;
+}
+.form div {
+    margin-top: 10px;
+}
+.required::after {
+    content: '*';
+    color: red;
+    margin-left: 5px;
 }
 </style>
