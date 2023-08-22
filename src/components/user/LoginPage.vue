@@ -27,8 +27,8 @@
                 <div class="invalid-feedback">{{ message.passwordError }}</div>
             </div>
             <div class="btn-box">
-                <button class="btn join" @click="toSignUp">Sign up</button>
                 <button class="btn login" type="submit">Log in</button>
+                <button class="btn join" @click="toSignUp">Sign up</button>
             </div>
         </form>
     </div>
