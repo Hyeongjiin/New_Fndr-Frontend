@@ -1,7 +1,6 @@
 <template>
     <quill-editor
         :value="modelValue"
-        @input="handleInput"
         @change="onEditorChange"
         :options="state.editorOption"
         class="editor"
@@ -63,11 +62,11 @@ export default {
         const onEditorReady = (quill) => {
             console.log('editor ready!', quill);
         };
-        const handleInput = (newValue) => {
-            emit('update:modelValue', newValue);
+        const handleInput = (quill) => {
+            console.log('editor input!', quill);
         };
         const onEditorChange = ({ quill, html, text }) => {
-            handleInput(html);
+            emit('update:modelValue', html);
         };
         return {
             state,

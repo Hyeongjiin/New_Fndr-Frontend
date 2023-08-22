@@ -254,6 +254,7 @@
                     채용공고에 해당하는 위치를 입력해주세요.
                 </div>
             </div>
+            <div>로고</div>
             <div>
                 <img
                     v-if="imagePreview"
