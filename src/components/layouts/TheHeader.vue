@@ -40,7 +40,7 @@
                     <li class="nav-item">
                         <router-link
                             class="nav-link"
-                            to="/"
+                            to="/review/list/1"
                             @click="refreshIfSameRoute"
                             >Review</router-link
                         >
