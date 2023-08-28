@@ -297,7 +297,7 @@
                 <div>
                     <img
                         v-if="this.$store.state.jobDetail.company_logo !== null"
-                        :src="imgUrl + this.$store.state.jobDetail.company_logo"
+                        :src="this.$store.state.jobDetail.company_logo"
                         alt="Company Logo"
                     />
                 </div>
@@ -381,7 +381,6 @@ export default {
                 location_error: '',
                 job_post_error: '',
             },
-            imgUrl: 'http://localhost:8080/',
             imagePreview: null,
         };
     },
