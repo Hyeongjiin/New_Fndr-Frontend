@@ -50,11 +50,10 @@ const store = createStore({
                 if (!state.jobDetail.tag) {
                     return [];
                 }
-                const tagArray = JSON.parse(state.jobDetail.tag);
                 const techNameArray = state.jobDetail.description_teches.map(
                     (tech) => tech.tech_name
                 );
-                const totalTagArray = [...tagArray, ...techNameArray];
+                const totalTagArray = [...techNameArray];
                 return totalTagArray;
             } catch (error) {
                 console.error('Failed to parse jobDetail.tag', error);
