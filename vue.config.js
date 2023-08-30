@@ -1,5 +1,6 @@
 module.exports = {
   devServer: {
-    proxy: 'http://localhost:8080/rest/',
+    allowedHosts: 'all', // yon11b 추가
+    proxy: 'http://localhost:8080/rest/',    
   },
 };
