@@ -46,8 +46,11 @@ const store = createStore({
       console.log(state.isLoggedIn);
     },
     // review 기능
-    setReviews(state, reviews) {
-      state.reviews = reviews;
+    setReviews(state, results) {
+      state.reviews = results;
+    },
+    delete_review(state, postId) {
+      state.reviews = state.reviews.filter((review) => review.id !== postId);
     },
   },
   getters: {
@@ -56,11 +59,11 @@ const store = createStore({
         if (!state.jobDetail.tag) {
           return [];
         }
-        const tagArray = JSON.parse(state.jobDetail.tag);
+        // const tagArray = JSON.parse(state.jobDetail.tag);
         const techNameArray = state.jobDetail.description_teches.map(
           (tech) => tech.tech_name
         );
-        const totalTagArray = [...tagArray, ...techNameArray];
+        const totalTagArray = [...techNameArray];
         return totalTagArray;
       } catch (error) {
         console.error("Failed to parse jobDetail.tag", error);
@@ -225,8 +228,32 @@ const store = createStore({
       }
     },
     // review의 데이터 가져오기
-    async fetchReviews({ commit }) {
-      const url = `http://localhost:8080/rest/review/1`;
+    // async fetchReviews({ commit }, page){
+    //   const url = `http://localhost:8080/rest/review/${page}`;
+    //   try {
+    //     const response = await axios.get(url);
+    //     const data = response.data;
+    //     if (data.ResultCode === "ERR_OK") {
+    //       const results = [
+    //         ...data.Response.user_data.map((item) => ({
+    //           ...item,
+    //           type: "user",
+    //         })),
+    //         ...data.Response.crawling_data.map((item) => ({
+    //           ...item,
+    //           type: "crawling",
+    //         })),
+    //       ];
+    //       commit("setReviews", results);
+    //     } else {
+    //       console.error("Failed to fetch data: ", data.Message);
+    //     }
+    //   } catch (error) {
+    //     console.error("Error fetching data: ", error);
+    //   }
+    // },
+    async fetchReviews({ commit }, page) {
+      const url = `http://localhost:8080/rest/review/${page}`;
       try {
         const response = await axios.get(url);
         const data = response.data;
@@ -251,8 +278,7 @@ const store = createStore({
     },
     async deleteReview({ commit }, postId) {
       try {
-        await axios.delete(`http://localhost:8080/rest/review/${postId}`,
-        {
+        await axios.delete(`http://localhost:8080/rest/review/${postId}`, {
           withCredentials: true,
         });
         commit("DELETE_REVIEW", postId);

@@ -1,7 +1,7 @@
 <template>
     <div class="box">
         <div class="right">
-            <review-list :articles="articles"></review-list>
+            <review-list></review-list>
         </div>
     </div>
 </template>
@@ -13,17 +13,12 @@ export default {
         ReviewList,
     },
     data() {
-        return {
-            articles: [],
-        }
     },
     computed: {
     },
     methods: {
     },
     created() {
-        const pageNumber = this.$route.params.page || 1;
-        this.$store.dispatch('fetchReviews');
     },
     watch: {
     }

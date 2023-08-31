@@ -1,6 +1,10 @@
 <template>
     <h2>Review</h2>
-    <div class="writeBtn"><button v-if="this.$store.state.isLoggedIn" @click="goToReviewPostPage"><i class="bi bi-pen"></i> 리뷰 작성하기</button></div>
+    <div class="writeBtn">
+        <button v-if="this.$store.state.isLoggedIn" @click="goToReviewPostPage">
+            <i class="bi bi-pen"></i> 리뷰 작성하기
+        </button>
+    </div>
     <div class="search-list-wrapper">
         <ul class="search-list">
             <li v-for="(item, index) in articles" :key="index">
@@ -12,17 +16,17 @@
                                 <h3>{{ item.title }}</h3>
                             </a>
                             <!-- 'crawling'이 아닐 경우, ReviewDetail.vue로 이동 -->
-                            <router-link v-else :to="'/review/detail/' + item.id">
-                                <h3>{{ item.title }}</h3>
-                            </router-link>
+                            <!-- <router-link v-else :to="'/review/detail/' + item.id"> -->
+                                <h3 v-else @click="goToReviewDetail(item.id)">{{ item.title }}</h3>
+                            <!-- </router-link> -->
                             <ul v-if="item.type !== 'crawling'">
                                 <li v-html="item.content"></li>
                             </ul>
                         </div>
                         <div class="imgbox">
-                            <img v-if="item.thumbnail === null || item.thumbnail === ''"
+                            <img v-if="!item.thumbnail || item.thumbnail === 'undefined'"
                                 :src="require('@/components/img/image.png')" alt="company picture" class="default" />
-                            <img v-else-if="item.thumbnail" :src="item.thumbnail" alt="company picture" class="info-img" />
+                            <img v-else :src="item.thumbnail" alt="company picture" class="info-img" />
                         </div>
                     </div>
                 </base-card>
@@ -35,19 +39,22 @@ export default {
     computed: {
         articles() {
             return this.$store.state.reviews;
-        }
+        },
+
     },
-    created() {
-        if (!this.articles.length) {
-            this.$store.dispatch('fetchReviews');
+    mounted() {
+        const page = this.$route.params.page;
+        if(!this.articles.length) {
+            this.$store.dispatch('fetchReviews', page);
         }
-        console.log(this.$store.state.reviews);
-        // 리뷰배열이 제대로 들어오는지 확인
     },
     methods: {
         goToReviewPostPage() {
             this.$router.push('/review-post');
         },
+        goToReviewDetail(postId) {
+        this.$router.push({ name: 'ReviewDetail', params: { id: postId } });
+    }
     },
 }
 </script>
@@ -159,7 +166,7 @@ h2 {
     color: black;
 }
 
-.info>a>h3 {
+.info h3 {
     font-size: 20px;
     font-weight: 700;
     margin: 0;

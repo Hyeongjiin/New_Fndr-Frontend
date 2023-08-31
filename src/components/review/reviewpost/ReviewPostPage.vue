@@ -134,7 +134,7 @@ export default {
                     this.$router.push(`/review/detail/${postId}`);
                 } else {
                     console.log(response.data);
-                    this.$router.push('/review/list/1');
+                    this.$router.push('/');
                 }
             } catch (error) {
                 console.error('API 호출 중 에러 발생', error);

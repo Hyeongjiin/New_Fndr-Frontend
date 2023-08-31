@@ -7,7 +7,7 @@
                 <li><i class="bi bi-clock-fill"></i> {{ formattedDate }}</li>
                 <div class="modAndDel" v-if="reviewData.creator_id === this.$store.state.userId">
                     <li @click="deleteReview"><i class="bi bi-trash-fill"></i>삭제</li>
-                    <li><i class="bi bi-pencil-square"></i>수정</li>
+                    <li @click="editReview"><i class="bi bi-pencil-square"></i>수정</li>
                 </div>
             </ul>
             <hr>
@@ -27,16 +27,17 @@ export default {
     },
     methods: {
         async getReviewDetail() {
-            await this.$store.dispatch("fetchReviews", this.postId);
             this.reviewData = this.$store.state.reviews.find(review => Number(review.id) === Number(this.postId));
         },
         async deleteReview() {
-            // 유저가 게시글을 삭제할때 확인
             if (confirm('Are you sure you want to delete this review?')) {
-                // 게시글 삭제
                 await this.$store.dispatch('deleteReview', this.postId);
-                // redirect to another page or give a success message
                 this.$router.push('/');
+            }
+        },
+        async editReview() {
+            if (confirm('Are you sure you want to edit this review?')) {
+                this.$router.push(`/review-update/${this.postId}`);
             }
         }
     },
@@ -51,12 +52,10 @@ export default {
             return year + '-' + month + '-' + day;
         },
         postId() {
-            return this.$route.params.postId;
+            return this.$route.params.id;
         },
     },
     mounted() {
-        // console.log(this.postId);
-        // postid 파라미터가 제대로 들어오는지 확인 ( ok )
         this.getReviewDetail();
     }
 }

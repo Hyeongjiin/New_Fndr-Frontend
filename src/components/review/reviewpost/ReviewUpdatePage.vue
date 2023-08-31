@@ -1,8 +1,8 @@
 <template>
     <div class="box">
         <div>
-            <h2>Edit a Review</h2>
-            <form class="form" @submit.prevent="submitUpdateForm" novalidate>
+            <h2>Post a Review</h2>
+            <form class="form" @submit.prevent="submitPostForm" novalidate>
                 <div>
                     <label class="label-title required">글 제목</label>
                     <input type="title" v-model="post.title" placeholder="글제목은 여기에" :class="{
@@ -33,7 +33,7 @@
                     {{ this.message.review_post_error }}
                 </div>
                 <div class="btn-box">
-                    <button class="btn edit" type="submit">edit</button>
+                    <button class="btn post" type="submit">Post</button>
                     <button class="btn cancel" @click="cancel">Cancel</button>
                 </div>
             </form>
@@ -48,11 +48,6 @@ import TextEditor from '../../../components/editors/TextEditor.vue';
 export default {
     components: {
         TextEditor,
-    },
-    computed: {
-        review() {
-            return this.$store.state.reviews;
-        }
     },
     data() {
         return {
@@ -70,7 +65,7 @@ export default {
     },
     methods: {
         cancel() {
-            this.$router.push(`/review/list/${this.$store.state.reviews.id}`);
+            this.$router.push('/review/list/1');
         },
         previewImage(event) {
             const input = event.target;
@@ -91,7 +86,7 @@ export default {
                 this.message[fieldName + '_error'] = '';
             }
         },
-        async submitUpdateForm() {
+        async submitUpdateForm(postId) {
 
             console.log(this.post); // 디버깅
 
@@ -108,12 +103,12 @@ export default {
             ) {
                 this.message.review_post_error =
                     'Please satisfy all the conditions for editing the review post.';
-                console.log(this.message.reivew_post_error);
+                console.log(this.message.review_post_error);
                 return;
             }
 
             const updateData = new FormData();
-            updateData.append('title', this.post.title);
+            updateData.append('title', this.post.content);
             updateData.append('content', this.post.content);
 
             const thumbnailFile = this.$refs.thumbnailInput.files[0];
@@ -123,13 +118,13 @@ export default {
             console.log("Data being sent: ", this.post);
             try {
                 const response = await axios.patch(
-                    `http://localhost:8080/rest/review/${this.review.id}`,
+                    `http://localhost:8080/rest/review/${postId}`,
                     updateData,
                     {
                         withCredentials: true,
                         headers: {
                             // 'Content-Type': 'multipart/form-data',
-                            'Content-Type': 'application/json',
+                                'Content-Type': 'application/json',
                         },
                     }
                 );
@@ -139,7 +134,7 @@ export default {
                     this.$router.push(`/review/detail/${postId}`);
                 } else {
                     console.log(response.data);
-                    this.$router.push('/review/list/1');
+                    this.$router.push('/');
                 }
             } catch (error) {
                 console.error('API 호출 중 에러 발생', error);
