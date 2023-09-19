@@ -27,7 +27,7 @@ const routes = [
   { path: "/login", component: LoginPage },
   { path: "/signup", component: SignupPage },
   // 리뷰페이지
-  { path: "/review/list/:page", component: ReviewPage },
+  { path: "/review/:page", component: ReviewPage, name: 'review'},
   { path: "/review/detail/:id", component: ReviewDetail, name: 'ReviewDetail', },
   { path: "/review-post", component: ReviewPostPage },
   { path: "/review-update/:postId", component: ReviewUpdatePage }

@@ -1,18 +1,17 @@
 <template>
-    <div class="box" v-if="reviewData">
+    <div class="box">
         <div class="card">
-            <h1 class="title">{{ reviewData.title }}</h1>
+            <h1 class="title">{{ reviewDetail.title }}</h1>
             <ul>
-                <!-- 날짜 형식 변환함수 사용-->
                 <li><i class="bi bi-clock-fill"></i> {{ formattedDate }}</li>
-                <div class="modAndDel" v-if="reviewData.creator_id === this.$store.state.userId">
+                <div class="modAndDel" v-if="reviewDetail.creator_id === this.$store.state.userId">
                     <li @click="deleteReview"><i class="bi bi-trash-fill"></i>삭제</li>
                     <li @click="editReview"><i class="bi bi-pencil-square"></i>수정</li>
                 </div>
             </ul>
             <hr>
             <section>
-                <div class="info" v-html="reviewData.content"></div>
+                <div class="info" v-html="reviewDetail.content"></div>
             </section>
         </div>
     </div>
@@ -22,41 +21,42 @@
 export default {
     data() {
         return {
-            reviewData: null
         };
     },
     methods: {
-        async getReviewDetail() {
-            this.reviewData = this.$store.state.reviews.find(review => Number(review.id) === Number(this.postId));
-        },
         async deleteReview() {
             if (confirm('Are you sure you want to delete this review?')) {
-                await this.$store.dispatch('deleteReview', this.postId);
-                this.$router.push('/');
+                this.$store.dispatch('deleteReview', this.reviewDetail.id);
+                this.$store.dispatch('fetchReviews', 1);
+                this.$router.push(`/review/1`); 
             }
         },
         async editReview() {
             if (confirm('Are you sure you want to edit this review?')) {
-                this.$router.push(`/review-update/${this.postId}`);
+                this.$router.push(`/review-update/${this.reviewDetail.id}`);
             }
         }
     },
 
     computed: {
         formattedDate() {
-            const date = new Date(this.reviewData.created_at);
+            const date = new Date(this.reviewDetail.created_at);
             const year = date.getFullYear();
             const month = (1 + date.getMonth()).toString().padStart(2, '0');
             const day = date.getDate().toString().padStart(2, '0');
 
             return year + '-' + month + '-' + day;
         },
-        postId() {
-            return this.$route.params.id;
+        reviewDetail() {
+            return this.$store.state.reviewDetail;
+        },
+        reviewDetailError() {
+            return this.$store.state.reviewDetailError;
         },
     },
     mounted() {
-        this.getReviewDetail();
+        const postId = this.$route.params.id;
+        this.$store.dispatch('getReviewPostDetail', postId);
     }
 }
 </script>

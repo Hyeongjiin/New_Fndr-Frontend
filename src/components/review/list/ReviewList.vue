@@ -7,7 +7,7 @@
     </div>
     <div class="search-list-wrapper">
         <ul class="search-list">
-            <li v-for="(item, index) in articles" :key="index">
+            <li v-for="(item, index) in reviews" :key="index">
                 <base-card>
                     <div class="Search-section1">
                         <div class="info">
@@ -17,7 +17,7 @@
                             </a>
                             <!-- 'crawling'이 아닐 경우, ReviewDetail.vue로 이동 -->
                             <!-- <router-link v-else :to="'/review/detail/' + item.id"> -->
-                                <h3 v-else @click="goToReviewDetail(item.id)">{{ item.title }}</h3>
+                            <h3 v-else @click="goToReviewDetail(item.id)">{{ item.title }}</h3>
                             <!-- </router-link> -->
                             <ul v-if="item.type !== 'crawling'">
                                 <li v-html="item.content"></li>
@@ -33,28 +33,38 @@
             </li>
         </ul>
     </div>
+    <ReviewPagingView></ReviewPagingView>
 </template>
 <script>
+import ReviewPagingView from "@/components/UI/ReviewPagingView.vue"
 export default {
+    components: {
+        ReviewPagingView,
+    },
+    watch: {
+        // '$route': 'fetchReviews'
+        '$route.params.page': function (newPage) {
+            this.$store.dispatch('fetchReviews', newPage);
+        }
+    },
     computed: {
-        articles() {
+        reviews() {
+            // console.log('reviews 계산된 속성이 트리거됨', this.$store.state.reviews);
             return this.$store.state.reviews;
         },
 
     },
     mounted() {
         const page = this.$route.params.page;
-        if(!this.articles.length) {
-            this.$store.dispatch('fetchReviews', page);
-        }
+        this.$store.dispatch('fetchReviews', page);
     },
     methods: {
         goToReviewPostPage() {
             this.$router.push('/review-post');
         },
         goToReviewDetail(postId) {
-        this.$router.push({ name: 'ReviewDetail', params: { id: postId } });
-    }
+            this.$router.push({ name: 'ReviewDetail', params: { id: postId } });
+        },
     },
 }
 </script>

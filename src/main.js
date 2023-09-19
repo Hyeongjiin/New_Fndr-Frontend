@@ -20,7 +20,12 @@ const store = createStore({
       jobDetail: {},
       jobDetailError: "",
       // review 기능
-      reviews: [],
+      reviews: [], // 리뷰 리스트
+      reviewDetail: {}, // 리뷰 개별
+      reviewDetailError: "",
+      // review 페이지네이션
+      currentReviewPage: 1,
+      totalReviewPages: 1,
     };
   },
   mutations: {
@@ -51,6 +56,19 @@ const store = createStore({
     },
     delete_review(state, postId) {
       state.reviews = state.reviews.filter((review) => review.id !== postId);
+    },
+    getReviewDetail(state, review) {
+      state.reviewDetail = review;
+    },
+    getReviewDetailError(state, detailError) {
+      state.reviewDetailError = detailError;
+    },
+    // review 페이지네이션
+    SET_CURRENT_REVIEW_PAGE(state, page) {
+      state.currentReviewPage = page;
+    },
+    SET_TOTAL_REVIEW_PAGES(state, totalPages) {
+      state.totalReviewPages = totalPages;
     },
   },
   getters: {
@@ -227,33 +245,9 @@ const store = createStore({
         console.error("There was an error:", errorMessage);
       }
     },
-    // review의 데이터 가져오기
-    // async fetchReviews({ commit }, page){
-    //   const url = `http://localhost:8080/rest/review/${page}`;
-    //   try {
-    //     const response = await axios.get(url);
-    //     const data = response.data;
-    //     if (data.ResultCode === "ERR_OK") {
-    //       const results = [
-    //         ...data.Response.user_data.map((item) => ({
-    //           ...item,
-    //           type: "user",
-    //         })),
-    //         ...data.Response.crawling_data.map((item) => ({
-    //           ...item,
-    //           type: "crawling",
-    //         })),
-    //       ];
-    //       commit("setReviews", results);
-    //     } else {
-    //       console.error("Failed to fetch data: ", data.Message);
-    //     }
-    //   } catch (error) {
-    //     console.error("Error fetching data: ", error);
-    //   }
-    // },
     async fetchReviews({ commit }, page) {
-      const url = `http://localhost:8080/rest/review/${page}`;
+      // reviewList의 fetch
+      const url = `http://localhost:8080/rest/review?page=${page}`;
       try {
         const response = await axios.get(url);
         const data = response.data;
@@ -268,6 +262,9 @@ const store = createStore({
               type: "crawling",
             })),
           ];
+          const totalPages = Math.ceil(response.data.Size / 10); // 페이지 번호 계산
+          commit("SET_TOTAL_REVIEW_PAGES", totalPages);
+          commit("SET_CURRENT_REVIEW_PAGE", page);
           commit("setReviews", results);
         } else {
           console.error("Failed to fetch data: ", data.Message);
@@ -276,14 +273,51 @@ const store = createStore({
         console.error("Error fetching data: ", error);
       }
     },
-    async deleteReview({ commit }, postId) {
+    async getReviewPostDetail(context, postId) {
+      //review개별 조회
       try {
-        await axios.delete(`http://localhost:8080/rest/review/${postId}`, {
-          withCredentials: true,
-        });
-        commit("DELETE_REVIEW", postId);
+        const response = await axios.get(
+          `http://localhost:8080/rest/review/${postId}`
+        );
+        if (response.data && response.data[0] && response.data[0].Response) {
+          context.commit("getReviewDetail", response.data[0].Response);
+        } else {
+          context.commit("getReviewDetailError", "Invalid response format.");
+        }
       } catch (error) {
-        console.error(error);
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.Message
+        ) {
+          context.commit("getReviewDetailError", error.response.data.Message);
+        } else {
+          context.commit(
+            "getReviewDetailError",
+            "An error occurred while fetching review details."
+          );
+        }
+      }
+    },
+    async deleteReview(context, postId) {
+      try {
+        const response = await axios.delete(
+          `http://localhost:8080/rest/review/${postId}`,
+          {
+            withCredentials: true,
+          }
+        );
+        if (response.data && response.data.Response) {
+          context.commit("delete_review", postId);
+          // 리뷰 목록 페이지로 리디렉션
+        } else {
+          context.commit("getReviewDetailError", "Invalid response format.");
+        }
+      } catch (error) {
+        console.log(error.request.response);
+        const errorMessage =
+          error.response.data.Message || "Internal server error";
+        console.error("There was an error:", errorMessage);
       }
     },
   },

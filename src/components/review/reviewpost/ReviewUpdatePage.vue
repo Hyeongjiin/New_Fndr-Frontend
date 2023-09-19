@@ -1,8 +1,8 @@
 <template>
     <div class="box">
         <div>
-            <h2>Post a Review</h2>
-            <form class="form" @submit.prevent="submitPostForm" novalidate>
+            <h2>Edit a Review</h2>
+            <form class="form" @submit.prevent="submitUpdateForm(this.$store.state.reviewDetail.id)" novalidate>
                 <div>
                     <label class="label-title required">글 제목</label>
                     <input type="title" v-model="post.title" placeholder="글제목은 여기에" :class="{
@@ -33,7 +33,7 @@
                     {{ this.message.review_post_error }}
                 </div>
                 <div class="btn-box">
-                    <button class="btn post" type="submit">Post</button>
+                    <button class="btn edit" type="submit">Edit</button>
                     <button class="btn cancel" @click="cancel">Cancel</button>
                 </div>
             </form>
@@ -52,8 +52,8 @@ export default {
     data() {
         return {
             post: {
-                title: this.$store.state.reviews.title,
-                content: this.$store.state.reviews.content,
+                title: this.$store.state.reviewDetail.title,
+                content: this.$store.state.reviewDetail.content
             },
             message: {
                 title_error: '',
@@ -65,7 +65,7 @@ export default {
     },
     methods: {
         cancel() {
-            this.$router.push('/review/list/1');
+            this.$router.push(`/review/1`);
         },
         previewImage(event) {
             const input = event.target;
@@ -87,9 +87,6 @@ export default {
             }
         },
         async submitUpdateForm(postId) {
-
-            console.log(this.post); // 디버깅
-
             const datas = [
                 'title',
                 'content',
@@ -108,33 +105,32 @@ export default {
             }
 
             const updateData = new FormData();
-            updateData.append('title', this.post.content);
+            updateData.append('id', postId);
+            updateData.append('title', this.post.title);
             updateData.append('content', this.post.content);
 
             const thumbnailFile = this.$refs.thumbnailInput.files[0];
 
             updateData.append('thumbnail', thumbnailFile);
 
-            console.log("Data being sent: ", this.post);
             try {
-                const response = await axios.patch(
-                    `http://localhost:8080/rest/review/${postId}`,
+                const response = await axios.post(
+                    `http://localhost:8080/rest/review/`,
                     updateData,
                     {
                         withCredentials: true,
                         headers: {
                             // 'Content-Type': 'multipart/form-data',
-                                'Content-Type': 'application/json',
+                            'Content-Type': 'application/json',
                         },
                     }
                 );
 
                 if (response.data.ResultCode === 'ERR_OK') {
-                    const postId = response.data.postId;
-                    this.$router.push(`/review/detail/${postId}`);
+                    const postId = this.$store.state.reviewDetail.id;
+                    this.$router.push(`/`);
                 } else {
-                    console.log(response.data);
-                    this.$router.push('/');
+                    this.$router.push(`/review/detail/${postId}`);
                 }
             } catch (error) {
                 console.error('API 호출 중 에러 발생', error);

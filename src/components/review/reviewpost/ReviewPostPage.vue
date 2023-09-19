@@ -52,7 +52,7 @@ export default {
     data() {
         return {
             post: {
-                title: '',
+                title: '' ,
                 content: '',
             },
             message: {
@@ -65,7 +65,7 @@ export default {
     },
     methods: {
         cancel() {
-            this.$router.push('/review/list/1');
+            this.$router.push('/review/1');
         },
         previewImage(event) {
             const input = event.target;
@@ -131,10 +131,11 @@ export default {
 
                 if (response.data.ResultCode === 'ERR_OK') {
                     const postId = response.data.postId;
-                    this.$router.push(`/review/detail/${postId}`);
-                } else {
+                    this.$router.push(`/review/1`);
+                }
+                else {
                     console.log(response.data);
-                    this.$router.push('/');
+                    this.$router.push('/review/1');
                 }
             } catch (error) {
                 console.error('API 호출 중 에러 발생', error);

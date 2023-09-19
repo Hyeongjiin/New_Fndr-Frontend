@@ -40,19 +40,19 @@
                     <li class="nav-item">
                         <router-link
                             class="nav-link"
-                            to="/review/list/1"
+                            to="/review/1"
                             @click="refreshIfSameRoute"
                             >Review</router-link
                         >
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <router-link
                             class="nav-link"
                             to="/"
                             @click="refreshIfSameRoute"
                             >Community</router-link
                         >
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <router-link
                             class="nav-link"
