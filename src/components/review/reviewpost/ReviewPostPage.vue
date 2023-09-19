@@ -4,12 +4,12 @@
             <h2>Post a Review</h2>
             <form class="form" @submit.prevent="submitPostForm" novalidate>
                 <div>
-                    <label class="label-title required">글 제목</label>
-                    <input type="title" v-model="post.title" placeholder="글제목은 여기에" :class="{
+                    <label class="label-title required">title</label>
+                    <input type="title" v-model="post.title" placeholder="title" :class="{
                         'is-invalid': message.title_error,
                     }" class="form-control" required />
                     <div class="invalid-feedback">
-                        글 제목을 입력해주세요
+                        Please enter a title
                     </div>
                 </div>
                 <div>
@@ -18,13 +18,13 @@
                         'is-invalid': message.content_error,
                     }" class="form-control text-editor" required />
                     <div class="invalid-feedback">
-                        콘텐츠를 입력해주세요
+                        Please enter a Contents
                     </div>
                 </div>
                 <div>
                     <label class="label-title">thumbnail</label>
                     <input class="logo-input" id="fileInput" type="file" ref="thumbnailInput" @change="previewImage" />
-                    <label class="custom-file-label" for="fileInput">thumbnail 선택</label>
+                    <label class="custom-file-label" for="fileInput">Select thumbnail</label>
                 </div>
                 <div>
                     <img v-if="imagePreview" :src="imagePreview" alt="Image Preview" />

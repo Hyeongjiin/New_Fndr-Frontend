@@ -5,8 +5,8 @@
             <ul>
                 <li><i class="bi bi-clock-fill"></i> {{ formattedDate }}</li>
                 <div class="modAndDel" v-if="reviewDetail.creator_id === this.$store.state.userId">
-                    <li @click="deleteReview"><i class="bi bi-trash-fill"></i>삭제</li>
-                    <li @click="editReview"><i class="bi bi-pencil-square"></i>수정</li>
+                    <li @click="deleteReview"><i class="bi bi-trash-fill"></i>delete</li>
+                    <li @click="editReview"><i class="bi bi-pencil-square"></i>edit</li>
                 </div>
             </ul>
             <hr>

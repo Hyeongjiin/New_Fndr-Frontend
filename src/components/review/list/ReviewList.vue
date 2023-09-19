@@ -2,7 +2,7 @@
     <h2>Review</h2>
     <div class="writeBtn">
         <button v-if="this.$store.state.isLoggedIn" @click="goToReviewPostPage">
-            <i class="bi bi-pen"></i> 리뷰 작성하기
+            <i class="bi bi-pen"></i> Post Review
         </button>
     </div>
     <div class="search-list-wrapper">
