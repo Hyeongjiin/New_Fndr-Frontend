@@ -27,7 +27,7 @@
       </ul>
     </base-card>
   </li>
-  <router-link to="/search-jobs/1"><div class="view-more">view more</div></router-link>
+  <router-link to="/search-jobs/1"><div class="view-more">Go to Search jobs</div></router-link>
 </template>
 
 <script>

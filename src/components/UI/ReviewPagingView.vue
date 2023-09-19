@@ -1,35 +1,32 @@
 <template>
     <nav aria-label="Page navigation example" v-if="!isLoading">
         <ul class="pagination justify-content-end">
-            <li class="page-item"><a class="page-link" href="#" @click.prevent="previous">Previous</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#" @click.prevent="previous">Previous</a>
+            </li>
             <li class="page-item" v-for="page in pageNumbers" :key="page">
                 <a class="page-link" :href="pageHref(page)" @click.prevent="$router.push(pageHref(page))">{{ page }}</a>
             </li>
-            <li class="page-item"><a class="page-link" href="#" @click.prevent="next" :disabled="disableNext"
-                    v-if="!disableNext">Next</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#" @click.prevent="next" :disabled="disableNext" v-if="!disableNext">Next</a>
+            </li>
         </ul>
     </nav>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
+
 export default {
     data() {
         return {
             currentPage: parseInt(this.$route.params.page) || 1,
             pagesToShow: 5
-        }
-    },
-    props: {
-        lastLoadedPage: Number,
-        hasMorePages: Boolean,
-        totalPages: Number,
-        isLoading: {
-            type: Boolean,
-            default: true,
-        },
-
+        };
     },
     computed: {
+        ...mapState(['totalPages', 'reviews']),
+
         disableNext() {
             let disable = this.currentPage >= this.totalPages;
             return disable;
@@ -50,7 +47,7 @@ export default {
         pageHref() {
             return (pageNum) => {
                 return {
-                    name: 'search-jobs',
+                    name: 'reivew',
                     params: { page: pageNum },
                     query: this.$route.query
                 };
@@ -58,32 +55,38 @@ export default {
         }
     },
     methods: {
+        ...mapActions(['fetchReviews']),
+
         next() {
             if (!this.disableNext) {
                 this.$router.push({
-                    name: 'search-jobs',
+                    name: 'review',
                     params: { page: parseInt(this.$route.params.page) + 1 },
                     query: this.$route.query
                 });
+                this.fetchReviews(parseInt(this.$route.params.page) + 1);
             }
         },
         previous() {
             if (this.$route.params.page > 1) {
                 this.$router.push({
-                    name: 'search-jobs',
+                    name: 'review',
                     params: { page: parseInt(this.$route.params.page) - 1 },
                     query: this.$route.query
                 });
+                this.fetchReviews(parseInt(this.$route.params.page) - 1);
             }
         }
     },
     watch: {
         '$route.params.page': function (newPage) {
             this.currentPage = parseInt(newPage);
+            this.fetchReviews(newPage);
         }
     },
     mounted() {
-        console.log("Received totalPages prop:", this.totalPages);
+        console.log("Current totalPages from store:", this.totalPages);
+        this.fetchReviews(this.currentPage);
     }
 }
 </script>
@@ -97,15 +100,6 @@ export default {
     color: #f73859;
 }
 .page-item:last-child .page-link:hover {
-    color: #f73859;
-}
-/* .page-item:last-child .page-link {
-    color: #f73859;
-} */
-.page-link {
-    color:#4E4E4E;
-}
-.page-link:hover {
     color: #f73859;
 }
 </style>

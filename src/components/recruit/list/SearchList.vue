@@ -44,6 +44,7 @@ export default {
 .search-list {
     width: 50rem;
     list-style-type: none;
+    margin-bottom: 50px;
 }
 
 .Search-section1 {

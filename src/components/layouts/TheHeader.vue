@@ -40,19 +40,19 @@
                     <li class="nav-item">
                         <router-link
                             class="nav-link"
-                            to="/"
+                            to="/review/1"
                             @click="refreshIfSameRoute"
                             >Review</router-link
                         >
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <router-link
                             class="nav-link"
                             to="/"
                             @click="refreshIfSameRoute"
                             >Community</router-link
                         >
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <router-link
                             class="nav-link"
@@ -91,7 +91,6 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Gasoek+One&display=swap');
 
 a {
     text-decoration: none;
