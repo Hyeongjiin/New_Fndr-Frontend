@@ -77,7 +77,6 @@ const store = createStore({
         if (!state.jobDetail.tag) {
           return [];
         }
-        // const tagArray = JSON.parse(state.jobDetail.tag);
         const techNameArray = state.jobDetail.description_teches.map(
           (tech) => tech.tech_name
         );
