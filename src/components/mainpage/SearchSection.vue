@@ -1,5 +1,8 @@
 <template>
-  <h1 id="top">{{ title1 }} <br> {{ title2 }} </h1>
+  <div id="top">
+    <h2>{{ title1 }}</h2>
+    <h1>{{ title2 }}</h1>
+  </div>
   <div class="container">
     <div class="input-wrapper">
       <input v-model="keyword" type="text" placeholder="Keyworld or Job title">
@@ -17,7 +20,7 @@
 export default {
   data() {
     return {
-      title1: "재택근무 해외이직/취업서치의 편리함",
+      title1: `"Work Anywhere, Live Everywhere!"`,
       title2: "Fndr.io",
       keyword: "",
       nation: "",
@@ -37,7 +40,7 @@ export default {
         query.nation = this.nation;
       }
 
-    
+
       this.$router.push({ name: 'search-jobs', query: query, params: { page: '1' } });
 
       // 데이터를 fetchResults
@@ -58,12 +61,18 @@ export default {
 
 h1 {
   text-align: center;
-  height: 126px;
-  top: 150px;
-  left: 327px;
-  letter-spacing: -2px;
-  font-size: 37px;
+  font-size: 50px;
   font-weight: bold;
+  font-family: 'Gasoek One', sans-serif;
+  color: #f73859;
+}
+
+h2 {
+  text-align: center;
+  letter-spacing: 0px;
+  font-size: 28px;
+  font-style: italic;
+  /* font-weight: bold; */
   color: #4E4E4E;
 }
 
