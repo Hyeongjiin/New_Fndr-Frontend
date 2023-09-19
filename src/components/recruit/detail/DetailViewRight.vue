@@ -12,7 +12,7 @@
             />
             <img
                 v-else-if="jobDetail.company_logo"
-                :src="'http://localhost:8080/' + jobDetail.company_logo"
+                :src="jobDetail.company_logo"
                 alt="company picture"
                 class="custom"
             />
