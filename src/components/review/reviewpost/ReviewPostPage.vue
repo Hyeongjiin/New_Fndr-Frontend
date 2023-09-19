@@ -45,6 +45,7 @@
 import axios from 'axios';
 import TextEditor from '../../../components/editors/TextEditor.vue';
 
+const apiUrl = `${process.env.VUE_APP_API_URL}`;
 export default {
     components: {
         TextEditor,
@@ -118,7 +119,7 @@ export default {
             console.log("Data being sent: ", this.post);
             try {
                 const response = await axios.post(
-                    'http://localhost:8080/rest/review',
+                    `${apiUrl}/review`,
                     postData,
                     {
                         withCredentials: true,

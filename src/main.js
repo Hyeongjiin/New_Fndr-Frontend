@@ -12,6 +12,8 @@ import BaseCard from "./components/UI/BaseCard.vue";
 // 생성한 뷰 라우터 받아오기
 import { router } from "./router/index.js";
 
+const apiUrl = `${process.env.VUE_APP_API_URL}`;
+
 const store = createStore({
   state() {
     return {
@@ -93,7 +95,7 @@ const store = createStore({
     async getPostDetail(context, postId) {
       try {
         const response = await axios.get(
-          `http://localhost:8080/rest/detail/${postId}`
+          `${apiUrl}/detail/${postId}`
         );
         console.log(response.data);
         if (response.data && response.data.Response) {
@@ -120,7 +122,7 @@ const store = createStore({
     async deleteJobPost(context, postId) {
       try {
         const response = await axios.delete(
-          `http://localhost:8080/rest/job/${postId}`,
+            `${apiUrl}/job/${postId}`,
           {
             withCredentials: true,
           }
@@ -142,7 +144,7 @@ const store = createStore({
     async signupSubmit(context, payload) {
       try {
         const response = await axios.post(
-          "http://localhost:8080/rest/auth/signup",
+            `${apiUrl}/auth/signup`,
           {
             email: payload.email,
             name: payload.name,
@@ -168,7 +170,7 @@ const store = createStore({
     async loginSubmit(context, payload) {
       try {
         const response = await axios.post(
-          "http://localhost:8080/rest/auth/login",
+          `${apiUrl}/auth/login`,
           {
             email: payload.email,
             password: payload.password,
@@ -197,7 +199,7 @@ const store = createStore({
     async logoutSubmit(context) {
       try {
         const response = await axios.post(
-          "http://localhost:8080/rest/auth/logout",
+          `${apiUrl}/auth/logout`,
           {},
           {
             withCredentials: true,
@@ -223,7 +225,7 @@ const store = createStore({
     async checkLoginStatus(context) {
       try {
         const response = await axios.get(
-          "http://localhost:8080/rest/auth/session",
+          `${apiUrl}/auth/session`,
           {
             withCredentials: true,
           }
@@ -246,7 +248,7 @@ const store = createStore({
     },
     async fetchReviews({ commit }, page) {
       // reviewList의 fetch
-      const url = `http://localhost:8080/rest/review?page=${page}`;
+      const url = `${apiUrl}/review?page=${page}`;
       try {
         const response = await axios.get(url);
         const data = response.data;
@@ -276,7 +278,7 @@ const store = createStore({
       //review개별 조회
       try {
         const response = await axios.get(
-          `http://localhost:8080/rest/review/${postId}`
+            `${apiUrl}/review/${postId}`
         );
         if (response.data && response.data[0] && response.data[0].Response) {
           context.commit("getReviewDetail", response.data[0].Response);
@@ -301,7 +303,7 @@ const store = createStore({
     async deleteReview(context, postId) {
       try {
         const response = await axios.delete(
-          `http://localhost:8080/rest/review/${postId}`,
+            `${apiUrl}/review/${postId}`,
           {
             withCredentials: true,
           }
