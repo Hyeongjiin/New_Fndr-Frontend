@@ -28,6 +28,11 @@ const store = createStore({
       // review 페이지네이션
       currentReviewPage: 1,
       totalReviewPages: 1,
+      user: {
+        email: '',
+        nickname: '',
+      },
+
     };
   },
   mutations: {
@@ -51,6 +56,10 @@ const store = createStore({
     logout(state) {
       state.isLoggedIn = false;
       console.log(state.isLoggedIn);
+    },
+    // 회원정보 수정
+    SET_USER(state, user) {
+      state.user = user;
     },
     // review 기능
     setReviews(state, results) {
@@ -183,6 +192,7 @@ const store = createStore({
         if (response.data.ResultCode === "Login_Success") {
           console.log("로그인에 성공했습니다.");
           context.commit("login");
+          context.commit('SET_USER', response.data.user);
           router.push("/");
         } else {
           const errorMessage = response.data.Message;

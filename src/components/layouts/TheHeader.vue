@@ -56,6 +56,14 @@
                     <li class="nav-item">
                         <router-link
                             class="nav-link"
+                            v-if="this.$store.state.isLoggedIn"
+                            to="/mypage/edit-info"
+                            >My page</router-link
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <router-link
+                            class="nav-link"
                             v-if="!this.$store.state.isLoggedIn"
                             to="/login"
                             @click="refreshIfSameRoute"
