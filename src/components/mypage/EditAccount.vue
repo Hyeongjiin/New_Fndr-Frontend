@@ -59,7 +59,7 @@ export default {
         };
     },
     methods: {
-        async submitUpdateForm(postId) {
+        async submitUpdateForm() {
             const updateData = {
                 name: this.post.name
             };
