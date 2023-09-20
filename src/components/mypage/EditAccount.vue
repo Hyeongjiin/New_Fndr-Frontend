@@ -61,7 +61,7 @@ export default {
     methods: {
         async submitUpdateForm() {
             const updateData = {
-                name: this.post.name
+                nickname: this.post.name
             };
 
             try {
