@@ -59,11 +59,12 @@ const store = createStore({
     },
     // 회원정보 수정
     SET_USER(state, user) {
+      // console.log("Setting user in Vuex store:", user);
       state.user = user;
       localStorage.setItem('user', JSON.stringify(user));
     },
     UPDATE_NICKNAME(state, newNickname) {
-      state.user.nickname = newNickname;
+      state.user.name = newNickname;
       localStorage.setItem('user', JSON.stringify(state.user));
     },
     // review 기능
@@ -106,10 +107,13 @@ const store = createStore({
   },
   actions: {
     refreshUserFromLocalStorage(context) {
-      const user = localStorage.getItem('user');
-      if (user) {
-        context.commit('SET_USER', JSON.parse(user));
-      }
+      return new Promise((resolve) => {
+        const user = localStorage.getItem('user');
+        if (user) {
+          context.commit('SET_USER', JSON.parse(user));
+        }
+        resolve();
+      });
     },
     // 채용공고의 detail을 가져올때
     async getPostDetail(context, postId) {

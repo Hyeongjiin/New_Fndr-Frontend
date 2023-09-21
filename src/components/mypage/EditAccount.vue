@@ -50,15 +50,13 @@
 import axios from 'axios';
 const apiUrl = `${process.env.VUE_APP_API_URL}`
 export default {
-    // created() {
-    //     this.$store.dispatch("refreshUserFromLocalStorage");
-    // },
-    created() {
-        this.$store.dispatch("refreshUserFromLocalStorage").then(() => {
-            // name을 nickname으로 변경
-            this.post.name = this.$store.state.user.nickname;
-            this.post.email = this.$store.state.user.email;
-        });
+    async created() {
+        await this.$store.dispatch("refreshUserFromLocalStorage");
+
+        console.log('After dispatch:', this.$store.state.user); // 스토어 상태 디버깅용
+
+        this.post.name = this.$store.state.user.name
+        this.post.email = this.$store.state.user.email
     },
     watch: {
         '$store.state.user.nickname': function (newVal, oldVal) {
@@ -70,10 +68,10 @@ export default {
     },
     data() {
         return {
-            localNickname: this.$store.state.user.nickname,
+            localNickname: this.$store.state.user.name,
             post: {
                 email: this.$store.state.user.email,
-                name: this.$store.state.user.name,
+                name: this.$store.state.user.name,  // 여기를 수정
             }
         };
     },
