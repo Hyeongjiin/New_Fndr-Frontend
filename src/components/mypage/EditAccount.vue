@@ -55,7 +55,7 @@ export default {
     // },
     created() {
         this.$store.dispatch("refreshUserFromLocalStorage").then(() => {
-            this.post.name = this.$store.state.user.nickname;
+            this.post.name = this.$store.state.user.name;
             this.post.email = this.$store.state.user.email;
         });
     },
