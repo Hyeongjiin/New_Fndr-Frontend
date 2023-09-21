@@ -55,7 +55,8 @@ export default {
     // },
     created() {
         this.$store.dispatch("refreshUserFromLocalStorage").then(() => {
-            this.post.name = this.$store.state.user.name;
+            // name을 nickname으로 변경
+            this.post.name = this.$store.state.user.nickname;
             this.post.email = this.$store.state.user.email;
         });
     },
