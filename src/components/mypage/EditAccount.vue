@@ -50,8 +50,26 @@
 import axios from 'axios';
 const apiUrl = `${process.env.VUE_APP_API_URL}`
 export default {
+    // created() {
+    //     this.$store.dispatch("refreshUserFromLocalStorage");
+    // },
+    created() {
+        this.$store.dispatch("refreshUserFromLocalStorage").then(() => {
+            this.post.name = this.$store.state.user.nickname;
+            this.post.email = this.$store.state.user.email;
+        });
+    },
+    watch: {
+        '$store.state.user.nickname': function (newVal, oldVal) {
+            this.post.name = newVal;
+        },
+        '$store.state.user.email': function (newVal, oldVal) {
+            this.post.email = newVal;
+        }
+    },
     data() {
         return {
+            localNickname: this.$store.state.user.nickname,
             post: {
                 email: this.$store.state.user.email,
                 name: this.$store.state.user.name,
@@ -67,7 +85,7 @@ export default {
             try {
                 const response = await axios.patch(
                     `${apiUrl}/auth/nickname`,
-                    
+
                     updateData,
                     {
                         withCredentials: true,
@@ -76,9 +94,11 @@ export default {
                         }
                     }
                 );
-
                 if (response.data.ResultCode === 'Nickname_Change_Success') {
                     console.log(response.data.Message);
+                    this.$store.commit('UPDATE_NICKNAME', this.post.name);
+                    localStorage.setItem('user', JSON.stringify(this.$store.state.user));
+                    location.reload();
                 } else {
                     console.log(response.data.Message);
                 }

@@ -29,12 +29,12 @@ const store = createStore({
       currentReviewPage: 1,
       totalReviewPages: 1,
       user: {
-        email: '',
-        nickname: '',
+        email: "",
+        nickname: "",
       },
-
     };
   },
+
   mutations: {
     getDetail(state, detail) {
       state.jobDetail = detail;
@@ -60,6 +60,11 @@ const store = createStore({
     // 회원정보 수정
     SET_USER(state, user) {
       state.user = user;
+      localStorage.setItem('user', JSON.stringify(user));
+    },
+    UPDATE_NICKNAME(state, newNickname) {
+      state.user.nickname = newNickname;
+      localStorage.setItem('user', JSON.stringify(state.user));
     },
     // review 기능
     setReviews(state, results) {
@@ -100,12 +105,16 @@ const store = createStore({
     },
   },
   actions: {
+    refreshUserFromLocalStorage(context) {
+      const user = localStorage.getItem('user');
+      if (user) {
+        context.commit('SET_USER', JSON.parse(user));
+      }
+    },
     // 채용공고의 detail을 가져올때
     async getPostDetail(context, postId) {
       try {
-        const response = await axios.get(
-          `${apiUrl}/detail/${postId}`
-        );
+        const response = await axios.get(`${apiUrl}/detail/${postId}`);
         console.log(response.data);
         if (response.data && response.data.Response) {
           context.commit("getDetail", response.data.Response);
@@ -130,12 +139,9 @@ const store = createStore({
     },
     async deleteJobPost(context, postId) {
       try {
-        const response = await axios.delete(
-            `${apiUrl}/job/${postId}`,
-          {
-            withCredentials: true,
-          }
-        );
+        const response = await axios.delete(`${apiUrl}/job/${postId}`, {
+          withCredentials: true,
+        });
         console.log(response.data);
         if (response.data && response.data.Response) {
           context.commit("getDetail", response.data.Response);
@@ -152,14 +158,11 @@ const store = createStore({
     },
     async signupSubmit(context, payload) {
       try {
-        const response = await axios.post(
-            `${apiUrl}/auth/signup`,
-          {
-            email: payload.email,
-            name: payload.name,
-            password: payload.password,
-          }
-        );
+        const response = await axios.post(`${apiUrl}/auth/signup`, {
+          email: payload.email,
+          name: payload.name,
+          password: payload.password,
+        });
         console.log(response);
         if (response.data.ResultCode === "Signup_Success") {
           console.log("회원가입에 성공했습니다.");
@@ -192,7 +195,7 @@ const store = createStore({
         if (response.data.ResultCode === "Login_Success") {
           console.log("로그인에 성공했습니다.");
           context.commit("login");
-          context.commit('SET_USER', response.data.user);
+          context.commit("SET_USER", response.data.user);
           router.push("/");
         } else {
           const errorMessage = response.data.Message;
@@ -234,12 +237,9 @@ const store = createStore({
     },
     async checkLoginStatus(context) {
       try {
-        const response = await axios.get(
-          `${apiUrl}/auth/session`,
-          {
-            withCredentials: true,
-          }
-        );
+        const response = await axios.get(`${apiUrl}/auth/session`, {
+          withCredentials: true,
+        });
         const userId = response.data.user_id;
         if (response.data.ResultCode === "Session_Exist") {
           console.log("세션이 존재합니다.");
@@ -287,9 +287,7 @@ const store = createStore({
     async getReviewPostDetail(context, postId) {
       //review개별 조회
       try {
-        const response = await axios.get(
-            `${apiUrl}/review/${postId}`
-        );
+        const response = await axios.get(`${apiUrl}/review/${postId}`);
         if (response.data && response.data[0] && response.data[0].Response) {
           context.commit("getReviewDetail", response.data[0].Response);
         } else {
@@ -312,12 +310,9 @@ const store = createStore({
     },
     async deleteReview(context, postId) {
       try {
-        const response = await axios.delete(
-            `${apiUrl}/review/${postId}`,
-          {
-            withCredentials: true,
-          }
-        );
+        const response = await axios.delete(`${apiUrl}/review/${postId}`, {
+          withCredentials: true,
+        });
         if (response.data && response.data.Response) {
           context.commit("delete_review", postId);
           // 리뷰 목록 페이지로 리디렉션
@@ -333,6 +328,12 @@ const store = createStore({
     },
   },
 });
+
+const userFromLocalStorage = localStorage.getItem('user');
+if (userFromLocalStorage) {
+  store.commit('SET_USER', JSON.parse(userFromLocalStorage));
+}
+
 const app = createApp(App);
 app.component("base-card", BaseCard);
 app.use(router);
