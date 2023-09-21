@@ -44,14 +44,14 @@
         </div>
         <div class="btn-box">
             <button
-                v-if="jobDetail.creator_id === this.$store.state.userId"
+                v-if="this.$store.state.isLoggedIn === true && jobDetail.creator_id === this.$store.state.userId"
                 class="modify-btn"
                 @click="editJobPost"
             >
                 Edit
             </button>
             <button
-                v-if="jobDetail.creator_id === this.$store.state.userId"
+                v-if="this.$store.state.isLoggedIn === true &&jobDetail.creator_id === this.$store.state.userId"
                 class="modify-btn"
                 @click="deleteJobPost"
             >

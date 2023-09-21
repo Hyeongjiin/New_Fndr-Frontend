@@ -4,7 +4,7 @@
             <h1 class="title">{{ reviewDetail.title }}</h1>
             <ul>
                 <li><i class="bi bi-clock-fill"></i> {{ formattedDate }}</li>
-                <div class="modAndDel" v-if="reviewDetail.creator_id === this.$store.state.userId">
+                <div class="modAndDel" v-if="this.$store.state.isLoggedIn === true && reviewDetail.creator_id === this.$store.state.userId">
                     <li @click="deleteReview"><i class="bi bi-trash-fill"></i>delete</li>
                     <li @click="editReview"><i class="bi bi-pencil-square"></i>edit</li>
                 </div>
