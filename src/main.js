@@ -12,6 +12,8 @@ import BaseCard from "./components/UI/BaseCard.vue";
 // 생성한 뷰 라우터 받아오기
 import { router } from "./router/index.js";
 
+const apiUrl = `${process.env.VUE_APP_API_URL}`;
+
 const store = createStore({
   state() {
     return {
@@ -26,8 +28,13 @@ const store = createStore({
       // review 페이지네이션
       currentReviewPage: 1,
       totalReviewPages: 1,
+      user: {
+        email: "",
+        nickname: "",
+      },
     };
   },
+
   mutations: {
     getDetail(state, detail) {
       state.jobDetail = detail;
@@ -49,6 +56,16 @@ const store = createStore({
     logout(state) {
       state.isLoggedIn = false;
       console.log(state.isLoggedIn);
+    },
+    // 회원정보 수정
+    SET_USER(state, user) {
+      // console.log("Setting user in Vuex store:", user);
+      state.user = user;
+      localStorage.setItem('user', JSON.stringify(user));
+    },
+    UPDATE_NICKNAME(state, newNickname) {
+      state.user.name = newNickname;
+      localStorage.setItem('user', JSON.stringify(state.user));
     },
     // review 기능
     setReviews(state, results) {
@@ -89,12 +106,19 @@ const store = createStore({
     },
   },
   actions: {
+    refreshUserFromLocalStorage(context) {
+      return new Promise((resolve) => {
+        const user = localStorage.getItem('user');
+        if (user) {
+          context.commit('SET_USER', JSON.parse(user));
+        }
+        resolve();
+      });
+    },
     // 채용공고의 detail을 가져올때
     async getPostDetail(context, postId) {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/rest/detail/${postId}`
-        );
+        const response = await axios.get(`${apiUrl}/detail/${postId}`);
         console.log(response.data);
         if (response.data && response.data.Response) {
           context.commit("getDetail", response.data.Response);
@@ -119,12 +143,9 @@ const store = createStore({
     },
     async deleteJobPost(context, postId) {
       try {
-        const response = await axios.delete(
-          `http://localhost:8080/rest/job/${postId}`,
-          {
-            withCredentials: true,
-          }
-        );
+        const response = await axios.delete(`${apiUrl}/job/${postId}`, {
+          withCredentials: true,
+        });
         console.log(response.data);
         if (response.data && response.data.Response) {
           context.commit("getDetail", response.data.Response);
@@ -141,14 +162,11 @@ const store = createStore({
     },
     async signupSubmit(context, payload) {
       try {
-        const response = await axios.post(
-          "http://localhost:8080/rest/auth/signup",
-          {
-            email: payload.email,
-            name: payload.name,
-            password: payload.password,
-          }
-        );
+        const response = await axios.post(`${apiUrl}/auth/signup`, {
+          email: payload.email,
+          name: payload.name,
+          password: payload.password,
+        });
         console.log(response);
         if (response.data.ResultCode === "Signup_Success") {
           console.log("회원가입에 성공했습니다.");
@@ -168,7 +186,7 @@ const store = createStore({
     async loginSubmit(context, payload) {
       try {
         const response = await axios.post(
-          "http://localhost:8080/rest/auth/login",
+          `${apiUrl}/auth/login`,
           {
             email: payload.email,
             password: payload.password,
@@ -181,6 +199,7 @@ const store = createStore({
         if (response.data.ResultCode === "Login_Success") {
           console.log("로그인에 성공했습니다.");
           context.commit("login");
+          context.commit("SET_USER", response.data.user);
           router.push("/");
         } else {
           const errorMessage = response.data.Message;
@@ -197,7 +216,7 @@ const store = createStore({
     async logoutSubmit(context) {
       try {
         const response = await axios.post(
-          "http://localhost:8080/rest/auth/logout",
+          `${apiUrl}/auth/logout`,
           {},
           {
             withCredentials: true,
@@ -222,12 +241,9 @@ const store = createStore({
     },
     async checkLoginStatus(context) {
       try {
-        const response = await axios.get(
-          "http://localhost:8080/rest/auth/session",
-          {
-            withCredentials: true,
-          }
-        );
+        const response = await axios.get(`${apiUrl}/auth/session`, {
+          withCredentials: true,
+        });
         const userId = response.data.user_id;
         if (response.data.ResultCode === "Session_Exist") {
           console.log("세션이 존재합니다.");
@@ -246,7 +262,7 @@ const store = createStore({
     },
     async fetchReviews({ commit }, page) {
       // reviewList의 fetch
-      const url = `http://localhost:8080/rest/review?page=${page}`;
+      const url = `${apiUrl}/review?page=${page}`;
       try {
         const response = await axios.get(url);
         const data = response.data;
@@ -275,9 +291,7 @@ const store = createStore({
     async getReviewPostDetail(context, postId) {
       //review개별 조회
       try {
-        const response = await axios.get(
-          `http://localhost:8080/rest/review/${postId}`
-        );
+        const response = await axios.get(`${apiUrl}/review/${postId}`);
         if (response.data && response.data[0] && response.data[0].Response) {
           context.commit("getReviewDetail", response.data[0].Response);
         } else {
@@ -300,12 +314,9 @@ const store = createStore({
     },
     async deleteReview(context, postId) {
       try {
-        const response = await axios.delete(
-          `http://localhost:8080/rest/review/${postId}`,
-          {
-            withCredentials: true,
-          }
-        );
+        const response = await axios.delete(`${apiUrl}/review/${postId}`, {
+          withCredentials: true,
+        });
         if (response.data && response.data.Response) {
           context.commit("delete_review", postId);
           // 리뷰 목록 페이지로 리디렉션
@@ -321,6 +332,12 @@ const store = createStore({
     },
   },
 });
+
+const userFromLocalStorage = localStorage.getItem('user');
+if (userFromLocalStorage) {
+  store.commit('SET_USER', JSON.parse(userFromLocalStorage));
+}
+
 const app = createApp(App);
 app.component("base-card", BaseCard);
 app.use(router);

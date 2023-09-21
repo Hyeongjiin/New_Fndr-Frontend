@@ -12,6 +12,8 @@ import ReviewPage from "@/components/review/list/ReviewPage.vue";
 import ReviewDetail from "@/components/review/detail/ReviewDetail.vue"
 import ReviewPostPage from "@/components/review/reviewpost/ReviewPostPage.vue";
 import ReviewUpdatePage from "@/components/review/reviewpost/ReviewUpdatePage.vue";
+import MyPage from "@/components/mypage/MyPage.vue";
+// import MyPosting from "@/components/mypage/MyPage.vue";
 
 // 라우터 설계
 const routes = [
@@ -30,7 +32,9 @@ const routes = [
   { path: "/review/:page", component: ReviewPage, name: 'review'},
   { path: "/review/detail/:id", component: ReviewDetail, name: 'ReviewDetail', },
   { path: "/review-post", component: ReviewPostPage },
-  { path: "/review-update/:postId", component: ReviewUpdatePage }
+  { path: "/review-update/:postId", component: ReviewUpdatePage },
+  // 마이페이지
+  { path: "/mypage/edit-info", component: MyPage }
 
   
 ];

@@ -15,6 +15,9 @@
 import SearchSideBar from "../list/SearchSideBar.vue";
 import SearchList from "../list/SearchList.vue";
 import PagingView from "@/components/UI/PagingView.vue"
+
+const apiUrl = `${process.env.VUE_APP_API_URL}`;
+
 export default {
     components: {
         SearchSideBar,
@@ -66,7 +69,7 @@ export default {
                 queryString += '&remote=true';
             }
 
-            const url = `http://localhost:8080/rest/search/${currentPage}?${queryString}`;
+            const url = `${apiUrl}/search/${currentPage}?${queryString}`;
             const response = await fetch(url, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -108,7 +111,7 @@ export default {
             this.fetchResults(searchParams);
         },
         async fetchInitialData() { // 국가데이터 불러오는 fetch메서드
-            const url = 'http://localhost:8080/rest/search/init';
+            const url = `${apiUrl}/search/init`;
             try {
                 const response = await fetch(url, {
                     method: 'GET',
