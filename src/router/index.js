@@ -9,18 +9,20 @@ import JobUpdatePage from "../components/recruit/jobpost/JobUpdatePage.vue";
 import LoginPage from "../components/user/LoginPage.vue";
 import SignupPage from "../components/user/SignupPage.vue";
 import ReviewPage from "@/components/review/list/ReviewPage.vue";
-import ReviewDetail from "@/components/review/detail/ReviewDetail.vue"
+import ReviewDetail from "@/components/review/detail/ReviewDetail.vue";
 import ReviewPostPage from "@/components/review/reviewpost/ReviewPostPage.vue";
 import ReviewUpdatePage from "@/components/review/reviewpost/ReviewUpdatePage.vue";
 import MyPage from "@/components/mypage/MyPage.vue";
-// import MyPosting from "@/components/mypage/MyPage.vue";
+import EditAccount from "@/components/mypage/EditAccount.vue";
+import MyPosting from "@/components/mypage/MyPosting.vue";
+import MyReview from "@/components/mypage/MyReview.vue";
 
 // 라우터 설계
 const routes = [
   // 메인페이지
   { path: "/", component: MainPage },
   // 서치페이지
-  { path: "/search-jobs/:page", component: SearchPage, name: 'search-jobs' },
+  { path: "/search-jobs/:page", component: SearchPage, name: "search-jobs" },
   { path: "/detail/:postId", component: DetailPage },
   // 공고작성 CRUD
   { path: "/job-post", component: JobPostPage },
@@ -29,16 +31,30 @@ const routes = [
   { path: "/login", component: LoginPage },
   { path: "/signup", component: SignupPage },
   // 리뷰페이지
-  { path: "/review/:page", component: ReviewPage, name: 'review'},
-  { path: "/review/detail/:id", component: ReviewDetail, name: 'ReviewDetail', },
+  { path: "/review/:page", component: ReviewPage, name: "review" },
+  { path: "/review/detail/:id", component: ReviewDetail, name: "ReviewDetail" },
   { path: "/review-post", component: ReviewPostPage },
   { path: "/review-update/:postId", component: ReviewUpdatePage },
   // 마이페이지
-  { path: "/mypage/edit-info", component: MyPage }
-
-  
+  {
+    path: "/mypage",
+    component: MyPage,
+    children: [
+      {
+        path: "edit-info",
+        component: EditAccount,
+      },
+      {
+        path: "my-posting",
+        component: MyPosting,
+      },
+      {
+        path: "my-review",
+        component: MyReview,
+      },
+    ],
+  },
 ];
-
 
 // 라우터 생성
 const router = createRouter({
