@@ -69,10 +69,10 @@ h1 {
 
 h2 {
   text-align: center;
-  letter-spacing: 0px;
+  letter-spacing: -1px;
   font-size: 28px;
-  font-style: italic;
-  /* font-weight: bold; */
+  /* font-style: italic; */
+  font-weight: bold;
   color: #4E4E4E;
 }
 
