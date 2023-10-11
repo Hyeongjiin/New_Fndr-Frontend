@@ -85,7 +85,7 @@ export default {
         }
     },
     mounted() {
-        console.log("Current totalPages from store:", this.totalPages);
+        // console.log("Current totalPages from store:", this.totalPages);
         this.fetchReviews(this.currentPage);
     }
 }
