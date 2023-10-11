@@ -22,7 +22,7 @@
                     </ul>
                 </div>
                 <div v-if="item.company_logo !== null" class="info-img">
-                    <!--이미지 넣어야 됨-->
+                    <img :src="item.company_logo" alt="Company Logo" />
                 </div>
             </div>
             <!-- <div v-html="item.description_content" class="description">
@@ -59,9 +59,14 @@ export default {
     height: 80px;
     border-radius: 20px;
     display: block;
-    background-color: #f73859;
+    /* background-color: #f73859; */
 }
-
+.info-img > img {
+    vertical-align: middle;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+}
 .info {
     display: flex;
     max-width: 36rem;
