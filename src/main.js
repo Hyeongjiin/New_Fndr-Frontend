@@ -17,6 +17,7 @@ const apiUrl = `${process.env.VUE_APP_API_URL}`;
 const store = createStore({
   state() {
     return {
+      isLoading: true,
       isLoggedIn: false,
       userId: null,
       jobDetail: {},
@@ -28,14 +29,26 @@ const store = createStore({
       // review 페이지네이션
       currentReviewPage: 1,
       totalReviewPages: 1,
+      // mypage 정보수정
       user: {
         email: "",
         nickname: "",
       },
+      // mypage 내가 쓴 공고
+      myPosting: [],
+      myPostingError: "",
+      myPostingExists: false,
+      // mypage 내가 쓴 리뷰
+      myReview: [],
+      myReviewError: "",
+      myReviewExists: false,
     };
   },
 
   mutations: {
+    setLoading(state, st) {
+      state.isLoading = st;
+  },
     getDetail(state, detail) {
       state.jobDetail = detail;
     },
@@ -59,13 +72,12 @@ const store = createStore({
     },
     // 회원정보 수정
     SET_USER(state, user) {
-      // console.log("Setting user in Vuex store:", user);
       state.user = user;
-      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem("user", JSON.stringify(user));
     },
     UPDATE_NICKNAME(state, newNickname) {
       state.user.name = newNickname;
-      localStorage.setItem('user', JSON.stringify(state.user));
+      localStorage.setItem("user", JSON.stringify(state.user));
     },
     // review 기능
     setReviews(state, results) {
@@ -87,6 +99,26 @@ const store = createStore({
     SET_TOTAL_REVIEW_PAGES(state, totalPages) {
       state.totalReviewPages = totalPages;
     },
+    // MyPage 내가 쓴 공고
+    getMyposting(state, posting) {
+      state.myPosting = posting;
+    },
+    getMypostingError(state, postingError) {
+      state.myPostingError = postingError;
+    },
+    setMypostingExists(state, exists) {
+      state.myPostingExists = exists;
+    },
+    // MyPage 내가 쓴 리뷰
+    getMyreview(state, review) {  
+      state.myReview = review;
+    },
+    getMyreviewError(state, reviewError) {
+      state.myReviewError = reviewError;
+    },
+    setMyreviewExists(state, exists) {
+      state.myReviewExists = exists;
+    }, 
   },
   getters: {
     tagsArray: (state) => {
@@ -108,9 +140,9 @@ const store = createStore({
   actions: {
     refreshUserFromLocalStorage(context) {
       return new Promise((resolve) => {
-        const user = localStorage.getItem('user');
+        const user = localStorage.getItem("user");
         if (user) {
-          context.commit('SET_USER', JSON.parse(user));
+          context.commit("SET_USER", JSON.parse(user));
         }
         resolve();
       });
@@ -261,7 +293,6 @@ const store = createStore({
       }
     },
     async fetchReviews({ commit }, page) {
-      // reviewList의 fetch
       const url = `${apiUrl}/review?page=${page}`;
       try {
         const response = await axios.get(url);
@@ -281,7 +312,9 @@ const store = createStore({
           commit("SET_TOTAL_REVIEW_PAGES", totalPages);
           commit("SET_CURRENT_REVIEW_PAGE", page);
           commit("setReviews", results);
+          commit('setLoading', false);
         } else {
+          commit('setLoading', false);
           console.error("Failed to fetch data: ", data.Message);
         }
       } catch (error) {
@@ -330,12 +363,87 @@ const store = createStore({
         console.error("There was an error:", errorMessage);
       }
     },
+    async getMyPosting({ commit, dispatch }) {
+      try {
+        const response = await axios.get(`${apiUrl}/mypage/mypost`, {
+          withCredentials: true,
+        });
+        console.log(response.data);
+
+        if (response.data.ResultCode === "Login_Needed") {
+          router.push('/login');
+          console.log(response.data.Message);
+          dispatch("logoutSubmit");
+          return;
+        }
+
+        if (response.data.ResultCode === "JobPost_Exist") {
+          commit("setMypostingExists", true);
+          commit("getMyposting", response.data.Response);
+        }
+        else if(response.data.ResultCode === "JobPost_Not_Exist"){
+          commit("setMypostingExists", false);
+        }
+        else {
+          commit("getMypostingError", "Invalid response format.");
+        }
+      } catch (error) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.Message
+        ) {
+          commit("getMypostingError", error.response.data.Message);
+        } else {
+          commit(
+            "getMypostingError",
+            "An error occurred while fetching my post."
+          );
+        }
+      }
+    },
+    async getMyReview({ commit, dispatch }) {
+      try {
+        const response = await axios.get(`${apiUrl}/mypage/myreview`, {
+          withCredentials: true,
+        });
+        console.log(response.data);
+
+        if (response.data.ResultCode === "Login_Needed") {
+          router.push('/login');
+          console.log(response.data.Message);
+          dispatch("logoutSubmit");
+          return;
+        }
+
+        if (response.data.ResultCode === "ReviewPost_Exist") {
+          commit("setMyreviewExists", true);
+          commit("getMyreview", response.data.Response);
+        }
+        else if(response.data.ResultCode === "ReviewPost_Not_Exist"){
+          commit("setMyreviewExists", false);
+        }
+      } catch (error) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.Message
+        ) {
+          commit("getMyreviewError", error.response.data.Message);
+        } else {
+          commit(
+            "getMyreviewError",
+            "An error occurred while fetching my review."
+          );
+        }
+      }
+    },
   },
 });
 
-const userFromLocalStorage = localStorage.getItem('user');
+const userFromLocalStorage = localStorage.getItem("user");
 if (userFromLocalStorage) {
-  store.commit('SET_USER', JSON.parse(userFromLocalStorage));
+  store.commit("SET_USER", JSON.parse(userFromLocalStorage));
 }
 
 const app = createApp(App);

@@ -2,7 +2,8 @@
     <div class="box">
         <SideBar></SideBar>
         <div class="right">
-            <EditAccount></EditAccount>
+            <!-- <EditAccount></EditAccount> -->
+            <router-view></router-view>
         </div>
     </div>
 </template>
@@ -13,12 +14,9 @@ import EditAccount from "@/components/mypage/EditAccount.vue";
 export default {
     components: {
         SideBar,
-        EditAccount,
-        // PagingView,
     },
     data() {
-        return {
-        }
+        return {}
     },
     computed: {
     },
