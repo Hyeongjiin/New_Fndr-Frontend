@@ -1,9 +1,5 @@
 <template>
-    <div class="box">
-        <div class="right">
-            <review-list></review-list>
-        </div>
-    </div>
+    <review-list></review-list>
 </template>
 
 <script>
