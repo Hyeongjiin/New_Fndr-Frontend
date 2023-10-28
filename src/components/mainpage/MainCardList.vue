@@ -123,6 +123,7 @@ p {
 a {
   text-decoration: none;
   color: black;
+  transition: all ease 0.4s 0s;
 }
 
 .bi {
@@ -131,7 +132,8 @@ a {
 
 a:hover,
 a:active {
-  color: #c89300;
+  color: #F73859;
+  transition: all ease 0.4s 0s;
 }
 
 .view-more {

@@ -1,39 +1,56 @@
 <template>
-    <h2>Review</h2>
-    <div class="writeBtn">
-        <button v-if="this.$store.state.isLoggedIn" @click="goToReviewPostPage">
-            <i class="bi bi-pen"></i> Post Review
-        </button>
+    <div class="no-data" v-if="isLoading">
+        <div class="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
     </div>
-    <div class="search-list-wrapper">
-        <ul class="search-list">
-            <li v-for="(item, index) in reviews" :key="index">
-                <base-card>
-                    <div class="Search-section1">
-                        <div class="info">
-                            <!-- item.type이 'crawling'일 경우 link로 이동 -->
-                            <a v-if="item.type === 'crawling' && item.link" :href="item.link" target="_blank">
-                                <h3>{{ item.title }}</h3>
-                            </a>
-                            <!-- 'crawling'이 아닐 경우, ReviewDetail.vue로 이동 -->
-                            <!-- <router-link v-else :to="'/review/detail/' + item.id"> -->
-                            <h3 v-else @click="goToReviewDetail(item.id)">{{ item.title }}</h3>
-                            <!-- </router-link> -->
-                            <ul v-if="item.type !== 'crawling'">
-                                <li v-html="item.content"></li>
-                            </ul>
+
+    <div class="box" v-else>
+        <div class="writeBtn">
+            <h2>Review</h2>
+                <button v-if="this.$store.state.isLoggedIn" @click="goToReviewPostPage">
+                    <i class="bi bi-pen"></i> Post Review
+                </button>
+        </div>
+        <div class="search-list-wrapper">
+            <ul class="search-list">
+                <li v-for="(item, index) in reviews" :key="index">
+                    <base-card>
+                        <div class="Search-section1">
+                            <div class="info">
+                                <!-- item.type이 'crawling'일 경우 link로 이동 -->
+                                <a v-if="item.type === 'crawling' && item.link" :href="item.link" target="_blank">
+                                    <h3>{{ item.title }}</h3>
+                                </a>
+                                <!-- 'crawling'이 아닐 경우, ReviewDetail.vue로 이동 -->
+                                <!-- <router-link v-else :to="'/review/detail/' + item.id"> -->
+                                <h3 v-else @click="goToReviewDetail(item.id)">{{ item.title }}</h3>
+                                <!-- </router-link> -->
+                                <ul v-if="item.type !== 'crawling'">
+                                    <li v-html="item.content"></li>
+                                </ul>
+                            </div>
+                            <div class="imgbox">
+                                <img v-if="!item.thumbnail || item.thumbnail === 'undefined'"
+                                    :src="require('@/components/img/image.png')" alt="company picture" class="default" />
+                                <img v-else :src="item.thumbnail" alt="company picture" class="info-img" />
+                            </div>
                         </div>
-                        <div class="imgbox">
-                            <img v-if="!item.thumbnail || item.thumbnail === 'undefined'"
-                                :src="require('@/components/img/image.png')" alt="company picture" class="default" />
-                            <img v-else :src="item.thumbnail" alt="company picture" class="info-img" />
-                        </div>
-                    </div>
-                </base-card>
-            </li>
-        </ul>
+                    </base-card>
+                </li>
+            </ul>
+        </div>
+        <div class="right">
+            <ReviewPagingView></ReviewPagingView>
+        </div>
     </div>
-    <ReviewPagingView></ReviewPagingView>
 </template>
 <script>
 import ReviewPagingView from "@/components/UI/ReviewPagingView.vue"
@@ -42,17 +59,17 @@ export default {
         ReviewPagingView,
     },
     watch: {
-        // '$route': 'fetchReviews'
         '$route.params.page': function (newPage) {
             this.$store.dispatch('fetchReviews', newPage);
         }
     },
     computed: {
+        isLoading() {
+            return this.$store.state.isLoading;
+        },
         reviews() {
-            // console.log('reviews 계산된 속성이 트리거됨', this.$store.state.reviews);
             return this.$store.state.reviews;
         },
-
     },
     mounted() {
         const page = this.$route.params.page;
@@ -74,6 +91,25 @@ export default {
     font-size: 16px;
 }
 
+.box {
+    display: flex;
+    width: 70rem;
+    padding-top: 5rem;
+    max-width: 70rem;
+    margin: 0 auto;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+.right {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    margin-bottom: 5rem;
+
+}
+
 h2 {
     font-size: 2rem;
     font-weight: 700;
@@ -81,8 +117,9 @@ h2 {
 
 .writeBtn {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     margin-bottom: 3rem;
+    width: 100%;
 }
 
 .writeBtn>button {
@@ -193,5 +230,60 @@ h2 {
     border-radius: 10px;
     background: #e3e3e3;
     display: inline-block;
+}
+
+.no-data {
+    margin: 0 auto;
+    padding: 10rem;
+    margin-top: 5rem;
+    text-align: center;
+    font-size: 1.2rem;
+    color: #ADADAD;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* loading css */
+.lds-ring {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.lds-ring div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border: 8px solid #F73859;
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: #F73859 transparent transparent transparent;
+}
+
+.lds-ring div:nth-child(1) {
+    animation-delay: -0.45s;
+}
+
+.lds-ring div:nth-child(2) {
+    animation-delay: -0.3s;
+}
+
+.lds-ring div:nth-child(3) {
+    animation-delay: -0.15s;
+}
+
+@keyframes lds-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 </style>

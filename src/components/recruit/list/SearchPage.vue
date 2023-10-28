@@ -1,14 +1,26 @@
 <template>
-    <div class="box">
-        <search-side-bar :nationsList="organizedNationsList"></search-side-bar>
-        <!-- 자식컴포넌트로 데이터 전달 -->
-        <div class="right">
-            <search-list :articles="results"></search-list>
-            <PagingView :isLoading="isLoading" :has-more-pages="hasMorePages" :current-page="parseInt($route.params.page)"
-                :total-pages="totalPages">
-            </PagingView>
+        <div class="no-data" v-if="isLoading">
+            <div class="lds-ring">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
         </div>
-    </div>
+        <div class="box" v-else>
+            <search-side-bar :nationsList="organizedNationsList"></search-side-bar>
+            <!-- 자식컴포넌트로 데이터 전달 -->
+            <div class="right">
+                <search-list :articles="results"></search-list>
+                <PagingView :isLoading="isLoading" :has-more-pages="hasMorePages"
+                    :current-page="parseInt($route.params.page)" :total-pages="totalPages">
+                </PagingView>
+            </div>
+        </div>
 </template>
 
 <script>
@@ -49,7 +61,7 @@ export default {
                 organizedData[item.continent].countries.push({ name: item.nation, id: item.id });
             }
             return Object.values(organizedData);
-        }
+        },
     },
     methods: {
         async fetchResults(searchParams) {
@@ -157,4 +169,57 @@ export default {
     justify-content: center;
 
 }
-</style>
+
+.no-data {
+    margin: 0 auto;
+    padding: 10rem;
+    margin-top: 5rem;
+    text-align: center;
+    font-size: 1.2rem;
+    color: #ADADAD;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* loading css */
+.lds-ring {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.lds-ring div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border: 8px solid #F73859;
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: #F73859 transparent transparent transparent;
+}
+
+.lds-ring div:nth-child(1) {
+    animation-delay: -0.45s;
+}
+
+.lds-ring div:nth-child(2) {
+    animation-delay: -0.3s;
+}
+
+.lds-ring div:nth-child(3) {
+    animation-delay: -0.15s;
+}
+
+@keyframes lds-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}</style>

@@ -18,56 +18,123 @@
                     <input type="text" v-model="post.name" class="form-control" />
                 </div>
             </div>
-            <!-- <hr> -->
-            <!-- <div class="row">
-                <div class="col-sm-12">
-                    <label class="label-title required">Currunt Password</label>
-                    <input type="password" @input="validateEmail" class="form-control" required />
-                </div>
-                <div class="col-sm-12">
-                    <label class="label-title required">Change Password</label>
-                    <input type="password" @input="validateEmail" class="form-control" required />
-                </div>
-                <div class="col-sm-12">
-                    <label class="label-title required">Confirm Password </label>
-                    <input type="password" @input="validateEmail" class="form-control" required />
-                </div>
-            </div> -->
             <div class="btn-box">
                 <div>
                     <ul>
-                        <li>Change Password</li>
+                        <li data-bs-toggle="modal" data-bs-target="#passwordChangeModal">Change Password</li>
                         <li>|</li>
-                        <li>Delete this account</li>
+                        <li data-bs-toggle="modal" data-bs-target="#accountDeleteModal">Delete this account</li>
                     </ul>
                 </div>
                 <button class="btn post" type="submit">Edit</button>
             </div>
         </form>
     </div>
+    <!-- 모달 -->
+    <div class="modal fade" id="passwordChangeModal" tabindex="-1" aria-labelledby="passwordChangeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <form>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="passwordChangeModalLabel">Change Password</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="currentPassword">Current Password</label>
+                            <input type="password" id="currentPassword" v-model="currentPassword" class="form-control"
+                                autocomplete="on">
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword">New Password</label>
+                            <input type="password" id="newPassword" v-model="newPassword" class="form-control"
+                                autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm New Password</label>
+                            <input type="password" id="confirmPassword" v-model="confirmPassword" class="form-control"
+                                autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" @click="changePassword" class="btn post">Change</button>
+                        <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- 회원 탈퇴 모달 -->
+    <div class="modal fade" id="accountDeleteModal" tabindex="-1" aria-labelledby="accountDeleteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="accountDeleteModalLabel">Delete Account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete your account? This action cannot be undone.
+                    <div class="form-check mt-3">
+                        <input type="checkbox" class="form-check-input" id="deleteConfirmCheckbox"
+                            v-model="isDeleteConfirmed">
+                        <label class="form-check-label" for="deleteConfirmCheckbox">I understand the consequences and want
+                            to
+                            delete my account.</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" @click="deleteAccount" class="btn btn-danger" :disabled="!isDeleteConfirmed">Delete</button>
+                    <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 <script>
 import axios from 'axios';
 const apiUrl = `${process.env.VUE_APP_API_URL}`
 export default {
+    async created() {
+        await this.$store.dispatch("refreshUserFromLocalStorage");
+
+        // console.log('After dispatch:', this.$store.state.user); // 스토어 상태 디버깅용
+
+        this.post.name = this.$store.state.user.name
+        this.post.email = this.$store.state.user.email
+    },
+    watch: {
+        '$store.state.user.nickname': function (newVal, oldVal) {
+            this.post.name = newVal;
+        },
+        '$store.state.user.email': function (newVal, oldVal) {
+            this.post.email = newVal;
+        }
+    },
     data() {
         return {
+            localNickname: this.$store.state.user.name,
             post: {
                 email: this.$store.state.user.email,
                 name: this.$store.state.user.name,
-            }
+            },
+            currentPassword: '',
+            newPassword: '',
+            confirmPassword: '',
+            isDeleteConfirmed: false,
         };
     },
     methods: {
         async submitUpdateForm() {
             const updateData = {
-                name: this.post.name
+                nickname: this.post.name
             };
 
             try {
                 const response = await axios.patch(
                     `${apiUrl}/auth/nickname`,
-                    
+
                     updateData,
                     {
                         withCredentials: true,
@@ -76,9 +143,11 @@ export default {
                         }
                     }
                 );
-
                 if (response.data.ResultCode === 'Nickname_Change_Success') {
                     console.log(response.data.Message);
+                    this.$store.commit('UPDATE_NICKNAME', this.post.name);
+                    localStorage.setItem('user', JSON.stringify(this.$store.state.user));
+                    location.reload();
                 } else {
                     console.log(response.data.Message);
                 }
@@ -86,6 +155,75 @@ export default {
                 console.error('API 호출 중 에러 발생', error);
             }
         },
+        async changePassword() {
+            if (this.newPassword !== this.confirmPassword) {
+                alert("New Password and Confirm Password do not match!");
+                return;
+            }
+
+            try {
+                // 1 현재 비밀번호 체크 api 호출
+                const checkResponse = await axios.post(`${apiUrl}/auth/password`, {
+                    password: this.currentPassword,
+                }, {
+                    withCredentials: true,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (checkResponse.data.ResultCode !== "Password_Match") {
+                    alert(checkResponse.data.Message);
+                    return;
+                }
+
+                // 2 비밀번호 변경 api 호출
+                const changeResponse = await axios.patch(`${apiUrl}/auth/password`, {
+                    currentPassword: this.currentPassword,
+                    newPassword: this.newPassword,
+                }, {
+                    withCredentials: true,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (changeResponse.data.ResultCode === "Password_Change_Success") {
+                    alert(changeResponse.data.Message);
+                    const modalElement = document.getElementById('passwordChangeModal');
+                    modalElement.classList.remove('show');
+                    document.body.classList.remove('modal-open');
+                    document.querySelector('.modal-backdrop').remove();
+                } else {
+                    alert(changeResponse.data.Message);
+                }
+
+            } catch (error) {
+                console.error('Error occurred while calling API', error);
+                alert("An error occurred while changing your password. Please try again.");
+            }
+        },
+        async deleteAccount() {
+        try {
+            const response = await axios.delete(`${apiUrl}/auth/account`, {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            if (response.data.ResultCode === 'Account_Delete_Success') {
+                alert('Account successfully deleted.');
+                // this.$store.commit('LOGOUT_USER');
+                this.$router.push('/login'); // 탈퇴 후 로그인 페이지로 리디렉션
+            } else {
+                alert(response.data.Message);
+            }
+        } catch (error) {
+            console.error('API 호출 중 에러 발생', error);
+            alert("회원 탈퇴 중 오류가 발생하였습니다. 다시 시도해주세요.");
+        }
+    },
     }
 }
 </script>
@@ -137,6 +275,7 @@ h1 {
 
     font-size: 13px;
     color: #ADADAD;
+    cursor: pointer;
 }
 
 .btn-box>div>ul>li:first-child {
@@ -166,117 +305,9 @@ h1 {
     background-color: #f73859;
 }
 
-.cancel {
-    color: #4e4e4e;
-    background-color: #e1e1e1;
-}
 
 button:hover {
     opacity: 0.7;
-}
-
-.contact-info {
-    color: #707891;
-    font-size: 15px;
-}
-
-.location-info {
-    color: #707891;
-    font-size: 15px;
-}
-
-.tag-info {
-    color: #707891;
-    font-size: 17px;
-}
-
-.text-editor {
-    height: 350px;
-}
-
-.job-post-error {
-    font-size: 15px;
-    color: #dd3a49;
-}
-
-.logo-input {
-    display: none;
-}
-
-.custom-file-label {
-    padding: 10px 15px;
-    background-color: #f5f5f5;
-    color: #3d3d3d;
-    border: none;
-    margin: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.label-title {
-    font-size: 17px;
-}
-
-.contract-type {
-    display: flex;
-    justify-content: space-between;
-}
-
-.contract-type div {
-    display: flex;
-    align-items: center;
-    margin-right: 40px;
-}
-
-.contract-type div input {
-    margin-right: 10px;
-}
-
-.remote {
-    display: flex;
-}
-
-.remote div {
-    display: flex;
-    align-items: center;
-    margin-left: 50px;
-}
-
-.remote div input {
-    margin-right: 10px;
-}
-
-.visa {
-    display: flex;
-}
-
-.visa div {
-    display: flex;
-    align-items: center;
-    margin-left: 50px;
-}
-
-.visa div input {
-    margin-right: 10px;
-}
-
-[type='radio'] {
-    display: none;
-}
-
-[type='radio']+label::before {
-    content: '';
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    border: 2px solid #555;
-    border-radius: 50%;
-    margin-right: 5px;
-    vertical-align: middle;
-}
-
-[type='radio']:checked+label::before {
-    background: #f73859;
 }
 
 .form div {
@@ -287,5 +318,18 @@ button:hover {
     content: '*';
     color: red;
     margin-left: 5px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group:nth-of-type(1) {
+    margin-bottom: 40px;
+}
+
+.modal-title {
+    font-size: 24px;
+    font-weight: bold;
 }
 </style>

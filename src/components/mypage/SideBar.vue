@@ -9,8 +9,12 @@
                     infomation</h3>
             </router-link>
 
-            <router-link to="/" @click="refreshIfSameRoute">
+            <router-link to="/mypage/my-posting" @click="refreshIfSameRoute">
                 <h3><i class="bi bi-file-text"></i> my posting</h3>
+            </router-link>
+
+            <router-link to="/mypage/my-review" @click="refreshIfSameRoute">
+                <h3><i class="bi bi-pencil-square"></i> my review</h3>
             </router-link>
         </div>
     </div>
