@@ -9,6 +9,7 @@ import MainCardList from "../mainpage/MainCardList.vue";
 import SearchSection from "../mainpage/SearchSection.vue";
 
 const apiUrl = process.env.VUE_APP_API_URL;
+
 export default {
     components: {
         MainCardList,

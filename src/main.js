@@ -11,8 +11,7 @@ import BaseCard from "./components/UI/BaseCard.vue";
 
 // 생성한 뷰 라우터 받아오기
 import { router } from "./router/index.js";
-
-const apiUrl = `${process.env.VUE_APP_API_URL}`;
+const apiUrl = process.env.VUE_APP_API_URL;
 
 const store = createStore({
   state() {
@@ -451,5 +450,6 @@ app.component("base-card", BaseCard);
 app.use(router);
 app.use(store);
 app.use(quillEditor);
-app.use()
+app.use();
 app.mount("#app");
+
