@@ -368,7 +368,7 @@ const store = createStore({
         const response = await axios.get(`${apiUrl}/mypage/mypost`, {
           withCredentials: true,
         });
-        console.log(response.data);
+        // console.log(response.data);
 
         if (response.data.ResultCode === "Login_Needed") {
           router.push('/login');
@@ -407,7 +407,7 @@ const store = createStore({
         const response = await axios.get(`${apiUrl}/mypage/myreview`, {
           withCredentials: true,
         });
-        console.log(response.data);
+        // console.log(response.data);
 
         if (response.data.ResultCode === "Login_Needed") {
           router.push('/login');
@@ -451,4 +451,5 @@ app.component("base-card", BaseCard);
 app.use(router);
 app.use(store);
 app.use(quillEditor);
+app.use()
 app.mount("#app");
