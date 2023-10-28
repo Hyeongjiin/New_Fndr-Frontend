@@ -35,7 +35,10 @@ export default {
         ...mapState(['myReview', 'myReviewExists'])
     },
     methods: {
-        ...mapActions(['getMyReview'])
+        ...mapActions(['getMyReview']),
+        goToReviewDetail(postId) {
+            this.$router.push({ name: 'ReviewDetail', params: { id: postId } });
+        },
     },
     created() {
         this.getMyReview();
