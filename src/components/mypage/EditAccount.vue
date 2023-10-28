@@ -213,8 +213,8 @@ export default {
             });
 
             if (response.data.ResultCode === 'Account_Delete_Success') {
+                document.querySelector('.modal-backdrop').remove();
                 alert('Account successfully deleted.');
-                // this.$store.commit('LOGOUT_USER');
                 this.$router.push('/login'); // 탈퇴 후 로그인 페이지로 리디렉션
             } else {
                 alert(response.data.Message);
