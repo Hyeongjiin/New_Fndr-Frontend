@@ -11,12 +11,13 @@
             <div></div>
         </div>
     </div>
+
     <div class="box" v-else>
-        <h2>Review</h2>
         <div class="writeBtn">
-            <button v-if="this.$store.state.isLoggedIn" @click="goToReviewPostPage">
-                <i class="bi bi-pen"></i> Post Review
-            </button>
+            <h2>Review</h2>
+                <button v-if="this.$store.state.isLoggedIn" @click="goToReviewPostPage">
+                    <i class="bi bi-pen"></i> Post Review
+                </button>
         </div>
         <div class="search-list-wrapper">
             <ul class="search-list">
@@ -96,9 +97,16 @@ export default {
     padding-top: 5rem;
     max-width: 70rem;
     margin: 0 auto;
-    align-items: stretch;
     justify-content: center;
     flex-direction: column;
+
+}
+
+.right {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    margin-bottom: 5rem;
 
 }
 
@@ -109,8 +117,9 @@ h2 {
 
 .writeBtn {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     margin-bottom: 3rem;
+    width: 100%;
 }
 
 .writeBtn>button {
