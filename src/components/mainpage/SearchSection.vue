@@ -5,26 +5,40 @@
   </div>
   <div class="container">
     <div class="input-wrapper">
-      <input v-model="keyword" type="text" placeholder="Keyworld or Job title">
-      <input v-model="nation" type="text" placeholder="nation">
-      <button @click="search"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-          class="bi bi-search" viewBox="0 0 16 16">
+      <input
+        v-model="keyword"
+        type="text"
+        placeholder="Keyworld or Job title"
+      />
+      <input v-model="nation" type="text" placeholder="nation" />
+      <button @click="search">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="25"
+          height="25"
+          fill="currentColor"
+          class="bi bi-search"
+          viewBox="0 0 16 16"
+        >
           <path
-            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-        </svg></button>
+            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+          />
+        </svg>
+      </button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  emits: ["perform-search"],
   data() {
     return {
       title1: `"Work Anywhere, Live Everywhere!"`,
       title2: "Fndr.io",
       keyword: "",
       nation: "",
-    }
+    };
   },
   methods: {
     search() {
@@ -40,18 +54,20 @@ export default {
         query.nation = this.nation;
       }
 
-
-      this.$router.push({ name: 'search-jobs', query: query, params: { page: '1' } });
+      this.$router.push({
+        name: "search-jobs",
+        query: query,
+        params: { page: "1" },
+      });
 
       // 데이터를 fetchResults
-      this.$emit('perform-search', {
+      this.$emit("perform-search", {
         keyword: this.keyword,
         nation: this.nation,
       });
-    }
-  }
-}
-
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -63,7 +79,7 @@ h1 {
   text-align: center;
   font-size: 50px;
   font-weight: bold;
-  font-family: 'Gasoek One', sans-serif;
+  font-family: "Gasoek One", sans-serif;
   color: #f73859;
 }
 
@@ -73,7 +89,7 @@ h2 {
   font-size: 28px;
   /* font-style: italic; */
   font-weight: bold;
-  color: #4E4E4E;
+  color: #4e4e4e;
 }
 
 #top {
@@ -101,18 +117,18 @@ input:focus {
 
 /* outline 테두리 없앰*/
 
-.input-wrapper>button {
+.input-wrapper > button {
   width: 80px;
   border-radius: 10px;
-  background-color: #F73859;
+  background-color: #f73859;
   border: none;
 }
 
-.input-wrapper>button>svg {
+.input-wrapper > button > svg {
   color: #fff !important;
 }
 
-.input-wrapper>input:first-child {
+.input-wrapper > input:first-child {
   margin: 0;
   text-align: center;
   width: 300px;
@@ -125,7 +141,7 @@ input:focus {
   border-radius: 10px 0px 0px 10px;
 }
 
-.input-wrapper>input:nth-child(2) {
+.input-wrapper > input:nth-child(2) {
   width: 200px;
   text-align: center;
   height: 70px;
@@ -154,7 +170,6 @@ input::placeholder {
   flex: 1;
   width: 50%;
 }
-
 
 .card-container {
   display: flex;

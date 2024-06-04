@@ -8,14 +8,9 @@ import JobPostPage from "../components/recruit/jobpost/JobPostPage.vue";
 import JobUpdatePage from "../components/recruit/jobpost/JobUpdatePage.vue";
 import LoginPage from "../components/user/LoginPage.vue";
 import SignupPage from "../components/user/SignupPage.vue";
-import ReviewPage from "@/components/review/list/ReviewPage.vue";
-import ReviewDetail from "@/components/review/detail/ReviewDetail.vue";
-import ReviewPostPage from "@/components/review/reviewpost/ReviewPostPage.vue";
-import ReviewUpdatePage from "@/components/review/reviewpost/ReviewUpdatePage.vue";
 import MyPage from "@/components/mypage/MyPage.vue";
 import EditAccount from "@/components/mypage/EditAccount.vue";
 import MyPosting from "@/components/mypage/MyPosting.vue";
-import MyReview from "@/components/mypage/MyReview.vue";
 
 // 라우터 설계
 const routes = [
@@ -30,11 +25,6 @@ const routes = [
   // 로그인/회원가입
   { path: "/login", component: LoginPage },
   { path: "/signup", component: SignupPage },
-  // 리뷰페이지
-  { path: "/review/:page", component: ReviewPage, name: "review" },
-  { path: "/review/detail/:id", component: ReviewDetail, name: "ReviewDetail" },
-  { path: "/review-post", component: ReviewPostPage },
-  { path: "/review-update/:postId", component: ReviewUpdatePage },
   // 마이페이지
   {
     path: "/mypage",
@@ -47,10 +37,6 @@ const routes = [
       {
         path: "my-posting",
         component: MyPosting,
-      },
-      {
-        path: "my-review",
-        component: MyReview,
       },
     ],
   },
