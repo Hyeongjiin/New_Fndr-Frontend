@@ -5,12 +5,7 @@
   </div>
   <div class="container">
     <div class="input-wrapper">
-      <input
-        v-model="keyword"
-        type="text"
-        placeholder="Keyworld or Job title"
-      />
-      <input v-model="nation" type="text" placeholder="nation" />
+      <input v-model="keyword" type="text" placeholder="Keyword or Job title" />
       <button @click="search">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -131,7 +126,7 @@ input:focus {
 .input-wrapper > input:first-child {
   margin: 0;
   text-align: center;
-  width: 300px;
+  width: 500px;
   border-right: 0;
   border-left: 1px solid #cccccc;
   border-bottom: 1px solid #cccccc;
@@ -139,21 +134,6 @@ input:focus {
   border-top: 1px solid #cccccc;
   /* border-radius: 1px; */
   border-radius: 10px 0px 0px 10px;
-}
-
-.input-wrapper > input:nth-child(2) {
-  width: 200px;
-  text-align: center;
-  height: 70px;
-  border-right: 1px solid #cccccc;
-  border-bottom: 1px solid #cccccc;
-  /* height: 70px; */
-  border-top: 1px solid #cccccc;
-  border-left: 1px solid #cccccc;
-  border-radius: 0px 10px 10px 0px;
-  width: 200px;
-  height: 70px;
-  margin-right: 10px;
 }
 
 input::placeholder {
