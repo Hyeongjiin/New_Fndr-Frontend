@@ -15,14 +15,19 @@
     <search-side-bar :nationsList="organizedNationsList"></search-side-bar>
     <!-- 자식컴포넌트로 데이터 전달 -->
     <div class="right">
-      <search-list :articles="results"></search-list>
-      <PagingView
-        :isLoading="isLoading"
-        :has-more-pages="hasMorePages"
-        :current-page="parseInt($route.params.page)"
-        :total-pages="totalPages"
-      >
-      </PagingView>
+      <div v-if="totalPages === 0" class="no-data">
+        The data does not exist!
+      </div>
+      <div v-else>
+        <search-list :articles="results"></search-list>
+        <PagingView
+          :isLoading="isLoading"
+          :has-more-pages="hasMorePages"
+          :current-page="parseInt($route.params.page)"
+          :total-pages="totalPages"
+        >
+        </PagingView>
+      </div>
     </div>
   </div>
 </template>
