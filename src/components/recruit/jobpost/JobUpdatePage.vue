@@ -204,7 +204,7 @@
         <div>
           <img
             v-if="this.$store.state.jobDetail.company_logo !== null"
-            :src="getCompanyLogoUrl(this.$store.state.jobDetail.company_logo)"
+            :src="this.$store.state.jobDetail.company_logo"
             alt="Company Logo"
           />
         </div>
@@ -296,9 +296,6 @@ export default {
     },
   },
   methods: {
-    getCompanyLogoUrl(companyLogoPath) {
-      return `${apiUrl}/${companyLogoPath.replace(/\\/g, "/")}`;
-    },
     cancle() {
       this.$router.push(`/detail/${this.$store.state.jobDetail.id}`);
     },
