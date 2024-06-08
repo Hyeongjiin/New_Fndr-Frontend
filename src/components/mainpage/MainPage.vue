@@ -1,6 +1,6 @@
 <template>
   <!-- SearchSection.vue에서 emits 발생 알림 -->
-  <search-section @perform-search="fetchResults"></search-section>
+  <search-section></search-section>
   <Main-card-list :articles="articles"></Main-card-list>
 </template>
 
