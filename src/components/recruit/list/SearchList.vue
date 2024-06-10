@@ -25,13 +25,7 @@
         </div>
         <div class="info-img">
           <img
-            v-if="item.company_logo === null || item.company_logo === ''"
-            :src="require('@/components/img/image.png')"
-            alt="Company Logo"
-            class="default"
-          />
-          <img
-            v-else
+            v-if="item.company_logo"
             :src="item.company_logo"
             alt="Company Logo"
             class="custom"
