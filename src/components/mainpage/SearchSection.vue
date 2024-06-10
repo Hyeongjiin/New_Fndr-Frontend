@@ -32,7 +32,6 @@ export default {
       title1: `"Work Anywhere, Live Everywhere!"`,
       title2: "Fndr.io",
       keyword: "",
-      nation: "",
     };
   },
   methods: {

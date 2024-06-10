@@ -9,7 +9,7 @@
       />
       <img
         v-else-if="jobDetail.company_logo"
-        :src="getCompanyLogoUrl(jobDetail.company_logo)"
+        :src="jobDetail.company_logo"
         alt="company picture"
         class="custom"
       />
@@ -74,9 +74,6 @@ export default {
     },
   },
   methods: {
-    getCompanyLogoUrl(companyLogoPath) {
-      return `${apiUrl}/${companyLogoPath.replace(/\\/g, "/")}`;
-    },
     redirectToOtherSite() {
       if (this.jobDetail.company_apply_link !== null) {
         window.open(this.jobDetail.company_apply_link, "_blank");

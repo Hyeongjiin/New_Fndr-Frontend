@@ -42,46 +42,6 @@ export default {
     };
   },
   methods: {
-    async fetchResults(searchParams) {
-      this.isLoading = true; // 로딩 시작
-      this.results = [];
-      this.allResults = [];
-
-      let currentPage = parseInt(this.$route.params.page);
-
-      let queryString = `keyword=${
-        searchParams.keyword
-      }&nation=${searchParams.nation.join(",")}`;
-
-      if (searchParams.visa) {
-        queryString += "&visa=true";
-      }
-
-      if (searchParams.remote) {
-        queryString += "&remote=true";
-      }
-
-      const url = `${apiUrl}/search/${currentPage}?${queryString}`;
-      const response = await fetch(url, {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      });
-      const data = await response.json();
-      this.totalPages = data.Response.page.total;
-      console.log("Total Pages:", this.totalPages);
-      if (data.Response.recruitPostList.length === 0) {
-        this.hasMorePages = false;
-      } else {
-        this.allResults[currentPage - 1] = data.Response.recruitPostList;
-        this.hasMorePages = true;
-        this.lastLoadedPage = currentPage;
-      }
-
-      this.updateResults();
-      this.isLoading = false; // 데이터 로딩처리 완료
-    },
     updateArticles(articles) {
       this.articles = articles;
     },

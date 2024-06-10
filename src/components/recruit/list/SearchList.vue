@@ -23,8 +23,19 @@
             </li>
           </ul>
         </div>
-        <div v-if="item.company_logo !== null" class="info-img">
-          <img :src="getCompanyLogoUrl(item.company_logo)" alt="Company Logo" />
+        <div class="info-img">
+          <img
+            v-if="item.company_logo === null || item.company_logo === ''"
+            :src="require('@/components/img/image.png')"
+            alt="Company Logo"
+            class="default"
+          />
+          <img
+            v-else
+            :src="item.company_logo"
+            alt="Company Logo"
+            class="custom"
+          />
         </div>
       </div>
     </base-card>
@@ -35,14 +46,6 @@ const apiUrl = process.env.VUE_APP_API_URL;
 
 export default {
   props: ["articles"],
-  methods: {
-    getCompanyLogoUrl(companyLogoPath) {
-      if (companyLogoPath) {
-        return `${apiUrl}/${companyLogoPath.replace(/\\/g, "/")}`;
-      }
-      return require("@/components/img/image.png");
-    },
-  },
 };
 </script>
 
@@ -120,5 +123,11 @@ export default {
   border-radius: 10px;
   background: #e3e3e3;
   display: inline-block;
+}
+
+.info-img > img.default {
+  width: 100%;
+  filter: invert(44%) sepia(61%) saturate(7445%) hue-rotate(333deg)
+    brightness(120%) contrast(71%);
 }
 </style>
